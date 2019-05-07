@@ -11,7 +11,7 @@
 一步一步的教程教你如何建立您的第一个Aurelia应用程序。
 
  - [快速入门](https://github.com/sansantang/aurelia_translate/blob/master/%E6%95%99%E7%A8%8B/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.MD)
- - 联系人管理器教程
+ - [联系人管理器教程](https://github.com/sansantang/aurelia_translate/blob/master/%E6%95%99%E7%A8%8B/%E8%81%94%E7%B3%BB%E4%BA%BA%E7%AE%A1%E7%90%86%E5%99%A8%E6%95%99%E7%A8%8B.MD)
 
 # 基础
 
