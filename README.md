@@ -1,4 +1,6 @@
 (机器翻译)官网教程：https://aurelia.io/docs
+版本：1.31
+语言选择：typescript
 
 # 概述
 
