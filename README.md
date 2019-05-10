@@ -54,8 +54,8 @@
 
 了解如何设置和配置Aurelia的路由器。
 
-- 路由器配置
-- 处理链接
+- [路由器配置](https://github.com/sansantang/aurelia_translate/blob/master/Route/%E8%B7%AF%E7%94%B1%E5%99%A8%E9%85%8D%E7%BD%AE.md)
+- [处理链接](https://github.com/sansantang/aurelia_translate/blob/master/Route/%E5%A4%84%E7%90%86%E9%93%BE%E6%8E%A5.md)
 
 # 插件
 
