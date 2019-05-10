@@ -1,3 +1,5 @@
+原文链接：https://aurelia.io/docs/fundamentals/cheat-sheet
+
 忘了绑定的语法？ 需要知道如何创建自定义属性？ 本文包含诸如此类问题的答案以及一系列常见任务的快速代码段。
 
 # Configuration and Startup
