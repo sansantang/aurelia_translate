@@ -61,7 +61,7 @@
 
 了解Aurelia官方支持的插件以及如何使用它们。
 
-- [HTTP Services](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/HTTP%20Services.md)
+- [HTTP Services](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/HTTPServices.md)
 - Managing App State 管理应用程序状态
 - Validation 验证
 - I18N 国际化与本地化
