@@ -27,7 +27,7 @@
 
 绑定学习有关Aurelia强大的数据绑定引擎的所有知识。
 
-- [Binding: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Binding%20Basics.md)
+- [Binding: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingBasics.md)
 - Binding: Class and Style
 - Binding: Checkboxes
 - Binding: Radios
@@ -43,7 +43,7 @@
 
 了解Aurelia强大的模板引擎。
 
- - [Templating: Basics 基础](https://github.com/sansantang/aurelia_translate/blob/master/Templating/Templating%20Basics.md)
+ - [Templating: Basics 基础](https://github.com/sansantang/aurelia_translate/blob/master/Templating/TemplatingBasics.md)
  - Templating: HTML Behaviors Introduction HTML行为介绍
  - Templating: Custom Attributes 自定义属性
  - Templating: Custom Elements Basics 自定义元素基础
