@@ -27,7 +27,7 @@
 
 绑定学习有关Aurelia强大的数据绑定引擎的所有知识。
 
-- Binding: Basics
+- [Binding: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingBasics.md)
 - Binding: Class and Style
 - Binding: Checkboxes
 - Binding: Radios
@@ -43,7 +43,7 @@
 
 了解Aurelia强大的模板引擎。
 
- - Templating: Basics 基础
+ - [Templating: Basics 基础](https://github.com/sansantang/aurelia_translate/blob/master/Templating/TemplatingBasics.md)
  - Templating: HTML Behaviors Introduction HTML行为介绍
  - Templating: Custom Attributes 自定义属性
  - Templating: Custom Elements Basics 自定义元素基础
@@ -61,11 +61,11 @@
 
 了解Aurelia官方支持的插件以及如何使用它们。
 
-- HTTP Services
+- [HTTP Services](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/HTTPServices.md)
 - Managing App State 管理应用程序状态
 - Validation 验证
 - I18N 国际化与本地化
-- Dialogs 对话框
+- [Dialogs 对话框](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Dialogs.md)
 - Animation 动画制作
 - Virtualization 虚拟技术
 - Write New Plugin
