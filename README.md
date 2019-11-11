@@ -20,7 +20,7 @@
  - [App Configuration and Startup](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE%E5%92%8C%E5%90%AF%E5%8A%A8.md)  应用程序配置和启动
  - [Creating Components](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E5%88%9B%E5%BB%BA%E7%BB%84%E4%BB%B6.md)  创建组件
  - [Dependency Injection: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%9A%E5%9F%BA%E7%A1%80.md) 依赖注入：基础
- - Securing Your App  保护您的应用程序
+ - [Securing Your App](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E4%BF%9D%E6%8A%A4%E6%82%A8%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F.md)  保护您的应用程序
  - [Cheat Sheet](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/CheatSheet%E5%A4%87%E5%BF%98%E5%BD%95.md) 备忘录
 
 # Binding
@@ -28,7 +28,7 @@
 绑定学习有关Aurelia强大的数据绑定引擎的所有知识。
 
 - [Binding: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingBasics.md)
-- Binding: Class and Style
+- [Binding: Class and Style](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingClassandStyle.md)
 - Binding: Checkboxes
 - Binding: Radios
 - Binding: Selects

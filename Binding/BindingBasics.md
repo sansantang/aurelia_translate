@@ -178,21 +178,23 @@ Aurelia将在使用`delegate` or `trigger`（委托或触发器 ）绑定处理�
 
  >重要：始终使用HTML清理。我们提供了一个简单的转换器作为占位符。但是，它不能提供针对各种复杂的XSS攻击的安全性，并且不应该依赖于对来自未知源的输入进行净化。您可以通过在启动时在应用程序中注册自己的[HTMLSanitizer](https://github.com/aurelia/templating-resources/blob/master/src/html-sanitizer.js)实现来替换内置的杀毒软件。例如`aurelia.use.singleton(HTMLSanitizer, BetterHTMLSanitizer);`我们建议使用DOMPurify或sanitize-html这样的库来实现。
 
->提示：使用`innerhtml`属性绑定只需要设置元素的`innerHTML`属性。标记不会通过Aurelia的模板系统。不计算 Binding expressions 和 require 元素。
+>提示：
+>
+>使用`innerhtml`属性绑定只需要设置元素的`innerHTML`属性。标记不会通过Aurelia的模板系统。不计算 Binding expressions 和 require 元素。
 
 
 ## Contextual Properties 上下文属性
 
 绑定系统根据上下文为模板中的绑定提供了几个属性。
 
-*   `$this` - The binding context (the view-model).
+*   `$this` - 绑定上下文 (the view-model).
 *   `$parent` - 显式地从组合或循环模板中访问外部范围。 当当前作用域上的属性屏蔽外部作用域上的属性时，可能需要这样做。 可链式 - 例如`$parent.$parent.foo`受支持。
 *   `$event` - The DOM Event in `delegate` or `trigger` bindings.
 *   `$index` - In a repeat（循环） template, 集合中项的索引.
-*   `$first` - In a repeat template, is true if the item is the first item in the array.
-*   `$last` - In a repeat template, is true if the item is the last item in the array.
-*   `$even` - In a repeat template, is true if the item has an even numbered index.
-*   `$odd` - In a repeat template, is true if the item has an odd numbered index.
+*   `$first` - 在重复模板中，如果项是数组中的第一项，则为 true。
+*   `$last` - 在重复模板中，如果项是数组中的最后一项，则为 true。
+*   `$even` - 在重复模板中，如果项的索引是偶数，则为 true。
+*   `$odd` - 在重复模板中，如果项的索引是奇数，则为 true。
 
 
 
@@ -200,7 +202,7 @@ Aurelia将在使用`delegate` or `trigger`（委托或触发器 ）绑定处理�
 
 Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.io/ecma262/#sec-ecmascript-language-expressions) 的子集。对于所支持的特性，通常可以期望视图中的JavaScript与视图模型或浏览器控制台中的JavaScript以相同的方式工作。此外，还有两个调整：
 
-*   符号`&` 表示一个 `BindingBehavior` (而不是按位AND)
+*   符号`&` 表示一个 `BindingBehavior` (而不是按位 AND)
 *   这条 `|` 表示一个 `ValueConverter` (而不是按位 OR)
 
 不支持非表达式语法(语句、声明、函数和类定义)。
@@ -211,11 +213,16 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 
 #### 标识符
 
-*   `foo` - l当前view-model中的`foo`变量
+*   `foo` - 当前view-model中的`foo`变量
 *   `ßɑṙ` - 当前view-model中的`ßɑṙ`变量
 
->提示：non-ASCII characters in the [Latin](https://en.wikipedia.org/wiki/Latin_script_in_Unicode#Table_of_characters) script are supported. This script contains 1,350 characters covering the vast majority of languages. Other [Non-BMP characters / Surrogate Pairs](https://en.wikipedia.org/wiki/Plane_(Unicode)) are not supported.
->提示：支持拉丁[Latin](https://en.wikipedia.org/wiki/Latin_script_in_Unicode#Table_of_characters)脚本中的非ASCII字符。这个脚本包含1350个字符，涵盖了绝大多数语言。不支持其他 [Non-BMP characters / Surrogate Pairs](https://en.wikipedia.org/wiki/Plane_(Unicode))。
+>提示：
+>
+>non-ASCII characters in the [Latin](https://en.wikipedia.org/wiki/Latin_script_in_Unicode#Table_of_characters) script are supported. This script contains 1,350 characters covering the vast majority of languages. Other [Non-BMP characters / Surrogate Pairs](https://en.wikipedia.org/wiki/Plane_(Unicode)) are not supported.
+>
+>提示：
+>
+>支持拉丁[Latin](https://en.wikipedia.org/wiki/Latin_script_in_Unicode#Table_of_characters)脚本中的非ASCII字符。这个脚本包含1350个字符，涵盖了绝大多数语言。不支持其他 [Non-BMP characters / Surrogate Pairs](https://en.wikipedia.org/wiki/Plane_(Unicode))。
 
 #### 在Aurelia中具有特殊含义的标识符
 
@@ -224,7 +231,7 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 
 ####  原始文字
 
-*   `true` - The literal value `true`
+*   `true` - 文本值 `true`
 *   `false` - The literal value `false`
 *   `null` - The literal value `null`
 *   `undefined` - The literal value `undefined`
@@ -239,12 +246,14 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 *   `'\\n'` - The literal string `\n`
 *   `'\u0061'` - The literal string `a`
 
->提示：支持的字符串文本包括`'\x61'` (2-point hex escape), `'\u{61}'` or `'\u{000061}'` (n-point braced unicode escape), 以及非bmp字符和代理对。
+>提示：
+>
+>支持的字符串文本包括`'\x61'` (2-point hex escape), `'\u{61}'` or `'\u{000061}'` (n-point braced unicode escape), 以及非bmp字符和代理对。
   
 #### 模板文字
 
 *   ``foo`` - Equivalent to `'foo'`
-*   ``foo${bar}baz${qux}quux`` - Equivalent to `'foo'+bar+'baz'+qux+'quux'`
+*   ``foo${bar}baz${qux}quux`` - 与 `'foo'+bar+'baz'+qux+'quux'`相等
 
 #### 数字文字
 
@@ -254,7 +263,11 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 *   `42.3` - The literal number `42.3`
 *   `10e3` or `10E3` - The literal number `1000`
 
->提示：Unsupported numeric literals include `0b01` (binary integer literal), `0o07` (octal integer literal), and `0x0F` (hex integer literal).
+>提示：
+>
+>Unsupported numeric literals include `0b01` (binary integer literal), `0o07` (octal integer literal), and `0x0F` (hex integer literal).
+>
+>不支持的数字字面值包括`0b01`(二进制整数字面值)、`0o07`(八进制整数字面值)和`0x0F`(十六进制整数字面值)。
 
 #### 数组文字
 
@@ -264,6 +277,8 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 *   `[[]]` - An array containing an empty array
 
 >Unsupported array literals include `[,]` - [Elision](https://tc39.github.io/ecma262/#prod-Elision)
+>
+>不支持的数组文字包括 `[,]` - [Elision](https://tc39.github.io/ecma262/#prod-Elision)
 
 #### 对象文字
 
@@ -271,11 +286,13 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 *   `{foo}` or `{foo,bar}` - ES6 shorthand notation, equivalent to `{'foo':foo}` or `{'foo':foo,'bar':bar}`
 *   `{42:42}` - Equivalent to `{'42':42}`
 
->Unsupported object literals include `{[foo]: bar}` or `{['foo']: bar}` (computed property names).
+>Unsupported object literals include `{[foo]: bar}` or `{['foo']: bar}` (计算属性名).
+>
+>不支持的数组文字包括  `{[foo]: bar}` 或 `{['foo']: bar}`(计算属性名).
 
 ### 一元表达式
 
-**`foo` here represents any valid primary expression or unary expression.**
+**`foo` 这里表示任何有效的主表达式或一元表达式。**
 
 *   `+foo` or `+1` - Equivalent to `foo` or `1` (the `+` unary operator is always ignored)
 *   `-foo` or `-1` - Equivalent to `0-foo` or `0-1`
@@ -317,9 +334,9 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 
 在Aurelia中具有特殊含义的成员表达式：
 
-*   `$parent.foo` - Access the `foo` variable in the parent view-model
-*   `$parent.$parent.foo` - Access the `foo` variable in the parent's parent view-model
-*   `$this` - Access the current view-model (equivalent to simply `this` inside the view-model if it's an ES class)
+*   `$parent.foo` - 访问父视图模型中的`foo`变量
+*   `$parent.$parent.foo` - 在父级的父级视图模型中访问`foo`变量
+*   `$this` - 访问当前的视图模型(如果它是一个ES类，则等同于在视图模型中简单地使用`this`)
 
 一般成员与调用表达式：
 
@@ -347,11 +364,21 @@ Aurelia的表达式解析器实现 [ECMAScript Expressions](https://tc39.github.
 Valid BB expressions:
 
 *   `foo & bar & baz` - Applies the BB `bar` to the variable `foo`, and then applies the BB `baz` to the result of that.
+
+	对变量foo应用BB `bar`，然后对结果应用BB `baz`。
 *   `foo & bar:'baz'` - Applies the BB `bar` to the variable `foo`, and passes the literal string `'baz'` as an argument to the BB
+
+	将BB `bar`应用于变量`foo`，并将字符串`'baz'`作为参数传递给BB
 *   `foo & bar:baz:qux` - Applies the BB `bar` to the variable `foo`, and passes the variables `baz` and `qux` as arguments to the BB
+
+	将BB `bar`应用于变量`foo`，并将变量`baz`和`qux`作为参数传递给BB
 *   `'foo' & bar` - Applies the BB `bar` to the literal string `'foo'`
 
+	将BB `bar`应用到字面字符串`'foo'`上
+
 Valid VC expressions (likewise):
+
+有效的VC表达式(类似地):
 
 *   `foo | bar | baz`
 *   `foo | bar:'baz'`
@@ -360,11 +387,15 @@ Valid VC expressions (likewise):
 
 Combined BB and VC expressions:
 
+结合BB和VC表达式:
+
 *   `foo | bar & baz`
 *   `foo | bar:42:43 & baz:'qux':'quux'`
 *   `foo | bar | baz & qux & quux`
 
 Invalid combined BB and VC expressions (BB must come at the end):
+
+组合的BB和VC表达式无效（BB必须在末尾）：
 
 *   `foo & bar | baz`
 *   `foo | bar & baz | qux`
