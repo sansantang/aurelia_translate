@@ -21,7 +21,7 @@
  - [Creating Components](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E5%88%9B%E5%BB%BA%E7%BB%84%E4%BB%B6.md)  创建组件
  - [Dependency Injection: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%9A%E5%9F%BA%E7%A1%80.md) 依赖注入：基础
  - Securing Your App  保护您的应用程序
- - [Cheat Sheet](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/Cheat%20Sheet%20%E5%A4%87%E5%BF%98%E5%BD%95.md) 备忘录
+ - [Cheat Sheet](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/CheatSheet%E5%A4%87%E5%BF%98%E5%BD%95.md) 备忘录
 
 # Binding
 
