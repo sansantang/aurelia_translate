@@ -46,10 +46,9 @@
 **Initializing the Fetch Polyfill**
 
 ``` TypeScript
-  import {Aurelia} from 'aurelia-framework';
-  import 'whatwg-fetch';
+ import 'whatwg-fetch';
   
-  export function configure(aurelia: Aurelia): void {
+  export function configure(aurelia) {
     aurelia.use
       .standardConfiguration()
       .developmentLogging();
@@ -71,9 +70,9 @@
 ``` javascript
   import {HttpClient} from 'aurelia-fetch-client';
   
-  let client = new HttpClient();
+  let httpClient = new HttpClient();
   
-  client.fetch('package.json')
+  httpClient.fetch('package.json')
     .then(response => response.json())
     .then(data => {
       console.log(data.description);
@@ -110,6 +109,7 @@
         }
       });
   });
+ 
 ```
 
   
@@ -300,13 +300,15 @@ The `HttpResponseMessage` has the following properties:
     
 
 ``` JavaScript
-  let client = new HttpClient()
+  import {HttpClient} from 'aurelia-http-client';
+  
+  let httpClient = new HttpClient()
     .configure(x => {
       x.withBaseUrl('http://aurelia.io');
       x.withHeader('Authorization', 'bearer 123');
     });
   
-  client.get('some/cool/path');
+  httpClient.get('some/cool/path');
 ```
  在这种情况下，来自客户端的所有请求都将具有“http://aurelia.io” 的基本URL，并具有指定的`Authorization`标头。 `RequestBuilder`提供相同的API。 因此，您可以在单个请求上完成相同的操作，如下所示：
 
@@ -315,9 +317,11 @@ The `HttpResponseMessage` has the following properties:
     
 
 ``` JavaScript
-  let client = new HttpClient();
+  import {HttpClient} from 'aurelia-http-client';
   
-  client.createRequest('some/cool/path')
+  let httpClient = new HttpClient();
+  
+  httpClient.createRequest('some/cool/path')
     .asGet()
     .withBaseUrl('http://aurelia.io')
     .withHeader('Authorization', 'bearer 123')
@@ -336,8 +340,11 @@ The `HttpResponseMessage` has the following properties:
     
 
 ``` JavaScript
-  let client = new HttpClient();
-  client.configure(x => {
+  import {HttpClient} from 'aurelia-http-client';
+  
+  let httpClient = new HttpClient();
+  
+  httpClient.configure(x => {
       x.withInterceptor({
         request(message) {
           return message;
@@ -356,6 +363,9 @@ The `HttpResponseMessage` has the following properties:
         }
       });
     });
+  
+
+  
 ```
 
   
