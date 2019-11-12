@@ -32,12 +32,12 @@
 - [Binding: Checkboxes](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Checkboxes.md)
 - [Binding: Radios](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Radios.md)
 - [Binding: Selects](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Selects.md)
-- [Binding: Delegate vs Trigger](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Delegate vs Trigger.md) 委托和触发器
-- [Binding: Computed Properties](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Computed Properties.md) 计算属性
-- [Binding: Value Converters](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Value Converters.md) 值转换器
-- [Binding: Binding Behaviors](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Binding Behaviors.md) 绑定行为
+- [Binding: Delegate vs Trigger](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Delegate%20vs%20Trigger.md) 委托和触发器
+- [Binding: Computed Properties](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Computed%20Properties.md) 计算属性
+- [Binding: Value Converters](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Value%20Converters.md) 值转换器
+- [Binding: Binding Behaviors](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Binding%20Behaviors.md) 绑定行为
 - [Binding: Observables](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Observables.md) 监控属性
-- [Binding: How it Works](https://github.com/sansantang/aurelia_translate/blob/master/Binding/How it Works.md)
+- [Binding: How it Works](https://github.com/sansantang/aurelia_translate/blob/master/Binding/How%20it%20Works.md)
 
 # Templating 模板化
 
