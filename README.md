@@ -28,7 +28,7 @@
 绑定学习有关Aurelia强大的数据绑定引擎的所有知识。
 
 - [Binding: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingBasics.md)
-- [Binding: Class and Style](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingClassandStyle.md)
+- [Binding: Class and Style](https://github.com/sansantang/aurelia_translate/blob/master/Binding/ClassandStyle.md)
 - Binding: Checkboxes
 - Binding: Radios
 - Binding: Selects
