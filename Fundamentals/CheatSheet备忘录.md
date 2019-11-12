@@ -158,7 +158,7 @@ Components have a well-defined lifecycle:
 
 ## 3.Dependency Injection 依赖注入
 
-声明依赖性
+**声明依赖性**
     
 ``` javascript
   import {autoinject} from 'aurelia-framework';
@@ -172,7 +172,7 @@ Components have a well-defined lifecycle:
 ```
 
   
-Using Resolvers  使用解析器
+**Using Resolvers  使用解析器**
    
 ``` javascript
   import {Lazy, inject} from 'aurelia-framework';
@@ -198,8 +198,7 @@ Using Resolvers  使用解析器
 *   `NewInstance` - 用于注入依赖项的新实例，而不考虑容器中的现有实例。
     *   ex. `NewInstance.of(CustomClass).as(Another)`
 
-Explicit Registration
-显示注入
+**Explicit Registration 显示注入**
 
 ``` javascript
   import {transient, autoinject} from 'aurelia-framework';
@@ -214,7 +213,7 @@ Explicit Registration
 
 ##  4.Templating Basics 模板基础知识
 
-A Simple Template
+**A Simple Template**
 
 ``` HTML
   <template>
@@ -222,7 +221,7 @@ A Simple Template
   </template>
 ```
 
-Requiring Resources 需要的资源
+**Requiring Resources 需要的资源**
 
 ``` HTML
   <template>
@@ -248,7 +247,7 @@ Requiring Resources 需要的资源
   
 使用`as-element`属性可以确保我们在加载时拥有一个有效的HTML表结构，但是我们告诉Aurelia将其内容视为不同的标记。
 
-HTML
+**Compose an existing object instance with a view. 用视图组合现有对象实例。**
     
 ```
   <template>
@@ -261,7 +260,7 @@ HTML
   
 对于上面的示例，我们可以根据数据的元素以编程方式选择嵌入的模板：
 
-template_A.html
+**template_A.html**
  
 ``` html
   <template>
@@ -269,7 +268,7 @@ template_A.html
   </template>
 ```
 
-template_B.html
+**template_B.html**
 
 ``` HTML
   <template>
@@ -279,9 +278,7 @@ template_B.html
 
 请注意，当使用了`containerless`属性时，容器将在浏览器加载DOM元素之后被剥离，因此不能使用此方法将非html兼容的结构转换为兼容的结构！
   
-Illegal Table Code 
-
-非法表代码
+**Illegal Table Code 非法表代码**
 
 ``` HTML
   <template>
@@ -295,9 +292,7 @@ Illegal Table Code
   </template>
 ```
 
-Correct Table Code 
-
-正确的表代码
+**Correct Table Code 正确的表代码**
 
 ``` HTML
   <template>
@@ -309,9 +304,7 @@ Correct Table Code
   </template>
 ```
 
-Illegal Select Code 
-
-非法选择代码
+**Illegal Select Code 非法选择代码**
 
 ``` HTML
   <template>
@@ -323,9 +316,7 @@ Illegal Select Code
   </template>
 ```
 
-Correct Select Code 
-
-正确选择代码
+**Correct Select Code 正确选择代码**
 
 ``` HTML
   <template>
@@ -339,14 +330,14 @@ Correct Select Code
 
 ### bind, one-way, two-way & one-time
 
-Use on any HTML attribute.
+**Use on any HTML attribute.**
 
 *   `.bind` - 使用默认绑定。除了使用双向绑定的表单控件外，其他都使用单向绑定。
 *   `.one-way` - 向一个方向流动数据:从view-model到view。
 *   `.two-way` - 数据以两种方式流动:从view-model到view，从view到view-model。
 *   `.one-time` - 只呈现一次数据，但在初始呈现后不同步更改。
 
-Data Binding Examples
+**Data Binding Examples**
 ``` HTML
   <template>
     <input type="text" value.bind="firstName">
@@ -368,9 +359,8 @@ Data Binding Examples
 >提醒：The `$event` value can be passed as an argument to a `delegate` or `trigger` function call if you need to access the event object.
 >提醒：如果需要访问事件对象，可以将`$event`值作为参数传递给`委托`或`触发器`函数调用。
 
-Event Binding Examples
+**Event Binding Examples**
 
- 
 ``` HTML
   <template>
     <button click.trigger="save()">Save</button>
@@ -385,7 +375,7 @@ Passes a function reference.
 
 传递一个函数引用。  
 
-Call Example
+**Call Example**
 ``` HTML
   <template>
     <button my-attribute.call="sayHello()">Say Hello</button>
@@ -404,7 +394,7 @@ Creates a reference to an HTML element, a component or a component's parts.
 *   `view.ref="someIdentifier"`- 创建对自定义元素的view实例的引用(不是HTML元素)。
 *   `controller.ref="someIdentifier"`- 创建对自定义元素的控制器实例的引用。
 
-Ref Example
+**Ref Example**
 
 ``` HTML
   <template>
@@ -418,7 +408,7 @@ Used in an element's content. Can be used inside attributes, particularly useful
 
 用于元素的内容中。可以在属性中使用，在`class`和`css`属性中特别有用。
 
-String Interpolation Example
+**String Interpolation Example**
 
 ``` HTML
   <template>
@@ -432,7 +422,7 @@ A typical select element is rendered using a combination of `value.bind` and `re
 
 典型的select元素是使用值的组合来呈现的。`value.bind`和 `repeat`。您还可以绑定到对象数组并基于id(或类似的)属性进行同步。
 
-Basic Select
+**Basic Select**
    
 ``` HTML
   <template>
@@ -444,9 +434,7 @@ Basic Select
 ```
 
   
-Select with Object Array
-
-使用对象数组选择
+**Select with Object Array 使用对象数组选择**
 
 ``` HTML
   <template>
@@ -457,9 +445,7 @@ Select with Object Array
   </template>
 ```
 
-Select with Object Id Sync
-
-使用同步对象Id选择
+**Select with Object Id Sync 使用同步对象Id选择**
 
 ``` HTML
   <template>
@@ -473,9 +459,7 @@ Select with Object Id Sync
   
 
   
-Basic Multi-Select
-   
-基本多选
+**Basic Multi-Select 基本多选**
 
 ``` HTML
   <template>
@@ -485,9 +469,7 @@ Basic Multi-Select
   </template>
 ```
 
-Multi-Select with Object Array
-  
-使用对象数组多选  
+**Multi-Select with Object Array 使用对象数组多选**  
 
 ``` HTML
   <template>
@@ -499,7 +481,7 @@ Multi-Select with Object Array
 
 ### Binding Radios
   
-Basic Radios
+**Basic Radios**
    
 ``` HTML
   <template>
@@ -510,9 +492,7 @@ Basic Radios
   </template>
 ```
 
-Radios with Object Arrays
- 
-对象数组的radios
+**Radios with Object Arrays 对象数组的radios**
 
 ``` HTML
   <template>
@@ -536,6 +516,7 @@ Radios with Object Arrays
 >警告：如果要将方法附加到复选框上，则不能在复选框上使用`click.delegate`。你需要使用`change.delegate`。
   
 **Checkboxes with an Array**
+
 ```html
 <template>
     <label repeat.for="color of colors">
@@ -544,7 +525,9 @@ Radios with Object Arrays
     </label>
   </template>
 ```
+
 **Checkboxes with an Array of Objects**
+
 ```html
   <template>
     <label repeat.for="employee of employees">
@@ -553,7 +536,9 @@ Radios with Object Arrays
     </label>
   </template>
 ```
+
 **Checkboxes with Booleans**
+
 ```html
   <template>
     <li><label><input type="checkbox" checked.bind="wantsFudge">Fudge</label></li>
@@ -562,6 +547,7 @@ Radios with Object Arrays
   </template>
 ```
 ### Binding innerHTML and textContent
+
 **Binding innerHTML**
 ```html
   <template>
@@ -576,7 +562,7 @@ Radios with Object Arrays
 
 >提醒：使用`innerhtml`属性绑定只是设置元素的`innerHTML`属性。标记不会通过Aurelia的模板系统。绑定表达式和require元素将不被计算。
 
-Binding textContent
+**Binding textContent**
 
 ```html
   <template>
@@ -584,7 +570,8 @@ Binding textContent
     <div textcontent="${stringProperty}"></div>
   </template>
 ```
-Two-Way Editable textContent
+**Two-Way Editable textContent**
+
 ```html
   <template>
     <div textcontent.bind="stringProperty" contenteditable="true"></div>
@@ -592,9 +579,10 @@ Two-Way Editable textContent
 ```
 
 ### Binding Style
+
 可以将css字符串或对象绑定到元素的`style`属性。在执行字符串插值时使用`style`属性的别名`css`，以确保应用程序与Internet Explorer兼容。
 
-Style Binding Data
+**Style Binding Data**
 
 ```javascript
   export class StyleData {
@@ -608,36 +596,34 @@ Style Binding Data
     }
   }
 ```
-Style Binding View
-```
+
+**Style Binding View**
+
+```html
   <template>
     <div style.bind="styleString"></div>
     <div style.bind="styleObject"></div>
   </template>
 ```
-Illegal Style Interpolation
+**Illegal Style Interpolation 非法样式插值**
 
-非法样式插值
-
-```
+```html
    <template>
     <div style="width: ${width}px; height: ${height}px;"></div>
   </template>
 ```
-Legal Style Interpolation
+**Legal Style Interpolation 合法样式插值**
 
-合法样式插值
-
-```
+```html
   <template>
     <div css="width: ${width}px; height: ${height}px;"></div>
   </template>
 ```
 ### Declaring Computed Property Dependencies 计算属性声明依赖项
 
-Computed Properties
+**Computed Properties**
  
-```
+```Javascript
 import {computedFrom} from 'aurelia-framework';
   
   export class Person {
@@ -655,26 +641,22 @@ import {computedFrom} from 'aurelia-framework';
 
 ## 6.Templating View Resources 模板化视图资源
 
-Conditionally displays an HTML element.
-
-有条件地显示HTML元素。
+**Conditionally displays an HTML element. 有条件地显示HTML元素。**
 ```html
 <template>
 	<div show.bind="isSaving" class="spinner"></div>
 </template>
 ```
-Conditionally add/remove an HTML element
 
-有条件地添加/删除HTML元素
-```
+**Conditionally add/remove an HTML element 有条件地添加/删除HTML元素**
+```html
 <template>
     <div if.bind="isSaving" class="spinner"></div>
 </template>
 ```
-Conditionally add/remove a group of elements
 
-有条件地添加/删除一组元素
-```
+**Conditionally add/remove a group of elements 有条件地添加/删除一组元素**
+```html
 <template>
     <input value.bind="firstName">
   
@@ -684,28 +666,22 @@ Conditionally add/remove a group of elements
     </template>
 </template>
 ```
-creating new component instance every time condition changes
-
-每当条件发生变化时创建新的组件实例
-```
+**creating new component instance every time condition changes 每当条件发生变化时创建新的组件实例**
+```html
   <template>
     <my-custom-element if="condition.bind: showMessage; cache: false"></my-custom-element>
   </template>
 ```
-Render an array with a template
-
-使用模板渲染数组
-```
+**Render an array with a template 使用模板渲染数组**
+```html
   <template>
     <ul>
       <li repeat.for="customer of customers">${customer.fullName}</li>
     </ul>
   </template>
 ```
-Render a map with a template
-
-使用模板渲染地图
-```
+**Render a map with a template 使用模板渲染地图**
+```html
   <template>
     <ul>
       <li repeat.for="[id, customer] of customers">${id} ${customer.fullName}</li>
@@ -713,16 +689,15 @@ Render a map with a template
   </template>
   
 ```
-Render a template N times
-
-渲染模板N次
-```
+**Render a template N times 渲染模板N次**
+```html
   <template>
     <ul>
       <li repeat.for="i of rating">*</li>
     </ul>
   </template>
 ```
+
 上下文项在重复模板中可用:
 *   `$index` - 数组中该项的索引。
 *   `$first` - 如果项是数组中的第一项，则为true.
@@ -736,26 +711,20 @@ Render a template N times
 >
 >`if`和`repeat`属性通常放在它们所影响的HTML元素上。但是，您也可以使用 `template` 模板标记来对没有父元素的元素集合进行分组，并将`if`或`repeat`放在 `template` 模板元素上。
 
-Dynamically render UI into the DOM based on data 
-
-根据数据动态地将UI呈现到DOM中
-```
+**Dynamically render UI into the DOM based on data  据数据动态地将UI呈现到DOM中**
+```html
   <template repeat.for="item of items">
     <compose model.bind="item" view-model="widgets/${item.type}"></compose>
   </template>
 ```
-Composing a view only, inheriting the parent binding context
-
-仅组合视图，继承父绑定上下文
-```
+**Composing a view only, inheriting the parent binding context 仅组合视图，继承父绑定上下文**
+```html
   <template repeat.for="item of items">
     <compose view="my-view.html"></compose>
   </template>
 ```
-Compose an existing object instance with a view
-
-用视图组合现有对象实例
-```
+**Compose an existing object instance with a view 用视图组合现有对象实例**
+```html
   <template>
     <div repeat.for="item of items">
       <compose view="my-view.html" view-model.bind="item">
@@ -766,8 +735,8 @@ Compose an existing object instance with a view
 
 ## 7.Routing
 
-Basic Route Configuration
-```
+**Basic Route Configuration**
+```javascript
 export class App {
     configureRouter(config, router) {
       this.router = router;
@@ -811,10 +780,8 @@ export class App {
 
 `params`对象将为解析的路由的每个参数提供一个属性，也为每个查询字符串值提供一个属性。`routeConfig`将是您设置的原始路由配置对象。`routeConfig`还将有一个新的`navModel`属性，可以用来更改视图模型加载的数据的文档标题。例如：
 
-Route Params and NavModel
-
-路由参数和NavModel
-```
+**Route Params and NavModel 路由参数和NavModel**
+```javascript
   import {autoinject} from 'aurelia-framework';
   import {UserService} from './user-service';
   
@@ -832,10 +799,8 @@ Route Params and NavModel
     }
   }
 ```
-Conventional Routing
-
-传统路由
-```
+**Conventional Routing 传统路由**
+```javascript
 export class App {
     configureRouter(config){
       config.mapUnknownRoutes(instruction => {
@@ -845,10 +810,8 @@ export class App {
     }
   }
 ```
-Customizing the Navigation Pipeline
-
-自定义导航管道
-```
+**Customizing the Navigation Pipeline 自定义导航管道**
+```javascript
   import {Redirect} from 'aurelia-router';
   
   export class App {
@@ -902,11 +865,12 @@ export class App {
 
 >PushState需要服务器端支持。不要忘记适当地配置您的服务器。
 
-### Reusing an Existing View Model
+### Reusing an Existing View Model 重用现有的视图模型
 
 Since the view model's navigation lifecycle is called only once, you may have problems recognizing that the user switched the route from `Product A` to `Product B` (see below). To work around this issue implement the method `determineActivationStrategy` in your view model and return hints for the router about what you'd like to happen. Available return values are `replace` and `invoke-lifecycle`. Remember, "lifecycle" refers to the navigation lifecycle.
 
-Router View Model Activation Control
+**Router View Model Activation Control 路由器视图模型激活控制**
+
 ```javascript
   //app.js
   
@@ -934,11 +898,11 @@ Router View Model Activation Control
 
 >或者，如果策略总是相同的，并且您不希望它出现在您的视图模型代码中，那么您可以将`activationStrategy`属性添加到您的路由配置中。
 
-Rendering multiple ViewPorts
+### Rendering multiple ViewPorts
 
 >如果你没有命名一个`router-view`，它会在`'default'`下可用。
 
-Multi-ViewPort View
+**Multi-ViewPort View**
 ```html
  <template>
     <div class="page-host">
@@ -950,7 +914,7 @@ Multi-ViewPort View
   </template>
   
 ```
-Multi-ViewPort View-Model
+**Multi-ViewPort View-Model**
 ```javascript
   export class App {
     configureRouter(config){
@@ -968,27 +932,27 @@ Multi-ViewPort View-Model
     }
   }
 ```
-Generating Route URLs
+### Generating Route URLs
 
-Generate Route URLs in Code
+**Generate Route URLs in Code**
 ```javascript
 router.generate('routeName', { id: 123 });
   
 ```
 
-Navigating to a Generated Route
+**Navigating to a Generated Route**
 
 ```javascript
 router.navigateToRoute('routeName', { id: 123 })
 
 ```
-Rendering an Anchor for a Route
+**Rendering an Anchor for a Route**
 ```html
 <template>
     <a route-href="route: routeName; params.bind: { id: user.id }">${user.name}</a>
   </template>
 ```
-Bypassing the Router for a Link
+**Bypassing the Router for a Link**
 ```
   <template>
     <a href="/my-page" router-ignore>Click to load my-page from server</a>
@@ -997,7 +961,9 @@ Bypassing the Router for a Link
 ```
 
 ## 8.Custom Attributes
-Simple Attribute Declaration
+
+**Simple Attribute Declaration**
+
 ```javascript
 import {inject, customAttribute, DOM} from 'aurelia-framework';
   
@@ -1013,7 +979,7 @@ import {inject, customAttribute, DOM} from 'aurelia-framework';
     }
   }
 ```
-Simple Attribute Use
+**Simple Attribute Use**
 
 ```html
 <template>
@@ -1023,7 +989,7 @@ Simple Attribute Use
   
 
 ```
-Options Attribute Declaration
+**Options Attribute Declaration**
 
 ```javascript
 import {customAttribute, bindable} from 'aurelia-framework';
@@ -1040,7 +1006,7 @@ import {customAttribute, bindable} from 'aurelia-framework';
   
 
 ```
-Options Attribute Use
+**Options Attribute Use**
 ```html
  <template>
     <div my-attribute="foo: literal value; bar.bind: an.expression"></div>
@@ -1049,7 +1015,7 @@ Options Attribute Use
 
   
 ```
-Dynamic Option Attribute Declaration
+**Dynamic Option Attribute Declaration**
 ```javascript
 import {customAttribute, dynamicOptions} from 'aurelia-framework';
   
@@ -1062,7 +1028,7 @@ import {customAttribute, dynamicOptions} from 'aurelia-framework';
 
 ```
 
-Dynamic Option Attribute Use
+**Dynamic Option Attribute Use**
 ```html
 <template>
     <div my-attribute="foo: literal value; bar.bind: an.expression"></div>
@@ -1070,7 +1036,7 @@ Dynamic Option Attribute Use
   
 
 ```
-Bindable Signature (Showing Defaults)
+**Bindable Signature (Showing Defaults)**
 ```javascript
 bindable({
     name:'myProperty',
@@ -1082,7 +1048,7 @@ bindable({
   
 
 ```
-Template Controller Attribute Declaration
+**Template Controller Attribute Declaration**
 ```javascript
   import {BoundViewFactory, ViewSlot, customAttribute, templateController, inject} from 'aurelia-framework';
   
@@ -1105,7 +1071,7 @@ Template Controller Attribute Declaration
     }
   }
 ```
-Template Controller Attribute Use
+**Template Controller Attribute Use**
 ```html
   <template>
     <div naive-if.bind="an.expression"></div>
@@ -1118,7 +1084,7 @@ Template Controller Attribute Use
 ```
 
 ## 9.Custom Elements
-Custom Element View-Model Declaration
+**Custom Element View-Model Declaration**
 
 ```javascript
   import {customElement, bindable} from 'aurelia-framework';
@@ -1133,13 +1099,13 @@ Custom Element View-Model Declaration
   }
 
 ```
-Custom Element View Declaration
+**Custom Element View Declaration**
 ```html
  <template>
       <button click.trigger="speak()">Say Hello To ${to}</button>
   </template>
 ```
-Custom Element Use
+**Custom Element Use**
 ```html
   <template>
     <require from="say-hello"></require>
@@ -1152,18 +1118,18 @@ Custom Element Use
 
 Aurelia will not search for a JavaScript file if you reference a component with an .html extension.
 
-Declare Custom Element Without View-Model With Binding
+**Declare Custom Element Without View-Model With Binding**
 ```html
  <template bindable="greeting,name">
       Say ${greeting} To ${name}
   </template>
 ```
-Add Global Custom Element Without View-Model
+**Add Global Custom Element Without View-Model**
 ```javascript
 aurelia.use.globalResources('./js-less-component.html');
   
 ```
-Use Custom Element Without View-Model
+**Use Custom Element Without View-Model**
 ```html
 <require from="./js-less-component.html"></require>
   
@@ -1173,7 +1139,9 @@ Use Custom Element Without View-Model
 ### Custom Element Variable Binding
 
 It's worth noting that when binding variables to custom elements, use camelCase inside the custom element's View-Model, and dash-case on the html element. See the following example:
-Custom Element View-Model Declaration
+
+**Custom Element View-Model Declaration**
+
 ```javascript
   import {bindable} from 'aurelia-framework';
   
@@ -1186,7 +1154,7 @@ Custom Element View-Model Declaration
     }
   }
 ```
-Custom Element Use
+**Custom Element Use**
 ```html
   <template>
     <require from="./say-hello"></require>
@@ -1211,7 +1179,7 @@ Custom Element Use
 
 SVG (scalable vector graphic) tags can support Aurelia's custom element `<template>` tags by nesting the templated code inside a second `<svg>` tag. For example if you had a base `<svg>` element and wanted to add a templated `<rect>` inside it, you would first put your custom tag inside the main `<svg>` tag. Also, make sure the custom element class uses the `@containerless()` decorator.
 
-SVG Custom Element View-Model Declaration
+**SVG Custom Element View-Model Declaration**
 ```javascript
 import {containerless} from 'aurelia-framework';
   
@@ -1220,7 +1188,7 @@ import {containerless} from 'aurelia-framework';
     ...
   }
 ```
-SVG Custom Element View
+**SVG Custom Element View**
 ```html
   <template>
     <svg>
@@ -1228,7 +1196,7 @@ SVG Custom Element View
     </svg>
   </template>
 ```
-SVG Custom Element Use
+**SVG Custom Element Use**
 ```html
   <template>
     <require from="my-custom-rect"></require>
@@ -1240,7 +1208,9 @@ SVG Custom Element Use
 ```
 
 ### Template Parts
-Custom Element View with Replaceable Parts
+
+**Custom Element View with Replaceable Parts**
+
 ```
   <template>
     <ul>
@@ -1252,7 +1222,7 @@ Custom Element View with Replaceable Parts
     <ul>
   </template>
 ```
-Custom Element Use with Replacement
+**Custom Element Use with Replacement**
 ```html
   <template>
     <require from="my-element"></require>
@@ -1264,7 +1234,7 @@ Custom Element Use with Replacement
     </my-element>
   </template>
 ```
-Surrogate Behavior Use
+**Surrogate Behavior Use**
 ```html
  <template role="progress-bar" aria-valuenow.bind="progress" aria-valuemin="0" aria-valuemax="100">
     <div class="bar">
@@ -1276,7 +1246,7 @@ Surrogate Behavior Use
 
 Aurelia exposes a decorator named observable to allow watching for changes to a property and reacting to them. By convention it will look for a matching method name `Changed`
 
-Correct observable usage
+**Correct observable usage**
 ```javascript
   import {observable} from 'aurelia-framework';
   
@@ -1289,7 +1259,7 @@ Correct observable usage
 ```
 The developer can also specify a different method name to use.
 
-ex.Correct observable usage with configured change handler
+**Correct observable usage with configured change handler**
 ```javascript
   import {observable} from 'aurelia-framework';
   
@@ -1303,9 +1273,10 @@ ex.Correct observable usage with configured change handler
 ```
 
 ## 10.The Event Aggregator
+
 If you include the `aurelia-event-aggregator` plugin using "basicConfiguration" or "standardConfiguration" then the singleton EventAggregator's API will be also present on the `Aurelia` object. You can also create additional instances of the EventAggregator, if needed, and "merge" them into any object. To do this, import `includeEventsIn` and invoke it with the object you wish to turn into an event aggregator. For example `includeEventsIn(myObject)`. Now my object has `publish` and `subscribe` methods and can be used in the same way as the global event aggregator, detailed below.
 
-Publishing on a Channel
+**Publishing on a Channel**
 ```javascript
   import {inject} from 'aurelia-framework';
   import {EventAggregator} from 'aurelia-event-aggregator';
@@ -1322,7 +1293,7 @@ Publishing on a Channel
     }
   }
 ```
-Subscribing to a Channel
+**Subscribing to a Channel**
 ```javascript
   import {inject} from 'aurelia-framework';
   import {EventAggregator} from 'aurelia-event-aggregator';
@@ -1340,7 +1311,7 @@ Subscribing to a Channel
     }
   }
 ```
-Publishing a Message
+**Publishing a Message**
 ```javascript
   //some-message.js
   export class SomeMessage{ }
@@ -1362,7 +1333,7 @@ Publishing a Message
   }
 
 ```
- Subscribing to a Message Type
+** Subscribing to a Message Type**
 ```javascript
   import {inject} from 'aurelia-framework';
   import {EventAggregator} from 'aurelia-event-aggregator';

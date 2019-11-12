@@ -6,7 +6,7 @@
 * [Objects with Matcher](#objects-with-matcher)
 * [Booleans](#booleans)
 * [Strings](#strings)
-* 
+
 ## Introduction 简介
 
 一组单选框输入是一种“单选择”接口。Aurelia支持将任何类型的属性双向绑定到一组单选框输入。下面的示例演示如何将数字、对象、字符串和布尔属性绑定到单选框输入集。在每个示例中都有一组常见的步骤：
