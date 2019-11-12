@@ -10,28 +10,28 @@
 
 一步一步的教程教你如何建立您的第一个Aurelia应用程序。
 
- - [快速入门](https://github.com/sansantang/aurelia_translate/blob/master/%E6%95%99%E7%A8%8B/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.MD)
- - [联系人管理器教程](https://github.com/sansantang/aurelia_translate/blob/master/%E6%95%99%E7%A8%8B/%E8%81%94%E7%B3%BB%E4%BA%BA%E7%AE%A1%E7%90%86%E5%99%A8%E6%95%99%E7%A8%8B.MD)
+ - [√ 快速入门](https://github.com/sansantang/aurelia_translate/blob/master/%E6%95%99%E7%A8%8B/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.MD)
+ - [√ 联系人管理器教程](https://github.com/sansantang/aurelia_translate/blob/master/%E6%95%99%E7%A8%8B/%E8%81%94%E7%B3%BB%E4%BA%BA%E7%AE%A1%E7%90%86%E5%99%A8%E6%95%99%E7%A8%8B.MD)
 
 # 基础
 
 完成快速入门后，进一步了解Aurelia的应用模型、组件、依赖注入等。
 
- - [App Configuration and Startup](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE%E5%92%8C%E5%90%AF%E5%8A%A8.md)  应用程序配置和启动
- - [Creating Components](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E5%88%9B%E5%BB%BA%E7%BB%84%E4%BB%B6.md)  创建组件
- - [Dependency Injection: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%9A%E5%9F%BA%E7%A1%80.md) 依赖注入：基础
- - [Securing Your App](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E4%BF%9D%E6%8A%A4%E6%82%A8%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F.md)  保护您的应用程序
+ - [√ App Configuration and Startup](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E9%85%8D%E7%BD%AE%E5%92%8C%E5%90%AF%E5%8A%A8.md)  应用程序配置和启动
+ - [√ Creating Components](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E5%88%9B%E5%BB%BA%E7%BB%84%E4%BB%B6.md)  创建组件
+ - [√ Dependency Injection: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%EF%BC%9A%E5%9F%BA%E7%A1%80.md) 依赖注入：基础
+ - [√ Securing Your App](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/%E4%BF%9D%E6%8A%A4%E6%82%A8%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F.md)  保护您的应用程序
  - [Cheat Sheet](https://github.com/sansantang/aurelia_translate/blob/master/Fundamentals/CheatSheet%E5%A4%87%E5%BF%98%E5%BD%95.md) 备忘录
 
 # Binding
 
 绑定学习有关Aurelia强大的数据绑定引擎的所有知识。
 
-- [Binding: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingBasics.md)
-- [Binding: Class and Style](https://github.com/sansantang/aurelia_translate/blob/master/Binding/ClassandStyle.md)
-- [Binding: Checkboxes](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Checkboxes.md)
-- [Binding: Radios](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Radios.md)
-- [Binding: Selects](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Selects.md)
+- [√ Binding: Basics](https://github.com/sansantang/aurelia_translate/blob/master/Binding/BindingBasics.md)
+- [√ Binding: Class and Style](https://github.com/sansantang/aurelia_translate/blob/master/Binding/ClassandStyle.md)
+- [√ Binding: Checkboxes](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Checkboxes.md)
+- [√ Binding: Radios](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Radios.md)
+- [√ Binding: Selects](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Selects.md)
 - [Binding: Delegate vs Trigger](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Delegate%20vs%20Trigger.md) 委托和触发器
 - [Binding: Computed Properties](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Computed%20Properties.md) 计算属性
 - [Binding: Value Converters](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Value%20Converters.md) 值转换器
