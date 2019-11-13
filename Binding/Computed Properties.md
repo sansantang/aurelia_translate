@@ -1,71 +1,38 @@
-原文：https://aurelia.io/docs/binding/class-and-style
+原文：https://aurelia.io/docs/binding/computed-properties
 
-* [Class](#class)
-* [Style](#style)
+## Introduction
 
+有时，在访问属性时需要返回一个动态计算的值，或者您可能希望反映内部变量的状态，而不需要使用显式方法调用。在JavaScript中，这可以通过使用getter来实现。
 
-## Class
+这是一个示例`Person`类，该类公开了`fullName`属性，该属性使用`firstName` 和 `lastName`属性计算其值。
 
-可以使用字符串插值或`.bind`/`.to-view`绑定元素的`class`属性。
-
-**Class Binding**
-```
-  <template>
-    <div class="foo ${isActive ? 'active' : ''} bar"></div>
-    <div class.bind="isActive ? 'active' : ''"></div>
-    <div class.one-time="isActive ? 'active' : ''"></div>
-  </template>
-```
-<section>
-
-为了确保与其他JavaScript库的最大互操作性，绑定系统将只添加或删除绑定表达式中指定的类。这确保了由其他代码添加的类(如通过`classList.add(...)`)被保留。这种“默认安全”行为的代价很小，但在基准测试或其他性能关键的情况下(比如带有大量元素的repeat)，这种行为是显而易见的。通过使用`class-name.bind="...."` 或`class-name.one-time="..."`直接绑定到元素的[className](https://developer.mozilla.org/en-US/docs/Web/API/Element/className)属性，您可以选择退出默认行为。这将稍微快一些，但是会增加很多绑定。
-
-</section>
-
-<section>
-
-## Style
-
-可以将css字符串或对象绑定到元素的`style`属性。在视图中执行字符串插值时使用 `css`自定义属性，以确保应用程序与Internet Explorer和Edge兼容。如果 `css`中你不使用插值 - 它不会得到处理，所以如果你只是使用 inline 样式-使用适当的 HTMLElement 样式属性。
-
-**Style Binding Data**
+**Computed Properties**
 ```javascript
-  export class StyleData {
-    constructor() {
-      this.styleString = 'color: red; background-color: blue';
+export class Person {
+    firstName = 'John';
+    lastName = 'Doe';
   
-      this.styleObject = {
-        color: 'red',
-        'background-color': 'blue'
-      };
+    get fullName() {
+      return `${this.firstName} ${this.lastName}`;
     }
   }
 ```
-**Style Binding View**
-```html
-  <template>
-    <div style.bind="styleString"></div>
-    <div style.bind="styleObject"></div>
-  </template>
+
+要绑定到计算属性(如`fullName`)，不需要执行任何特殊操作。绑定系统将检查属性的描述符[descriptor](https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor)，确定属性的值是由函数计算的，并选择脏检查观察策略。脏检查意味着绑定系统将定期检查属性值的变化，并根据需要更新视图。这意味着属性的getter函数将被多次执行，大约每120毫秒执行一次。但是，在大多数情况下，这不是问题，如果您正在使用大量的计算属性，或者如果您的getter函数足够复杂，您可能需要考虑向绑定系统提供关于观察什么的提示，这样它就不需要使用脏检查。这就是`@computedFrom`装饰器发挥作用的地方：
+
+**Computed Properties**
+```javascript
+import {computedFrom} from 'aurelia-framework';
+  
+  export class Person {
+    firstName = 'John';
+    lastName = 'Doe';
+  
+    @computedFrom('firstName', 'lastName')
+    get fullName() {
+      return `${this.firstName} ${this.lastName}`;
+    }
+  }
 ```
 
-**Illegal Style Interpolation 非法语体插值**
-```html
-  <template>
-    <div style="width: ${width}px; height: ${height}px;"></div>
-  </template>
-```
-
-**Legal Style Interpolation 合法语体插值**
-```html
-  <template>
-    <div css="width: ${width}px; height: ${height}px;"></div>
-  </template>  
-```
-**Won't Work Without Interpolation 没有插值就无法工作**
-```html
-  <template>
-    <div css="width: 100px; height: 100px;"></div>
-  </template>
-```
-</section>
+`@computedFrom`告诉绑定系统要观察哪个表达式。当这些表达式更改时，绑定系统将重新评估属性(执行getter)。这消除了对脏检查的需要，可以提高性能。`@computedFrom`参数可以是上面显示的简单属性名，也可以是更复杂的表达式，比如`@computedFrom('event.startDate', 'event.endDate')`。

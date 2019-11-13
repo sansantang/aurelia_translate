@@ -1,71 +1,76 @@
-原文：https://aurelia.io/docs/binding/class-and-style
+原文：https://aurelia.io/docs/binding/binding-engine
 
-* [Class](#class)
-* [Style](#style)
+* [1\.Introduction 简介](#1introduction-%E7%AE%80%E4%BB%8B)
+* [2\.How to install 怎么安装](#2how-to-install-%E6%80%8E%E4%B9%88%E5%AE%89%E8%A3%85)
+* [3\.Observing a property on an object 观察object上的属性](#3observing-a-property-on-an-object-%E8%A7%82%E5%AF%9Fobject%E4%B8%8A%E7%9A%84%E5%B1%9E%E6%80%A7)
+* [4\.Observing a collection mutation 观察一个集合的突变](#4observing-a-collection-mutation-%E8%A7%82%E5%AF%9F%E4%B8%80%E4%B8%AA%E9%9B%86%E5%90%88%E7%9A%84%E7%AA%81%E5%8F%98)
+* [5\.Observing an expression on an object 观察对象上的表达式](#5observing-an-expression-on-an-object-%E8%A7%82%E5%AF%9F%E5%AF%B9%E8%B1%A1%E4%B8%8A%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F)
+
+## 1.Introduction 简介
+
+绑定引擎是`aurelia-binding`模块的一个实用程序导出，它提供了一些用于处理观察的高级api，这些api利用了底层的aurelia绑定系统原语。
 
 
-## Class
+## 2.How to install 怎么安装
 
-可以使用字符串插值或`.bind`/`.to-view`绑定元素的`class`属性。
-
-**Class Binding**
+通过将`BindingEngine`注入到Aurelia应用程序中的任何类中来检索它的实例：
 ```
-  <template>
-    <div class="foo ${isActive ? 'active' : ''} bar"></div>
-    <div class.bind="isActive ? 'active' : ''"></div>
-    <div class.one-time="isActive ? 'active' : ''"></div>
-  </template>
-```
-<section>
-
-为了确保与其他JavaScript库的最大互操作性，绑定系统将只添加或删除绑定表达式中指定的类。这确保了由其他代码添加的类(如通过`classList.add(...)`)被保留。这种“默认安全”行为的代价很小，但在基准测试或其他性能关键的情况下(比如带有大量元素的repeat)，这种行为是显而易见的。通过使用`class-name.bind="...."` 或`class-name.one-time="..."`直接绑定到元素的[className](https://developer.mozilla.org/en-US/docs/Web/API/Element/className)属性，您可以选择退出默认行为。这将稍微快一些，但是会增加很多绑定。
-
-</section>
-
-<section>
-
-## Style
-
-可以将css字符串或对象绑定到元素的`style`属性。在视图中执行字符串插值时使用 `css`自定义属性，以确保应用程序与Internet Explorer和Edge兼容。如果 `css`中你不使用插值 - 它不会得到处理，所以如果你只是使用 inline 样式-使用适当的 HTMLElement 样式属性。
-
-**Style Binding Data**
-```javascript
-  export class StyleData {
-    constructor() {
-      this.styleString = 'color: red; background-color: blue';
+import { BindingEngine } from 'aurelia-framework'; // or 'aurelia-binding'
   
-      this.styleObject = {
-        color: 'red',
-        'background-color': 'blue'
-      };
+  export class MyViewModel {
+  
+    static inject() {
+      return [BindingEngine]
+    }
+  
+    constructor(bindingEngine) {
+      //
     }
   }
 ```
-**Style Binding View**
-```html
-  <template>
-    <div style.bind="styleString"></div>
-    <div style.bind="styleObject"></div>
-  </template>
+
+> 注意:您也可以直接构造 BindingEngine 实例，或者从容器中获取它。该示例使用最简单的代码。
+
+
+现在让我们用它来观察对象上的变化(数组也是对象)。通常，我们将使用`propertyObserver(obj, propertyName)`来处理对象属性值更改，使用`collectionObserver(collection)`来处理集合突变。
+
+
+## 3.Observing a property on an object 观察object上的属性
+
+*   `propertyObserver(obj, propertyName)` 返回一个 `PropertyObserver` 对象，带有一个可以像下面的示例一样使用的公共方法`subscribe`:
+
+```
+bindingEngine
+      .propertyObserver(myObject, 'myObjectPropertyName')
+      .subscribe((newValue, oldValue) => {
+        // handle value change here
+      });
+```
+## 4.Observing a collection mutation 观察一个集合的突变
+
+*    `collectionObserver(collection)` 返回带有公共方法 `subscribe` 的 `CollectionObserver` 对象，可以像下面的示例一样使用该方法：
+
+```
+bindingEngine
+      .collectionObserver(myCollection)
+      .subscribe((splice) => {
+        // do something with the mutated collection
+      })
 ```
 
-**Illegal Style Interpolation 非法语体插值**
-```html
-  <template>
-    <div style="width: ${width}px; height: ${height}px;"></div>
-  </template>
-```
 
-**Legal Style Interpolation 合法语体插值**
-```html
-  <template>
-    <div css="width: ${width}px; height: ${height}px;"></div>
-  </template>  
+`splice` 是一个对象与 `ICollectionObserverSplice` 接口，源代码在 [here](https://github.com/aurelia/binding/blob/b42630b9ef94f84f39e450d959ddaa721d82e5d5/src/aurelia-binding.d.ts#L148)
+
+## 5.Observing an expression on an object 观察对象上的表达式
+
+
+通常，您希望观察一个属性访问链(或路径)，binding engine 也有一个API来支持这一点。您可以使用 `expressionObserver(obj, expressionString)` 来创建一个observer，它会在 `expressionString` 路径中的任何属性被更改时通知您，如下面的例子所示：
+
 ```
-**Won't Work Without Interpolation 没有插值就无法工作**
-```html
-  <template>
-    <div css="width: 100px; height: 100px;"></div>
-  </template>
+  bindingEngine
+  .expressionObserver(this, 'project.name')
+  .subscribe((newProjectName, oldProjectName) => {
+    // do something with the new project name value
+  });
 ```
-</section>
+  
