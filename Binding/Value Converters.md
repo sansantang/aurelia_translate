@@ -10,26 +10,27 @@ In Aurelia, user interface elements are composed of view and view-model pairs. T
 Here's a simple data-binding example using the **bind** (`.bind="expression"`) and **interpolation** (`${expression}`) techniques:
 
 **simple-binding.js**
-```
+```javascript
 export class Person {
     name = 'Donald Draper';
   }
 ```
 
 **simple-binding.html**
-```
+```html
   <template>
     <label for="name">Enter Name:</label>
     <input id="name" type="text" value.bind="name">
     <p>Name is ${name}</p>
   </template>
 ```
+
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/1.gif)
 
 Sometimes the raw data exposed by your view-model isn't in a format that's ideal for displaying in the UI. Rendering date and numeric values are common scenarios:
 
 **date-and-number.js**
-```
+```javascript
 export class NetWorth {
     constructor() {
       this.update();
@@ -44,12 +45,13 @@ export class NetWorth {
 ```
 
 **date-and-number.html**
-```
+```html
  <template>
     ${currentDate} <br>
     ${netWorth}
   </template>
 ```
+
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/2.gif)
 
 Ideally, the date would be in a more readable format and the amount would be formatted as currency. One solution to this problem would be to compute the formatted values and expose them as properties of the view-model. This is certainly a valid approach; however, defining extra properties and methods in your models can get messy, especially when you need to keep the formatted values in sync when the original property value change. Fortunately, Aurelia has a feature that makes solving this problem quite easy.
@@ -76,7 +78,7 @@ If you've used value converters in other languages such as Xaml, you'll find Aur
 Before we get too far into the details, let's rework the previous example to use a couple of basic value converters. Aurelia and the popular [Moment](http://momentjs.com/) and [Numeral](http://numeraljs.com/) libraries will take care of the heavy lifting, we just need to wire things up...
 
 **currency-format.js**
-```
+```javascript
  import numeral from 'numeral';
   
   export class CurrencyFormatValueConverter {
@@ -87,7 +89,7 @@ Before we get too far into the details, let's rework the previous example to use
 ```
 
 **date-format.js**
-```
+```javascript
  import moment from 'moment';
   
   export class DateFormatValueConverter {
@@ -98,7 +100,7 @@ Before we get too far into the details, let's rework the previous example to use
 ```
 
 **simple-converter.js**
-```
+```javascript
   export class NetWorth {
     constructor() {
       this.update();
@@ -113,7 +115,7 @@ Before we get too far into the details, let's rework the previous example to use
 ```
 
 **simple-converter.html**
-```
+```html
   <template>
     <require from="./date-format"></require>
     <require from="./currency-format"></require>
@@ -122,7 +124,9 @@ Before we get too far into the details, let's rework the previous example to use
     ${netWorth | currencyFormat}
   </template>
 ```
+
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/3.gif)
+
 OK, the result looks much better, but how did this all work?
 
 Well, first we created a couple of value converters: `DateFormatValueConverter` and `CurrencyFormatValueConverter`. Each has a `toView` method that the Aurelia framework will apply to model values before displaying them in the view. Our converters use the MomentJS and NumeralJS libraries to format the data.
@@ -157,7 +161,7 @@ Finally, we applied the converter in the binding using the pipe `|` syntax:
 The converters in the previous example worked great, but what if we needed to display dates and numbers in multiple formats? It would be quite repetitive to define a converter for each format we needed to display. A better approach would be to modify the converters to accept a `format` parameter. Then we'd be able to specify the format in the binding and get maximum reuse out of our format converters.
 
 **number-format.js**
-```
+```javascript
   import numeral from 'numeral';
   
   export class NumberFormatValueConverter {
@@ -168,7 +172,7 @@ The converters in the previous example worked great, but what if we needed to di
 ```
 
 **date-format.js**
-```
+```javascript
   import moment from 'moment';
   
   export class DateFormatValueConverter {
@@ -179,7 +183,7 @@ The converters in the previous example worked great, but what if we needed to di
 ```
 
 **converter-parameters.js**
-```
+```javascript
   export class NetWorth {
     constructor() {
       this.update();
@@ -194,7 +198,7 @@ The converters in the previous example worked great, but what if we needed to di
 ```
 
 **converter-parameters.html**
-```
+```html
   <template>
     <require from="./date-format"></require>
     <require from="./number-format"></require>
@@ -222,7 +226,7 @@ With the `format` parameter added to the `toView` methods, we are able to specif
 Converter parameters needn't be literal values. You can bind parameter values to achieve dynamic results:
 
 **number-format.js**
-```
+```javascript
  import numeral from 'numeral';
   
   export class NumberFormatValueConverter {
@@ -233,7 +237,7 @@ Converter parameters needn't be literal values. You can bind parameter values to
 ```
 
 **binding-converter-parameters.js**
-```
+```javascript
 export class NetWorth {
     constructor() {
       this.update();
@@ -247,7 +251,7 @@ export class NetWorth {
 ```
 
 **binding-converter-parameters.html**
-```
+```html
   <template>
     <require from="./number-format"></require>
   
@@ -271,7 +275,7 @@ Value converters can accept multiple parameters and multiple converters can be c
 In the following example, we have a view-model exposing an array of Aurelia repos. The view uses a repeat binding to list the repos in a table. A `SortValueConverter` is used to sort the array based on two arguments: `propertyName` and `direction`. A second converter, `TakeValueConverter` accepting a `count` argument is applied to limit the number of repositories listed:
 
 **Multiple Parameters and Converters**
-```
+```html
   <template>
     <tr repeat.for="repo of repos | sort:column.value:direction.value | take:10">
       ...
@@ -282,7 +286,7 @@ In the following example, we have a view-model exposing an array of Aurelia repo
 Here's the full example:
 
 **sort.js**
-```
+```javascript
   export class SortValueConverter {
     toView(array, propertyName, direction) {
       let factor = direction === 'ascending' ? 1 : -1;
@@ -294,7 +298,7 @@ Here's the full example:
 ```
 
 **take.js**
-```
+```javascript
  export class TakeValueConverter {
     toView(array, count) {
       return array.slice(0, count);
@@ -303,9 +307,7 @@ Here's the full example:
 ```
 
 **multiple-parameters-and-converters.js**
-```
-   
-
+```javascript
   import {HttpClient} from 'aurelia-http-client';
   
   export class AureliaRepositories {
@@ -320,7 +322,7 @@ Here's the full example:
 ```
 
 **multiple-parameters-and-converters.html**
-```
+```html
 <template>
     <require from="./sort"></require>
     <require from="./take"></require>
@@ -364,7 +366,7 @@ Here's the full example:
 Aurelia supports object converter parameters. An alternate implementation of the `SortValueConverter` using a single `config` parameter would look like this:
 
 **sort.js**
-```
+```javascript
  export class SortValueConverter {
     toView(array, config) {
       let factor = (config.direction || 'ascending') === 'ascending' ? 1 : -1;
@@ -376,7 +378,7 @@ Aurelia supports object converter parameters. An alternate implementation of the
 ```
 
 **object-parameters.js**
-```
+```javascript
   import {HttpClient} from 'aurelia-http-client';
   
   export class AureliaRepositories {
@@ -391,7 +393,7 @@ Aurelia supports object converter parameters. An alternate implementation of the
 ```
 
 **object-parameters.html**
-```
+```html
   <template>
     <require from="./sort"></require>
   
@@ -418,7 +420,7 @@ So far we've been using converters with to-view bindings. The data flows in a si
 In the example below, we have a view-model that exposes colors in an object format, with properties for the red, green and blue components. In the view, we want to bind this color object to an HTML5 color input. The color input expects hex format text, so we'll use an `RgbToHexValueConverter` to facilitate the binding.
 
 **rgb-to-hex.js**
-```
+```javascript
   export class RgbToHexValueConverter {
     toView(rgb) {
       return "#" + (
@@ -439,14 +441,14 @@ In the example below, we have a view-model that exposes colors in an object form
 ```
 
 **bi-directional-value-converters.js**
-```
+```javascript
  export class Color {
     rgb = { r: 146, g: 39, b: 143 };
   }
 ```
 
 **object-parameters.html**
-```
+```html
   <template>
     <require from="./rgb-to-hex"></require>
   
@@ -455,6 +457,7 @@ In the example below, we have a view-model that exposes colors in an object form
     <br> r: ${rgb.r}, g:${rgb.g}, b:${rgb.b}
   </template>
 ```
+
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/8.gif)
 
 ## Globally Accessible Value Converters
@@ -471,7 +474,7 @@ In the example below, we have a view-model that exposes a list of flights with i
 </section>
 
 **How To Signal Bindings**
-```
+```javascript
   import {signalBindings} from 'aurelia-framework';
   
   signalBindings('locale-changed');
@@ -480,7 +483,7 @@ In the example below, we have a view-model that exposes a list of flights with i
 Following is the example code
 
 **flight-time-value-converter.js**
-```
+```javascript
   export class FlightTimeValueConverter {
     signals = ['locale-changed'];
   
@@ -491,7 +494,7 @@ Following is the example code
 ```
 
 **flight-dashboard.js**
-```
+```javascript
   export class FlightDashboard {
     constructor() {
       this.flights = [
@@ -504,7 +507,7 @@ Following is the example code
 ```
 
 **clock.html**
-```
+```html
   <template bindable='time'
     style='display: inline-block;
     width: 200px;
@@ -519,7 +522,7 @@ Following is the example code
 ```
 
 **flight-dashboard.html**
-```
+```html
 <template>
     <require from="./clock.html"></require>
   
