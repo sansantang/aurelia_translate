@@ -1,23 +1,25 @@
+原文：https://aurelia.io/docs/plugins/http-services
+
 通常JavaScript应用程序需要从各种web服务获取数据或与之通信。在本文中，我们将看看Aurelia为您提供的选项。
 
-* [Options](#options)
-* [aurelia\-fetch\-client](#aurelia-fetch-client)
-    * [Learn About The Fetch Spec](#learn-about-the-fetch-spec)
+* [1.Options 选项](#options-%E9%80%89%E9%A1%B9)
+* [2.aurelia\-fetch\-client](#aurelia-fetch-client)
+  * [Learn About The Fetch Spec](#learn-about-the-fetch-spec)
   * [Bring Your Own Polyfill 带上你自己的填充工具](#bring-your-own-polyfill-%E5%B8%A6%E4%B8%8A%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%A1%AB%E5%85%85%E5%B7%A5%E5%85%B7)
-    * [封装HttpClient使用](#%E5%B0%81%E8%A3%85httpclient%E4%BD%BF%E7%94%A8)
-  * [Basic Use](#basic-use)
-  * [Configuration](#configuration)
+   	* [封装HttpClient使用](#%E5%B0%81%E8%A3%85httpclient%E4%BD%BF%E7%94%A8)
+  * [Basic Use 基本使用](#basic-use-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
+  * [Configuration 配置](#configuration-%E9%85%8D%E7%BD%AE)
   * [Helpers](#helpers)
   * [警告说明](#%E8%AD%A6%E5%91%8A%E8%AF%B4%E6%98%8E)
   * [A Complete Example](#a-complete-example)
-  * [Limitations](#limitations)
-* [aurelia\-http\-client](#aurelia-http-client)
-  * [Basic Use](#basic-use-1)
+  * [Limitations 限制](#limitations-%E9%99%90%E5%88%B6)
+* [3.aurelia\-http\-client](#aurelia-http-client)
+  * [Basic Use 基本使用](#basic-use-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8-1)
     * [JSON By Default](#json-by-default)
-  * [Configuration](#configuration-1)
+  * [Configuration 配置](#configuration-%E9%85%8D%E7%BD%AE-1)
 
 
-## Options
+## Options 选项
 
 在构建前端应用程序时，常常需要利用HTTP服务来获取数据或持久化状态。有很多方法可以做到这一点。您可以使用实现对象关系映射的高级数据库、自以为是的restful客户机或简单的HTTP库。所有这些选项都是由全球web社区提供的，并且都可以在Aurelia应用程序中使用。
 
@@ -35,7 +37,7 @@
 如前所述，`aurelia-fetch-client`库旨在包含和公开新的[Fetch API](https://developer.mozilla.org/zh-cn/docs/Web/API/Fetch_API)，同时提供web应用程序中重要的特性:请求参数的默认配置、拦截器和集中的请求跟踪。主方法`HttpClient#fetch()`具有与`window.fetch()`相同的签名。不同之处在于，我们的HttpClient将应用缺省配置值，执行任何已注册的拦截器，并跟踪活动请求的数量。
 
 >#### Learn About The Fetch Spec
-> 如果您正在寻找有关Fetch API规范的一些信息，我们建议您从MDN文档开始。 您可能还会发现 [Jake Archibald](http://jakearchibald.com/2015/thats-so-fetch/) 很有用。
+> 如果您正在寻找有关Fetch API规范的一些信息，我们建议您从[MDN文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API)开始。 您可能还会发现 [Jake Archibald](http://jakearchibald.com/2015/thats-so-fetch/) 很有用。
 
 ### Bring Your Own Polyfill 带上你自己的填充工具
 
@@ -45,8 +47,8 @@
 
 **Initializing the Fetch Polyfill**
 
-``` TypeScript
- import 'whatwg-fetch';
+``` javascript
+  import 'whatwg-fetch';
   
   export function configure(aurelia) {
     aurelia.use
@@ -59,7 +61,7 @@
 >#### 封装HttpClient使用
 >一般来说，我们建议您不要在使用HttpClient时乱放应用程序代码。相反，我们建议您创建一个或多个服务类，将所有HTTP访问封装在友好的、特定于应用程序的API后面。如果您这样做，我们还建议您在这些服务模块中导入`fetch` polyfill，而不是在应用程序的主模块中导入。这有助于保持封装。
   
-### Basic Use
+### Basic Use 基本使用
 
 数据请求是通过调用`HttpClient`实例上的 `fetch`方法来完成的。默认情况下， `fetch`发出`GET`请求。所有获取的调用都返回一个承诺`Promise`，该承诺将解析为响应`Response`对象。使用此响应`Response`对象，您可以轻松地解析内容、读取标题和检查状态代码。有关更多信息，请参见Fetch API规范。
 
@@ -80,7 +82,7 @@
 ```
 
   
-### Configuration
+### Configuration 配置
 
 `HttpClient`实例可以配置多个选项，比如在请求或响应上运行默认头文件和拦截器。
 
@@ -212,7 +214,7 @@ Fetch API有两个陷阱，由[GitHub Fetch polyfill](https://github.com/github/
 
 
 
-### Limitations
+### Limitations 限制
 
 *   这个库不包含用于Fetch的polyfill。如果需要支持尚未实现Fetch的浏览器，则需要安装像 [GitHub](https://github.com/github/fetch) 这样的polyfill。
 *   这个库不处理Fetch API中的任何现有限制，包括:
@@ -229,7 +231,7 @@ Fetch API有两个陷阱，由[GitHub Fetch polyfill](https://github.com/github/
 
 除了 `aurelia-fetch-client`之外，Aurelia还包含一个基本的`HttpClient`，为浏览器的`XMLHttpRequest`对象提供一个舒适的接口。和 `aurelia-fetch-client`一样， `aurelia-fetch-client`也不包含在Aurelia的引导程序安装的模块中，因为它是完全可选的，而且许多应用程序可能会选择使用不同的策略来进行数据检索。因此，如果您想使用它，首先必须使用首选的包管理器安装它。
 
-### Basic Use
+### Basic Use 基本使用
 
 Once installed, you can use it like this:
 
@@ -291,7 +293,7 @@ The `HttpResponseMessage` has the following properties:
 >#### JSON By Default
 > 默认情况下，`HttpClient`假定您期望使用JSON responseType。
 
-### Configuration
+### Configuration 配置
 
 您可以使用`configure`访问一个连贯api来配置客户机发送的所有请求。您还可以使用`createRequest`自定义配置单个请求。下面是一个配置的例子
 
@@ -328,8 +330,6 @@ The `HttpResponseMessage` has the following properties:
     .withParams({ abc: '123' })
     .send();
 ```
-
-  
 
   The fluent API has the following chainable methods: `asDelete()`, `asGet()`, `asHead()`, `asOptions()`, `asPatch()`, `asPost()`, `asPut()`, `asJsonp()`, `withUrl()`, `withBaseUrl()`, `withContent()`, `withParams()`, `withResponseType()`, `withTimeout()`, `withHeader()`, `withCredentials()`, `withReviver()`, `withReplacer()`, `withProgressCallback()`, and `withCallbackParameterName()`.
   
@@ -368,6 +368,4 @@ The `HttpResponseMessage` has the following properties:
   
 ```
 
-  
-
-  与客户端一起使用的所有拦截器都形成一个链。拦截方法的返回值作为参数传递给下一个方法。拦截器是按照它们被添加的顺序调用的。有关拦截器的更多信息，请参阅`aurelia-fetch-client`拦截器文档。
+与客户端一起使用的所有拦截器都形成一个链。拦截方法的返回值作为参数传递给下一个方法。拦截器是按照它们被添加的顺序调用的。有关拦截器的更多信息，请参阅`aurelia-fetch-client`拦截器文档。

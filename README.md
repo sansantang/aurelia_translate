@@ -32,7 +32,7 @@
 - [√ Binding: Checkboxes](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Checkboxes.md)
 - [√ Binding: Radios](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Radios.md)
 - [√ Binding: Selects](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Selects.md)
-- [Binding: Delegate vs Trigger](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Delegate%20vs%20Trigger.md) 委托和触发器
+- [√ Binding: Delegate vs Trigger](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Delegate%20vs%20Trigger.md) 委托和触发器
 - [Binding: Computed Properties](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Computed%20Properties.md) 计算属性
 - [Binding: Value Converters](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Value%20Converters.md) 值转换器
 - [Binding: Binding Behaviors](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Binding%20Behaviors.md) 绑定行为
@@ -43,7 +43,7 @@
 
 了解Aurelia强大的模板引擎。
 
- - [Templating: Basics 基础](https://github.com/sansantang/aurelia_translate/blob/master/Templating/TemplatingBasics.md)
+ - [√ Templating: Basics 基础](https://github.com/sansantang/aurelia_translate/blob/master/Templating/TemplatingBasics.md)
  - Templating: HTML Behaviors Introduction HTML行为介绍
  - Templating: Custom Attributes 自定义属性
  - Templating: Custom Elements Basics 自定义元素基础
@@ -54,16 +54,16 @@
 
 了解如何设置和配置Aurelia的路由器。
 
-- [路由器配置](https://github.com/sansantang/aurelia_translate/blob/master/Route/%E8%B7%AF%E7%94%B1%E5%99%A8%E9%85%8D%E7%BD%AE.md)
-- [处理链接](https://github.com/sansantang/aurelia_translate/blob/master/Route/%E5%A4%84%E7%90%86%E9%93%BE%E6%8E%A5.md)
+- [√ 路由器配置](https://github.com/sansantang/aurelia_translate/blob/master/Route/%E8%B7%AF%E7%94%B1%E5%99%A8%E9%85%8D%E7%BD%AE.md)
+- [√ 处理链接](https://github.com/sansantang/aurelia_translate/blob/master/Route/%E5%A4%84%E7%90%86%E9%93%BE%E6%8E%A5.md)
 
 # 插件
 
 了解Aurelia官方支持的插件以及如何使用它们。
 
-- [HTTP Services](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/HTTPServices.md)
-- Managing App State 管理应用程序状态
-- Validation 验证
+- [√ HTTP Services](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/HTTPServices.md)
+- ? Managing App State 管理应用程序状态
+- ? Validation 验证
 - I18N 国际化与本地化
 - [Dialogs 对话框](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Dialogs.md)
 - Animation 动画制作
@@ -74,7 +74,7 @@
 
 了解如何将Aurelia与各种其他库和框架集成。
 
-- Integrating with Polymer 
+- ? Integrating with Polymer 
 
 # 测试
 测试学习关于测试Aurelia应用程序的所有知识，包括组件测试和e2e测试。

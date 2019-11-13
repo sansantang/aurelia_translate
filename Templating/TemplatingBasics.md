@@ -1,15 +1,17 @@
-* [介绍](#%E4%BB%8B%E7%BB%8D)
-* [一个简单的模板](#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%A8%A1%E6%9D%BF)
-* [Binding](#binding)
+原文：https://aurelia.io/docs/templating/basics
+
+* [1.介绍](#%E4%BB%8B%E7%BB%8D)
+* [2.一个简单的模板](#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%A8%A1%E6%9D%BF)
+* [3.Binding](#binding)
   * [Binding Focus 绑定焦点](#binding-focus-%E7%BB%91%E5%AE%9A%E7%84%A6%E7%82%B9)
   * [使用with绑定范围](#%E4%BD%BF%E7%94%A8with%E7%BB%91%E5%AE%9A%E8%8C%83%E5%9B%B4)
-* [Composition](#composition)
-* [The as\-element Attribute](#the-as-element-attribute)
-* [The View Resource Pipeline 查看资源管道](#the-view-resource-pipeline-%E6%9F%A5%E7%9C%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E9%81%93)
-* [View and Compilation Spies](#view-and-compilation-spies)
-* [Conditionals](#conditionals)
-  * [Caching the view instance when condition changes 在条件更改时缓存视图实例](#caching-the-view-instance-when-condition-changes-%E5%9C%A8%E6%9D%A1%E4%BB%B6%E6%9B%B4%E6%94%B9%E6%97%B6%E7%BC%93%E5%AD%98%E8%A7%86%E5%9B%BE%E5%AE%9E%E4BE%8B) 
-  * [Repeaters 中继器](#repeaters-%E4%B8%AD%E7%BB%A7%E5%99%A8)
+* [4.Composition 任意组合](#composition-%E4%BB%BB%E6%84%8F%E7%BB%84%E5%90%88)
+* [5.as\-element 属性](#as-element-%E5%B1%9E%E6%80%A7)
+* [6.The View Resource Pipeline 查看资源管道](#the-view-resource-pipeline-%E6%9F%A5%E7%9C%8B%E8%B5%84%E6%BA%90%E7%AE%A1%E9%81%93)
+* [7.View and Compilation Spies  调试资源管道新视图](#view-and-compilation-spies--%E8%B0%83%E8%AF%95%E8%B5%84%E6%BA%90%E7%AE%A1%E9%81%93%E6%96%B0%E8%A7%86%E5%9B%BE)
+* [8.Conditionals 条件语](#conditionals-%E6%9D%A1%E4%BB%B6%E8%AF%AD)
+  * [Caching the view instance when condition changes 在条件更改时缓存视图实例](#caching-the-view-instance-when-condition-changes-%E5%9C%A8%E6%9D%A1%E4%BB%B6%E6%9B%B4%E6%94%B9%E6%97%B6%E7%BC%93%E5%AD%98%E8%A7%86%E5%9B%BE%E5%AE%9E%E4%BE%8B) 
+* [9.Repeaters 重复器](#repeaters-%E9%87%8D%E5%A4%8D%E5%99%A8)
   * [Arrays](#arrays)
   * [Range](#range)
   * [Sets](#sets)
@@ -180,9 +182,10 @@ export class Greeter {
 ```
 使用`with`基本上是“我正在处理这个对象的属性”的缩写，它允许您在必要时重用代码。
   
-## Composition
+## Composition 任意组合
 
 In order to live by the DRY (Don't Repeat Yourself) Principle, we don't necessarily want to rely on tight coupling between our view and view-model pairs. Wouldn't it be great if there was a custom element that would arbitrarily combine an HTML template, a view-model, and maybe even some initialization data for us? As it turns out, we're in luck:
+
 为了遵循DRY(不要重复)原则，我们不必依赖view和view-model对之间的紧密耦合。如果有一个自定义元素可以任意组合HTML模板、视图模型，甚至为我们组合一些初始化数据，那不是很好吗?事实证明，我们很幸运:
   
 **compose-template.html**
@@ -195,7 +198,6 @@ In order to live by the DRY (Don't Repeat Yourself) Principle, we don't necessar
   </template>
   
 ```
-
   
 **hello.html**
 
@@ -217,7 +219,7 @@ In order to live by the DRY (Don't Repeat Yourself) Principle, we don't necessar
 
 注意，我们组合成的视图模型有一个`activate`方法。当我们使用`model.bind`时，将传递内容以`activate`。然后从传递的模型中提取所需的确切值并分配它。
 
-## The as-element Attribute
+## as-element 属性
 
 在某些情况下，特别是在使用Aurelia自定义元素创建表行时，可能需要将自定义元素伪装成标准HTML元素。例如，如果要用数据填充表行，可能需要将自定义元素显示为`<tr>`行或`<td>`单元格。这就是`as-element`属性派上用场的地方:
   
@@ -235,7 +237,7 @@ In order to live by the DRY (Don't Repeat Yourself) Principle, we don't necessar
 **hello-row.html**
 
 ``` HTML
-<template>
+  <template>
     <td>Hello</td>
     <td>World</td>
   </template>
@@ -259,9 +261,9 @@ View Resource Pipeline背后的基本思想是我们不仅限于HTML或JavaScrip
 这里，`<require>`标记使用的是CSS文件，而不是html或视图模型。视图资源管道是Aurelia的一部分，负责识别它是CSS，并适当地处理它。Aurelia最强大的特性之一是视图资源管道是完全可扩展的，允许您为任何类型的视图资源定义自己的处理程序.
   
 
-  ## View and Compilation Spies
+## View and Compilation Spies  调试资源管道新视图
 
-果已经安装了 `aurelia-testing`插件，就可以访问两个特殊的模板行为:
+如果已经安装了 `aurelia-testing`插件，就可以访问两个特殊的模板行为:
 **hello.html**
 
 ``` HTML
@@ -270,9 +272,9 @@ View Resource Pipeline背后的基本思想是我们不仅限于HTML或JavaScrip
   </template>
 ```
 
-  `view-spy`将视图对象的Aurelia副本放入控制台，而`compile-spy`发出编译器的TargetInstruction。这对于调试使用视图资源管道创建的任何新视图资源尤其有用。
+  `view-spy`将视图对象的Aurelia副本放入控制台，而`compile-spy`发出编译器的目标指令。这对于调试使用视图资源管道创建的任何新视图资源尤其有用。
 
-## Conditionals
+## Conditionals 条件语
 
 Aurelia有两个主要的条件显示工具:`if`和`show`。区别在于，`if`从DOM中完全删除元素，并切`show`换控制元素可见性的`aurelia-hide` CSS类。
 
@@ -324,7 +326,7 @@ Aurelia有两个主要的条件显示工具:`if`和`show`。区别在于，`if`�
 
 **bind-template.js**
 
-``` TypeScript
+``` javascript
   export class ConditionalOneTimeTemplate {
     greet = (Math.random() > 0.5);
   }
@@ -365,7 +367,7 @@ Aurelia有两个主要的条件显示工具:`if`和`show`。区别在于，`if`�
   </template>
 ```
 
-  ## Repeaters 中继器
+## Repeaters 重复器
 
 中继器可以用于任何元素，包括自定义元素和模板元素!下面是一些可以用中继器迭代的不同数据类型。
 
