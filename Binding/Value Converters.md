@@ -24,6 +24,7 @@ export class Person {
     <p>Name is ${name}</p>
   </template>
 ```
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/1.gif)
 
 Sometimes the raw data exposed by your view-model isn't in a format that's ideal for displaying in the UI. Rendering date and numeric values are common scenarios:
 
@@ -49,7 +50,7 @@ export class NetWorth {
     ${netWorth}
   </template>
 ```
-
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/2.gif)
 
 Ideally, the date would be in a more readable format and the amount would be formatted as currency. One solution to this problem would be to compute the formatted values and expose them as properties of the view-model. This is certainly a valid approach; however, defining extra properties and methods in your models can get messy, especially when you need to keep the formatted values in sync when the original property value change. Fortunately, Aurelia has a feature that makes solving this problem quite easy.
 
@@ -121,7 +122,7 @@ Before we get too far into the details, let's rework the previous example to use
     ${netWorth | currencyFormat}
   </template>
 ```
-
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/3.gif)
 OK, the result looks much better, but how did this all work?
 
 Well, first we created a couple of value converters: `DateFormatValueConverter` and `CurrencyFormatValueConverter`. Each has a `toView` method that the Aurelia framework will apply to model values before displaying them in the view. Our converters use the MomentJS and NumeralJS libraries to format the data.
@@ -206,6 +207,7 @@ The converters in the previous example worked great, but what if we needed to di
     ${netWorth | numberFormat:'0.00000)'}
   </template>
 ```
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/4.gif)
 
 With the `format` parameter added to the `toView` methods, we are able to specify the format in the binding using the `[expression] | [converterName]:[parameterExpression]` syntax:
 
@@ -259,6 +261,8 @@ export class NetWorth {
     ${netWorth | numberFormat:formatSelect.value}
   </template>
 ```
+
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/5.gif)
 
 ## Multiple Parameters / Composing Converters
 
@@ -353,6 +357,7 @@ Here's the full example:
     </table>
   </template>
 ```
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/6.gif)
 
 ## Object Parameters
 
@@ -401,6 +406,8 @@ Aurelia supports object converter parameters. An alternate implementation of the
   </template>
 ```
 
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/7.gif)
+
 There are a couple of advantages to this approach: you don't need to remember the order of the converter parameter arguments, and anyone reading the markup can easily tell what each converter parameter represents.
 
 
@@ -448,7 +455,7 @@ In the example below, we have a view-model that exposes colors in an object form
     <br> r: ${rgb.r}, g:${rgb.g}, b:${rgb.b}
   </template>
 ```
-
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/8.gif)
 
 ## Globally Accessible Value Converters
 
@@ -542,6 +549,6 @@ Following is the example code
   </template>
 ```
 
-
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/19.gif)
 
 
