@@ -2,6 +2,17 @@
 
 >对Aurelia绑定引擎的绑定行为功能的概述。绑定行为用于插入绑定实例的生命周期并更改其操作方式。
 
+* [1\.Introduction](#1introduction)
+* [2\.throttle 节流](#2throttle-%E8%8A%82%E6%B5%81)
+* [3\.debounce 去抖动](#3debounce-%E5%8E%BB%E6%8A%96%E5%8A%A8)
+* [4\.updateTrigger 更新触发器](#4updatetrigger-%E6%9B%B4%E6%96%B0%E8%A7%A6%E5%8F%91%E5%99%A8)
+* [5\.signal 信号](#5signal-%E4%BF%A1%E5%8F%B7)
+* [6\.oneTime 一次性](#6onetime-%E4%B8%80%E6%AC%A1%E6%80%A7)
+    * [Binding Mode Casing 绑定模式包装](#binding-mode-casing-%E7%BB%91%E5%AE%9A%E6%A8%A1%E5%BC%8F%E5%8C%85%E8%A3%85)
+* [7\.self 自绑定](#7self-%E8%87%AA%E7%BB%91%E5%AE%9A)
+* [8\.Custom binding behaviors 自定义绑定行为](#8custom-binding-behaviors-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%91%E5%AE%9A%E8%A1%8C%E4%B8%BA)
+
+
 ## 1.Introduction
 
 **绑定行为**是view资源的一个类别，就像**值转换器**、**自定义属性**和**自定义元素**一样。绑定行为最类似于值转换器[value converters](https://github.com/sansantang/aurelia_translate/blob/master/Binding/Value%20Converters.md) ，因为您可以在绑定表达式中声明性地使用它们来影响绑定。
