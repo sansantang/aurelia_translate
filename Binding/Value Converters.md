@@ -3,11 +3,11 @@
 Aurelia绑定引擎的值转换器功能概述。值转换器用于在数据绑定过程中向视图和从视图转换数据。
 
 
-## Introduction
-
+## 1.Introduction 简介
+ 
 在Aurelia中，用户界面元素由视图和视图-模型对组成。视图是用HTML编写的，并呈现到DOM中。视图模型是用JavaScript编写的，它为视图提供数据和行为。Aurelia强大的数据绑定将这两部分连接在一起，允许在视图中反映数据的更改，反之亦然。
 
-Here's a simple data-binding example using the **bind** (`.bind="expression"`) and **interpolation** (`${expression}`) techniques:
+下面是一个使用**bind** (`.bind="expression"`) 和**interpolation** (`${expression}`) 技术的简单数据绑定示例：
 
 **simple-binding.js**
 ```javascript
@@ -27,7 +27,8 @@ export class Person {
 
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/1.gif)
 
-Sometimes the raw data exposed by your view-model isn't in a format that's ideal for displaying in the UI. Rendering date and numeric values are common scenarios:
+
+有时view-model 公开的原始数据的格式并不适合在UI中显示。呈现日期和数值是常见的场景：
 
 **date-and-number.js**
 ```javascript
@@ -54,28 +55,45 @@ export class NetWorth {
 
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/2.gif)
 
-Ideally, the date would be in a more readable format and the amount would be formatted as currency. One solution to this problem would be to compute the formatted values and expose them as properties of the view-model. This is certainly a valid approach; however, defining extra properties and methods in your models can get messy, especially when you need to keep the formatted values in sync when the original property value change. Fortunately, Aurelia has a feature that makes solving this problem quite easy.
+
+理想情况下，日期应该是一种更易读的格式，金额应该被格式化为货币。这个问题的一个解决方案是计算格式化的值并将它们作为 view-model 的属性公开。这当然是一个有效的方法；然而，在您的模型中定义额外的属性和方法可能会变得混乱，特别是当您需要在原始属性值更改时保持格式化值的同步时。幸运的是，Aurelia 有一个特性可以很容易地解决这个问题。
 
 
-## Value Converters
+## 2.Value Converters 值转换器
 
 > A value converter is a class whose responsibility is to convert view-model values into values that are appropriate to display in the view _and vice versa_.
+> 
+> 值转换器是一个类，其职责是将view-model 值转换为适合在视图中显示的值，反之亦然。
 
-Most commonly you'll be creating value converters that translate model data to a format suitable for the view; however, there are situations where you'll need to convert data from the view to a format expected by the view-model, typically when using two-way binding with input elements.
+最常见的情况是，您将创建将模型数据转换为适合视图的格式的值转换器；然而，在某些情况下，您需要将数据从视图转换为视图模型期望的格式，特别是在使用与输入元素的双向绑定时。
 
-If you've used value converters in other languages such as Xaml, you'll find Aurelia value converters are quite similar, although with a few notable improvements:
+如果您在其他语言 (如 Xaml) 中使用过值转换器，您会发现Aurelia值转换器非常类似，尽管有一些显著的改进：
 
 1.  The Aurelia ValueConverter interface uses `toView` and `fromView` methods, which make it quite clear which direction the data is flowing. This is in contrast to Xaml's `IValueConverter`, which uses `Convert` and `ConvertBack`.
+
+	Aurelia ValueConverter 接口使用 `toView` 和 `fromView` 方法，这使得数据流向非常清晰。这与 Xaml 的`IValueConverter`不同，后者使用`Convert`和`ConvertBack`。
+
 2.  In Aurelia, converter parameters can be data-bound. This is something that was missing in Xaml and enables more advanced binding scenarios.
+
+	在Aurelia中，转换器参数可以是数据绑定的。这是 Xaml 中所缺少的，并支持更高级的绑定场景。
+	
 3.  Aurelia value converter methods can accept multiple parameters.
+
+	Aurelia 值转换方法可以接受多个参数。
+	
 4.  Multiple value converters can be composed using pipes (`|`).
+
+	可以使用管道 (`|`) 组合多个值转换器。
+	
 5.  Aurelia value converter can have a class field named `signals`, which accepts an array of string that will be used to manually trigger updating the view. This is to handle the situations where the value converter relies on variables that are defined outside of Aurelia application, such as language, locale etc.
 
+	Aurelia 值转换器可以有一个名为 `signals` 的类字段，它接受一个字符串数组，该数组将用于手动触发更新 view 。这是为了处理的情况下，值转换器依赖的变量定义以外的Aurelia应用程序，如语言，地区等。
 
 
-## Simple Converters
 
-Before we get too far into the details, let's rework the previous example to use a couple of basic value converters. Aurelia and the popular [Moment](http://momentjs.com/) and [Numeral](http://numeraljs.com/) libraries will take care of the heavy lifting, we just need to wire things up...
+## 3.Simple Converters 简单的转换器
+
+在深入讨论细节之前，让我们重新处理前面的示例，使用几个基本的值转换器。Aurelia 和流行的 [Moment](http://momentjs.com/) 和 [Numeral](http://numeraljs.com/) 库会处理繁重的工作，我们只需要把东西连接起来……
 
 **currency-format.js**
 ```javascript
@@ -127,11 +145,11 @@ Before we get too far into the details, let's rework the previous example to use
 
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/3.gif)
 
-OK, the result looks much better, but how did this all work?
+好的，结果看起来好多了，但是这些是怎么工作的呢？
 
-Well, first we created a couple of value converters: `DateFormatValueConverter` and `CurrencyFormatValueConverter`. Each has a `toView` method that the Aurelia framework will apply to model values before displaying them in the view. Our converters use the MomentJS and NumeralJS libraries to format the data.
+首先，我们创建了两个值转换器: `DateFormatValueConverter` and `CurrencyFormatValueConverter`.。每个视图都有一个`toView`方法，Aurelia 框架将在 view 中显示模型值之前将其应用于模型值。我们的转换器使用 **MomentJS** 和 **NumeralJS** 库来格式化数据。
 
-Next, we updated the view to `require` the converters so they can be used in the view. When requiring a resource such as a value converter, you supply the path to the resource in the require element's `from` attribute.
+接下来，我们更新了视图，`require` 使用转换器，以便在视图中使用它们。当需要诸如值转换器之类的资源时，您可以在 require 元素的 `from`  属性中提供到资源的路径。
 
 **Requiring Resources**
 ```
@@ -139,12 +157,14 @@ Next, we updated the view to `require` the converters so they can be used in the
   <require from="./currency-format"></require>
 ```
 
-When Aurelia processes the resource, it examines the class's metadata to determine the resource type (custom element, custom attribute, value converter, etc). Metadata isn't required, and in fact our value converters didn't expose any. Instead, we relied on one of Aurelia's simple conventions: export names ending with _ValueConverter_ are assumed to be value converters. **The convention registers the converter using the export name, camel-cased, with the _ValueConverter_ portion stripped from the end.**
+当Aurelia处理资源时，它检查类的元数据以确定资源类型(自定义元素、自定义属性、值转换器等)。元数据不是必需的，而且实际上我们的值转换器没有公开任何元数据。相反，我们依赖于Aurelia的一个简单约定: 以 _ValueConverter_  结尾的导出名称被假定为值转换器。**约定使用 export name 注册转换器，使用大小写混合的形式，从末尾去掉 _ValueConverter_ 部分。**
 
 *   `DateFormatValueConverter` registers as `dateFormat`
 *   `CurrencyFormatValueConverter` registers as `currencyFormat`
 
 Finally, we applied the converter in the binding using the pipe `|` syntax:
+
+最后，我们使用管道 `|` 语法在绑定中应用了转换器：
 
 **Converter Syntax**
 ```
@@ -152,13 +172,13 @@ Finally, we applied the converter in the binding using the pipe `|` syntax:
   ${netWorth | currencyFormat}
 ```
 
-#### Conventional Names
+#### Conventional Names 惯用名称
 
->The name that a resource is referenced by in a view derives from its export name. For Value Converters and Binding Behaviors, the export name is converted to camel case (think of it as a variable name). For Custom Elements and Custom Attributes the export name is lower-cased and hyphenated (to comply with HTML element and attribute specifications).
+>在 view 中引用资源的名称派生自其导出名称。对于值转换器和绑定行为，导出名称被转换为驼峰大小写(将其视为变量名)。对于自定义元素和自定义属性，导出名称使用小写和连字符(以符合HTML元素和属性规范)。
 
-## Converter Parameters
+## 4.Converter Parameters 转换器参数
 
-The converters in the previous example worked great, but what if we needed to display dates and numbers in multiple formats? It would be quite repetitive to define a converter for each format we needed to display. A better approach would be to modify the converters to accept a `format` parameter. Then we'd be able to specify the format in the binding and get maximum reuse out of our format converters.
+前一个示例中的转换器工作得很好，但是如果我们需要以多种格式显示日期和数字该怎么办呢？为我们需要显示的每种格式定义一个转换器是相当重复的。更好的方法是修改转换器以接受`format` 参数。然后我们就可以在绑定中指定格式，并最大限度地重用格式转换器。
 
 **number-format.js**
 ```javascript
@@ -213,7 +233,7 @@ The converters in the previous example worked great, but what if we needed to di
 ```
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/4.gif)
 
-With the `format` parameter added to the `toView` methods, we are able to specify the format in the binding using the `[expression] | [converterName]:[parameterExpression]` syntax:
+通过将 `format` 参数添加到 `toView` 方法中，我们可以使用 `[expression] | [converterName]:[parameterExpression]` 语法在绑定中指定格式：
 
 **Converter Parameter Syntax**
 ```
@@ -221,9 +241,9 @@ With the `format` parameter added to the `toView` methods, we are able to specif
   ${netWorth | numberFormat:'$0.0a'} <br>
 ```
 
-## Binding Converter Parameters
+## 5.Binding Converter Parameters 绑定转换器参数
 
-Converter parameters needn't be literal values. You can bind parameter values to achieve dynamic results:
+转换器参数不必是文字值。您可以绑定参数值来实现动态结果：
 
 **number-format.js**
 ```javascript
@@ -268,11 +288,11 @@ export class NetWorth {
 
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/5.gif)
 
-## Multiple Parameters / Composing Converters
+## 6.Multiple Parameters / Composing Converters 多个参数/转换器组成
 
-Value converters can accept multiple parameters and multiple converters can be composed in the same binding expression, providing a lot of flexibility and opportunity for reuse.
+值转换器可以接受多个参数，并且可以在同一个绑定表达式中组合多个转换器，这为重用提供了很大的灵活性和机会。
 
-In the following example, we have a view-model exposing an array of Aurelia repos. The view uses a repeat binding to list the repos in a table. A `SortValueConverter` is used to sort the array based on two arguments: `propertyName` and `direction`. A second converter, `TakeValueConverter` accepting a `count` argument is applied to limit the number of repositories listed:
+在下面的例子中，我们有一个视图模型，它暴露了一个Aurelia repos数组。视图使用 repeat 绑定在表中列出repos。`SortValueConverter`用于根据两个参数对数组进行排序:`propertyName` and `direction`。第二个转换器`TakeValueConverter`接受 `count` 参数，用于限制列出的存储库的数量：
 
 **Multiple Parameters and Converters**
 ```html
@@ -361,9 +381,9 @@ Here's the full example:
 ```
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/6.gif)
 
-## Object Parameters
+## 7.Object Parameters 对象参数
 
-Aurelia supports object converter parameters. An alternate implementation of the `SortValueConverter` using a single `config` parameter would look like this:
+Aurelia 支持对象转换器参数。使用单个`config`参数实现 `SortValueConverter` 的另一种实现如下所示：
 
 **sort.js**
 ```javascript
@@ -410,14 +430,17 @@ Aurelia supports object converter parameters. An alternate implementation of the
 
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/7.gif)
 
-There are a couple of advantages to this approach: you don't need to remember the order of the converter parameter arguments, and anyone reading the markup can easily tell what each converter parameter represents.
+这种方法有两个优点：您不需要记住转换器参数参数的顺序，任何阅读标记的人都可以很容易地知道每个转换器参数代表什么。
 
-
-## Bi-directional Value Converters
+## 8.Bi-directional Value Converters 双向值转换器
 
 So far we've been using converters with to-view bindings. The data flows in a single direction, from the model to the view. When using a converter in an input element's `value` binding, we need a way to convert the user's data entry to the format expected by the view-model. This is where the value converter's `fromView` method comes into play, taking the element's value and converting it to the format expected by the view-model.
 
+到目前为止，我们一直在使用带有to-view绑定的转换器。数据以单一方向流动，从模型到视图。在输入元素的`value` 绑定中使用转换器时，我们需要一种方法将用户的数据条目转换为视图模型所期望的格式。这就是值转换器的`fromView`方法发挥作用的地方，它获取元素的值并将其转换为视图模型所期望的格式。
+
 In the example below, we have a view-model that exposes colors in an object format, with properties for the red, green and blue components. In the view, we want to bind this color object to an HTML5 color input. The color input expects hex format text, so we'll use an `RgbToHexValueConverter` to facilitate the binding.
+
+在下面的示例中，我们有一个以对象格式公开颜色的视图模型，其中包含红色、绿色和蓝色组件的属性。在视图中，我们希望将这个color对象绑定到一个HTML5 color输入。颜色输入需要十六进制格式的文本，因此我们将使用`RgbToHexValueConverter`来方便绑定。
 
 **rgb-to-hex.js**
 ```javascript
@@ -460,18 +483,23 @@ In the example below, we have a view-model that exposes colors in an object form
 
 ![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Value%20Converters/8.gif)
 
-## Globally Accessible Value Converters
+## 9.Globally Accessible Value Converters 全局可访问的值转换器
 
 In all of our examples, we've been using the `require` element to import converters we need into our view. There's an easier way. If you have some commonly used value converters that you'd like to make globally available, use Aurelia's `globalResources` function to register them. This will eliminate the need for `require` elements at the top of every view.
 
+在所有的示例中，我们都使用了 `require`元素来将需要的转换器导入视图。有一个更简单的方法。如果您有一些常用的值转换器，希望使其在全球可用，使用Aurelia的`globalResources`功能来注册它们。这将消除每个视图顶部对 `require`元素的需求。
 
-## Signalable Value Converters
+## 10.Signalable Value Converters 信号值转换器
 
 In some scenarios, a global parameter that is unobservable by Aurelia is used inside a value converter, such as timezone, or a new USB was connected to the device etc. In some other scenarios, we need to update all bindings that use a certain value converter at once, for example: language translation value converters when application language has changed. Aurelia value converters have an API to trigger the bindings, with value converters that have signals property declared on it, to update.
 
+在某些情况下，一个全局参数是不可观察的 Aurelia 是使用在一个值转换器，如时区，或一个新的USB连接到设备等。在其他一些场景中，我们需要一次性更新使用某个值转换器的所有绑定，
+
+例如：应用程序语言更改时的语言转换值转换器。Aurelia值转换器有一个API来触发绑定，值转换器上声明了signals属性来更新绑定。
+
 In the example below, we have a view-model that exposes a list of flights with information of each flight. In the view, we want to bind display each of those flights, as a `clock`, with correct date format based on global variable name `currentLocale`. We can trigger all of the flight display to change based on `signals` of the value converter. We do this via export `signalBindings` of the framework.
 
-</section>
+在下面的示例中，我们有一个视图模型，它公开一个包含每个航班信息的航班列表。在视图中，我们希望将这些航班以时钟 `clock`的形式显示，并根据全局变量名`currentLocale`使用正确的日期格式。我们可以根据数值转换器的信号触发所有的飞行显示改变。我们通过导出框架的信号绑定（`signalBindings`） 来实现这一点。
 
 **How To Signal Bindings**
 ```javascript
