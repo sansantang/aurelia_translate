@@ -5,7 +5,7 @@ Aurelia绑定引擎的值转换器功能概述。值转换器用于在数据绑�
 
 ## Introduction
 
-In Aurelia, user interface elements are composed of view and view-model pairs. The view is written with HTML and is rendered into the DOM. The view-model is written with JavaScript and provides data and behavior to the view. Aurelia's powerful data-binding links the two pieces together, allowing changes in your data to be reflected in the view and vice versa.
+在Aurelia中，用户界面元素由视图和视图-模型对组成。视图是用HTML编写的，并呈现到DOM中。视图模型是用JavaScript编写的，它为视图提供数据和行为。Aurelia强大的数据绑定将这两部分连接在一起，允许在视图中反映数据的更改，反之亦然。
 
 Here's a simple data-binding example using the **bind** (`.bind="expression"`) and **interpolation** (`${expression}`) techniques:
 
