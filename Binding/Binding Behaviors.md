@@ -40,6 +40,8 @@ Aurelia附带了一些开箱即用的行为来支持常见场景。第一种是�
 ```
 <div mousemove.delegate="mouseMove($event) & throttle"></div>
 ```
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Binding%20Behaviors/1.gif)
+
 ## 3.debounce 去抖动
 
 debounce（去抖动） 绑定行为是另一种速率限制绑定行为。Debounce防止绑定更新，直到指定的时间间隔已经过去而没有任何变化。
@@ -62,6 +64,9 @@ debounce（去抖动） 绑定行为是另一种速率限制绑定行为。Debou
 ```
 <div mousemove.delegate="mouseMove($event) & debounce:500"></div>
 ```
+
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Binding%20Behaviors/2.gif)
+
 ## 4.updateTrigger 更新触发器
 
 
@@ -79,6 +84,7 @@ debounce（去抖动） 绑定行为是另一种速率限制绑定行为。Debou
 ```
 <input value.bind="firstName & updateTrigger:'blur':'paste'>
 ```
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Binding%20Behaviors/3.gif)
 
 ## 5.signal 信号
 
@@ -114,6 +120,9 @@ posted ${postDateTime | timeAgo & signal:'my-signal'}
     }
   }
 ```
+
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Binding%20Behaviors/4.gif)
+
 
 ## 6.oneTime 一次性
 
@@ -241,4 +250,5 @@ posted ${postDateTime | timeAgo & signal:'my-signal'}
     <input value.bind="foo & intercept:myFunc">
   </template>
 ```
+![](https://github.com/sansantang/aurelia_translate/blob/master/Binding/IMG/Binding%20Behaviors/5.gif)
 
