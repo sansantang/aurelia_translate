@@ -26,7 +26,7 @@ The main reason for using RxJS though is that observables are delivered over tim
 
 Broken down to the concepts of Aurelia, as depicted in the following chart, this means that a ViewModel subscribes to the single store and sets up a state subscription. The view directly binds to properties of the state. Actions can be dispatched and trigger the next state emit. Now the initial subscription receives the next state and changes the bound variable, Aurelia automatically figures out what changed and triggers a re-render. The next dispatch will then trigger the next cycle and so on. This way the system behaves in a cyclic, reactive way and sees state changes as requests for a re-rendering.
 
-![Chart workflow](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/images/chart_store_workflow.png)
+![Chart workflow](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/IMG/chart_store_workflow.png)
 
 
 A fundamental benefit of that approach is that you as a developer do not need to think of signaling individual components about changes, but rather they will all listen and react to changes by themselves if the respective part of the state gets modified. Think of it as an event dispatch, where multiple recipients can listen for and perform changes but with the benefit of a formalized global state. As such, all you need to focus on is the state and the rest will be handled automatically.
