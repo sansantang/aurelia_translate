@@ -1,12 +1,17 @@
 原文：https://aurelia.io/docs/binding/observable-properties
 
-## 1.Observable Properties
+* [1\.Observable Properties 监控属性](#1observable-properties-%E7%9B%91%E6%8E%A7%E5%B1%9E%E6%80%A7)
+* [2\.Observing Collections 监控集合](#2observing-collections-%E7%9B%91%E6%8E%A7%E9%9B%86%E5%90%88)
 
-Have you ever needed to perform an action when a property is changed? If you have, that's a great use of property observation.
 
-To observe a property, you need to decorate it with the `@observable` decorator and define a method as the change handler. This method can receive 2 parameters: the new value and the old value. You can put any business logic inside this method.
+## 1.Observable Properties 监控属性
 
-By convention, the change handler is a method whose name is composed of the _property_name_ and the literal value 'Changed'. For example, if you decorate the property `color` with `@observable`, you have to define a method named `colorChanged()` to be the change handler. Here's an example of that:
+您是否曾经需要在属性更改时执行某个操作?如果你有，这是可观察属性的一个很好的应用。
+
+要观察一个属性，您需要用`@observable`装饰器装饰它，并定义一个方法作为变更处理程序。该方法可以接收两个参数:新值和旧值。您可以将任何业务逻辑放入此方法中。
+
+
+按照惯例，更改处理程序是一个方法，其名称由属性名和文字值“Changed”组成。例如，如果您使用`@observable`修饰属性`color`，您必须定义一个名为 `colorChanged()`的方法作为更改处理程序。这里有一个例子：
 
 **Observable Properties**
 
@@ -22,10 +27,11 @@ By convention, the change handler is a method whose name is composed of the _pro
   }
 ```
 
->You do not have to check if `newValue` and `oldValue` are different. The change handler will not be called if you assign a value that the property already has.
+
+>您不必检查`newValue` 和 `oldValue`是否不同。如果您指定了属性已经具有的值，则不会调用更改处理程序。
 
 
-If you do not want to use the convention, you can define the callback name for the change handler by setting the `changeHandler` property of the `@observable` decorator:
+如果您不想使用约定，您可以通过设置`@observable`装饰器的`changeHandler`属性来定义变更处理程序的回调名称
 
 **Observable Properties**
 
@@ -42,7 +48,7 @@ If you do not want to use the convention, you can define the callback name for t
   }
 ```
 
-  If you prefer, can also put the `@observable` on classes:
+如果你喜欢，也可以把`@observable`放在类上：
 
 **Observable Properties**
 
@@ -65,11 +71,12 @@ If you do not want to use the convention, you can define the callback name for t
   }
 ```
 
->The `@observable` _only_ tracks changes to the value of a property, _not_ changes _in_ the value itself. This means that if the property is an array, the change handler will not fire when adding, removing or editing items.
+>`@observable`*只*跟踪属性值的变化，而不跟踪值本身的变化。这意味着如果属性是一个数组，那么在添加、删除或编辑项时，change处理程序将不会触发。
 
-  ## 2.Observing Collections
+  ## 2.Observing Collections 监控集合
 
-Use the Collection Observer to observe changes to a collection. Collection types that can be observed are [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) , [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) , and [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) . Create a subscription by providing the collection to observe and a callback function
+
+使用集合观察器来观察对集合的更改。可以观察到的集合类型有[Array](https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/Array) , [Map](https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/Map) , 和 [Set](https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/Set) 。通过提供要观察的集合和回调函数来创建订阅。
 
   **Configuring a Collection Observer**
   
@@ -93,7 +100,8 @@ Use the Collection Observer to observe changes to a collection. Collection types
   }
 ```
 
-The callback will receive an array of splices which provides information about the change that was detcted. The properties of the splice may vary depending on the type of collection being observed. Here you can see example callback functions used to observe each of the different collection types.
+example callback functions used to observe each of the different collection types.
+回调将接收一个拼接数组，该数组提供有关已`detcted`已删除更改的信息。根据观察到的集合类型，拼接的属性可能会有所不同。在这里您可以看到用于观察每个不同集合类型的回调函数示例。
 
   **Array Splice**
 
@@ -157,7 +165,7 @@ collectionChanged(splices) {
 }
 ```
 
->警告：If you were to overwrite the value of the collection after the subscription has been created, changes wil no longer be detected. For example, running `this.myCollection = []` after `this.bindingEngine.collectionObserver(this.myCollection)` will fail to observe changes to `myCollection`.
+>警告：如果在创建订阅之后要覆盖集合的值，将不再检测到更改。例如，运行这个。在`this.bindingEngine.collectionObserver(this.myCollection)`之后，`this.myCollection = []`将无法观察到`myCollection`的更改。
   
   
   
