@@ -256,10 +256,9 @@ The settings available for the dialog are set on the dialog controller on a per-
 
 *   `viewModel` can be url, class reference or instance.
 
-    *   url - path relative to the application root.
+    1   url - path relative to the application root.
 
   **System**
-
 ``` File
   +-- app.js
   +-- forms
@@ -270,17 +269,18 @@ The settings available for the dialog are set on the dialog controller on a per-
       +-- prompt.html
 ```
 
-	If you want to open a `prompt` from `consent-form` the path will be `prompts/prompt`.
+If you want to open a `prompt` from `consent-form` the path will be `prompts/prompt`.
 
 	 >警告：_Webpack_ users should _always_ mark dynamically loaded dependencies with `PLATFORM.moduleName`. For more details do check the `aurelia-webpack-plugin` [wiki](https://github.com/aurelia/webpack-plugin/wiki) .
 
-	*   object - it will be used as the view model. In this case `view` must also be specified.
 
-	*   class - the view model _class_ or _constructor function_.
+   2. object - it will be used as the view model. In this case `view` must also be specified.
 
-*   `view` can be url or view strategy to override the default view location convention.
+   3. class - the view model _class_ or _constructor function_.
 
-*   `model` the data to be passed to the `canActivate` and `activate` methods of the view model if implemented.
+`view` can be url or view strategy to override the default view location convention.
+
+`model` the data to be passed to the `canActivate` and `activate` methods of the view model if implemented.
 
 *   `host` allows providing the element which will parent the dialog - if not provided the body will be used.
 
