@@ -1,71 +1,163 @@
-原文：https://aurelia.io/docs/binding/class-and-style
+原文：https://aurelia.io/docs/binding/observable-properties
 
-* [Class](#class)
-* [Style](#style)
+## 1.Observable Properties
 
+Have you ever needed to perform an action when a property is changed? If you have, that's a great use of property observation.
 
-## Class
+To observe a property, you need to decorate it with the `@observable` decorator and define a method as the change handler. This method can receive 2 parameters: the new value and the old value. You can put any business logic inside this method.
 
-可以使用字符串插值或`.bind`/`.to-view`绑定元素的`class`属性。
+By convention, the change handler is a method whose name is composed of the _property_name_ and the literal value 'Changed'. For example, if you decorate the property `color` with `@observable`, you have to define a method named `colorChanged()` to be the change handler. Here's an example of that:
 
-**Class Binding**
-```
-  <template>
-    <div class="foo ${isActive ? 'active' : ''} bar"></div>
-    <div class.bind="isActive ? 'active' : ''"></div>
-    <div class.one-time="isActive ? 'active' : ''"></div>
-  </template>
-```
-<section>
+**Observable Properties**
 
-为了确保与其他JavaScript库的最大互操作性，绑定系统将只添加或删除绑定表达式中指定的类。这确保了由其他代码添加的类(如通过`classList.add(...)`)被保留。这种“默认安全”行为的代价很小，但在基准测试或其他性能关键的情况下(比如带有大量元素的repeat)，这种行为是显而易见的。通过使用`class-name.bind="...."` 或`class-name.one-time="..."`直接绑定到元素的[className](https://developer.mozilla.org/en-US/docs/Web/API/Element/className)属性，您可以选择退出默认行为。这将稍微快一些，但是会增加很多绑定。
-
-</section>
-
-<section>
-
-## Style
-
-可以将css字符串或对象绑定到元素的`style`属性。在视图中执行字符串插值时使用 `css`自定义属性，以确保应用程序与Internet Explorer和Edge兼容。如果 `css`中你不使用插值 - 它不会得到处理，所以如果你只是使用 inline 样式-使用适当的 HTMLElement 样式属性。
-
-**Style Binding Data**
-```javascript
-  export class StyleData {
-    constructor() {
-      this.styleString = 'color: red; background-color: blue';
+``` javascript
+ import { observable } from 'aurelia-framework';
   
-      this.styleObject = {
-        color: 'red',
-        'background-color': 'blue'
-      };
+  export class Car {
+    @observable color = 'blue';
+  
+    colorChanged(newValue, oldValue) {
+      // this will fire whenever the 'color' property changes
     }
   }
 ```
-**Style Binding View**
-```html
-  <template>
-    <div style.bind="styleString"></div>
-    <div style.bind="styleObject"></div>
-  </template>
+
+>You do not have to check if `newValue` and `oldValue` are different. The change handler will not be called if you assign a value that the property already has.
+
+
+If you do not want to use the convention, you can define the callback name for the change handler by setting the `changeHandler` property of the `@observable` decorator:
+
+**Observable Properties**
+
+```javascript
+ import { observable } from 'aurelia-framework';
+  
+  export class Car {
+    @observable({ changeHandler: 'myChangeHandler' })
+    color = 'blue';
+  
+    myChangeHandler(newValue, oldValue) {
+      // this will fire whenever the 'color' property changes
+    }
+  }
 ```
 
-**Illegal Style Interpolation 非法语体插值**
-```html
-  <template>
-    <div style="width: ${width}px; height: ${height}px;"></div>
-  </template>
+  If you prefer, can also put the `@observable` on classes:
+
+**Observable Properties**
+
+```javascript
+  import { observable } from 'aurelia-framework';
+  
+  @observable('color')
+  @observable({ name: 'speed', changeHandler: 'speedChangeHandler' })
+  export class Car {
+    color = 'blue';
+    speed = 300;
+  
+    colorChanged(newValue, oldValue) {
+      // this will fire whenever the 'color' property changes
+    }
+  
+    speedChangeHandler(newValue, oldValue) {
+      // this will fire whenever the 'speed' property changes
+    }
+  }
 ```
 
-**Legal Style Interpolation 合法语体插值**
-```html
-  <template>
-    <div css="width: ${width}px; height: ${height}px;"></div>
-  </template>  
+>The `@observable` _only_ tracks changes to the value of a property, _not_ changes _in_ the value itself. This means that if the property is an array, the change handler will not fire when adding, removing or editing items.
+
+  ## 2.Observing Collections
+
+Use the Collection Observer to observe changes to a collection. Collection types that can be observed are [Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) , [Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) , and [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) . Create a subscription by providing the collection to observe and a callback function
+
+  **Configuring a Collection Observer**
+  
+
+``` javascript?linenums
+  import {BindingEngine} from 'aurelia-framework';
+  
+  @inject(BindingEngine)
+  export class App {
+  
+    myCollection = ["foo"];
+  
+    constructor(bindingEngine) {
+      let subscription = bindingEngine.collectionObserver(this.myCollection)
+        .subscribe(this.collectionChanged.bind(this));
+    }
+  
+    collectionChanged(splices) {
+        // This will fire any time the collection is modified. 
+    }
+  }
 ```
-**Won't Work Without Interpolation 没有插值就无法工作**
-```html
-  <template>
-    <div css="width: 100px; height: 100px;"></div>
-  </template>
+
+The callback will receive an array of splices which provides information about the change that was detcted. The properties of the splice may vary depending on the type of collection being observed. Here you can see example callback functions used to observe each of the different collection types.
+
+  **Array Splice**
+
+``` javascript
+ collectionChanged(splices) {
+    for (var i = 0; i < splices.length; i++) {
+      var splice = splices[i];
+  
+      var valuesAdded = this.myCollection.slice(splice.index, splice.index + splice.addedCount);
+      if (valuesAdded.length > 0) {
+        console.log(`The following values were inserted at ${splice.index}: ${JSON.stringify(valuesAdded)}`);
+      }
+  
+      if (splice.removed.length > 0) {
+        console.log(`The following values were removed from ${splice.index}: ${JSON.stringify(splice.removed)}`);
+      }
+    }
+  }
 ```
-</section>
+**Map Splice**
+  
+
+``` javascript
+collectionChanged(splices) {
+    for (var i = 0; i < splices.length; i++) {
+      var splice = splices[i];
+  
+      if(splice.type == "add"){
+        var valuesAdded = this.myCollection.get(splice.key);
+        console.log(`'${valuesAdded}' was added to position ${splice.key}`);
+      }
+      
+      if(splice.type == "update"){
+        var newValue = splice.object.get(splice.key);
+        console.log(`Position ${splice.key} changed from '${splice.oldValue}' to '${newValue}'`);
+      }
+  
+      if(splice.type == "delete"){
+        console.log(`'${splice.oldValue}' was deleted from position ${splice.key}`);
+      }
+    
+    }
+  }
+```
+**Set Splice**
+  
+
+``` javascript
+ collectionChanged(splices) {
+    for (var i = 0; i < splices.length; i++) {
+      var splice = splices[i];
+  
+      if(splice.type == "add"){
+        console.log(`'${splice.value}' was added to the set`);
+      }
+  
+      if(splice.type == "delete"){
+        console.log(`'${splice.value}' was removed from the set`);
+      }
+    }
+}
+```
+
+>警告：If you were to overwrite the value of the collection after the subscription has been created, changes wil no longer be detected. For example, running `this.myCollection = []` after `this.bindingEngine.collectionObserver(this.myCollection)` will fail to observe changes to `myCollection`.
+  
+  
+  

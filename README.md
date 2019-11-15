@@ -63,13 +63,13 @@
 了解Aurelia官方支持的插件以及如何使用它们。
 
 - [√ HTTP Services](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/HTTPServices.md)
-- ? Managing App State 管理应用程序状态
-- ? Validation 验证
+- [? Managing App State](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Managing%20App%20State.md) 管理应用程序状态
+- [? Validation](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Validation.md) 验证
 - I18N 国际化与本地化
 - [Dialogs 对话框](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Dialogs.md)
 - Animation 动画制作
 - Virtualization 虚拟技术
-- Write New Plugin
+- [? Write New Plugin](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Write%20New%20Plugin.md)
 
 # 集成
 
