@@ -2,11 +2,11 @@
 
 >The basics of the dialog plugin for Aurelia.
 
-## Introduction
+## 1.Introduction
 
 This article covers the dialog plugin for Aurelia. This plugin is created for showing dialogs (sometimes referred to as modals) in your application. The plugin supports the use of dynamic content for all aspects and is easily configurable / overridable.
 
-## Installing The Plugin
+## 2.Installing The Plugin
 
 ``` dockerfile
   npm install aurelia-dialog
@@ -27,7 +27,7 @@ or
   typings install github:aurelia/dialog
 ```
 
-## Configuring The Plugin
+## 3.Configuring The Plugin
 
 1.  Make sure you use [manual bootstrapping](http://aurelia.io/docs/fundamentals/app-configuration-and-startup#manual-bootstrapping) . In order to do so open your `index.html` and locate the element with the attribute aurelia-app. Change it to look like this:
 
@@ -60,7 +60,7 @@ import {PLATFORM} from 'aurelia-pal';
  >警告2：
  >`PLATFORM.moduleName` should _not_ be omitted if you are using _Webpack_.
 
-## Using The Plugin
+## 4.Using The Plugin
 
 There are a few ways you can take advantage of the Aurelia dialog.
 
@@ -160,7 +160,7 @@ and the corresponding view -
   </template>
 ```
 
-  ## Default Resources(custom elements/attributes)
+  ## 5.Default Resources(custom elements/attributes)
 
 The available resources are: `<ux-dialog>`, `<ux-dialog-header>`, `<ux-dialog-body>`, `<ux-dialog-footer>` and `attach-focus`. They are registered by default. If you are not using them provide a configuration callback so they do not get registered by default:
 
@@ -223,7 +223,7 @@ You can also bind the value of the attach-focus attribute if you want to alter w
 
  >提示： Logic is executed during `attach` - hence the attribute name. Any changes to the value after this point will not be reflected, for such scenarios use the `focus` custom attribute.
 
- ## Settings
+ ## 6.Settings
 
 ### Global Settings
 
@@ -256,10 +256,10 @@ The settings available for the dialog are set on the dialog controller on a per-
 
 *   `viewModel` can be url, class reference or instance.
 
-    1   url - path relative to the application root.
+    1. url - path relative to the application root.
 
   **System**
-``` File
+``` dsconfig?linenums
   +-- app.js
   +-- forms
       +-- consent-form.js
@@ -318,7 +318,7 @@ If you want to open a `prompt` from `consent-form` the path will be `prompts/pro
   }
 ```
 
-## Accessing The DialogController API
+## 7.Accessing The DialogController API
 
 It is possible to resolve and close (using cancel/ok/error methods) dialog in the same context where you open it.
   
@@ -355,7 +355,7 @@ It is possible to resolve and close (using cancel/ok/error methods) dialog in th
   }
 ```
 
-## Styling The Dialog
+## 8.Styling The Dialog
 
 ### Overriding The Defaults
 
@@ -404,7 +404,7 @@ ux-dialog-overlay.active {
   }
 ```
 
-  ## Lifecycle Hooks
+  ## 9.Lifecycle Hooks
 
 In adition to the lifecycle hooks defined by `aurelia-templating`, the `aurelia-dialog` defines additional ones. All dialog specific hooks can return a `Promise`, that resolves to the appropriate value for the hook, and will be awaited.
 
