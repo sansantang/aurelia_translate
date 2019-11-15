@@ -45,11 +45,11 @@
 了解Aurelia强大的模板引擎。
 
  - [√ Templating: Basics 基础](https://github.com/sansantang/aurelia_translate/blob/master/Templating/TemplatingBasics.md)
- - Templating: HTML Behaviors Introduction HTML行为介绍
- - Templating: Custom Attributes 自定义属性
- - Templating: Custom Elements Basics 自定义元素基础
--  Templating: Content Projection 内容映射
--  Templating: Dynamic UI Composition 动态用户界面合成
+ - [Templating: HTML Behaviors Introduction](https://github.com/sansantang/aurelia_translate/blob/master/Templating/Templating%20HTML%20Behaviors%20Introduction.md) HTML行为介绍
+ - [Templating: Custom Attributes](https://github.com/sansantang/aurelia_translate/blob/master/Templating/Templating%20Custom%20Attributes.md) 自定义属性
+ - [Templating: Custom Elements Basics](https://github.com/sansantang/aurelia_translate/blob/master/Templating/Templating%20Custom%20Elements%20Basics.md) 自定义元素基础
+-  [Templating: Content Projection](https://github.com/sansantang/aurelia_translate/blob/master/Templating/Templating%20Content%20Projection.md) 内容映射
+-  [Templating: Dynamic UI Composition](https://github.com/sansantang/aurelia_translate/blob/master/Templating/Templating%20Dynamic%20UI%20Composition.md) 动态用户界面合成
 
 # Routing 路由
 
