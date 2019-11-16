@@ -2,11 +2,36 @@
 
 >The basics of the dialog plugin for Aurelia.
 
-## 1.Introduction
+* [1\.Introduction \- 简介](#1introduction---%E7%AE%80%E4%BB%8B)
+* [2\.Installing The Plugin \- 安装插件](#2installing-the-plugin---%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)
+* [3\.Configuring The Plugin \- 配置插件](#3configuring-the-plugin---%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6)
+* [4\.Using The Plugin \- 使用插件](#4using-the-plugin---%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6)
+* [5\.Default Resources(custom elements/attributes) \- 默认资源（自定义元素/属性）](#5default-resourcescustom-elementsattributes---%E9%BB%98%E8%AE%A4%E8%B5%84%E6%BA%90%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%83%E7%B4%A0%E5%B1%9E%E6%80%A7)
+  * [attach\-focus Custom Attribute \- attach\-focus 自定义特性](#attach-focus-custom-attribute---attach-focus-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%89%B9%E6%80%A7)
+* [6\.Settings \- 设定](#6settings---%E8%AE%BE%E5%AE%9A)
+  * [Global Settings \- 全局设定](#global-settings---%E5%85%A8%E5%B1%80%E8%AE%BE%E5%AE%9A)
+  * [Dialog Settings \- 对话框设定](#dialog-settings---%E5%AF%B9%E8%AF%9D%E6%A1%86%E8%AE%BE%E5%AE%9A)
+* [7\.Accessing The DialogController API \- DialogController API访问](#7accessing-the-dialogcontroller-api---dialogcontroller-api%E8%AE%BF%E9%97%AE)
+* [8\.Styling The Dialog \- 样式对话框](#8styling-the-dialog---%E6%A0%B7%E5%BC%8F%E5%AF%B9%E8%AF%9D%E6%A1%86)
+  * [Overriding The Defaults \- 重写默认值](#overriding-the-defaults---%E9%87%8D%E5%86%99%E9%BB%98%E8%AE%A4%E5%80%BC)
+  * [Overlay With 50% Opacity \- 具有50％不透明度的覆盖](#overlay-with-50-opacity---%E5%85%B7%E6%9C%8950%E4%B8%8D%E9%80%8F%E6%98%8E%E5%BA%A6%E7%9A%84%E8%A6%86%E7%9B%96)
+* [9\.Lifecycle Hooks 生命周期钩子](#9lifecycle-hooks-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90)
+  * [\.canActivate()](#canactivate)
+  * [\.activate()](#activate)
+  * [\.canDeactivate(result: DialogCloseResult)](#candeactivateresult-dialogcloseresult)
+  * [\.deactivate(result: DialogCloseResult | DialogCloseError)](#deactivateresult-dialogcloseresult--dialogcloseerror)
+  * [Order of Invocation \- 调用的顺序](#order-of-invocation---%E8%B0%83%E7%94%A8%E7%9A%84%E9%A1%BA%E5%BA%8F)
 
-This article covers the dialog plugin for Aurelia. This plugin is created for showing dialogs (sometimes referred to as modals) in your application. The plugin supports the use of dynamic content for all aspects and is easily configurable / overridable.
 
-## 2.Installing The Plugin
+## 1.Introduction - 简介
+
+本文介绍了Aurelia的对话框插件。
+
+创建此插件是为了在您的应用程序中显示对话框（有时称为模式）。
+
+该插件支持在所有方面使用动态内容，并且可以轻松配置/覆盖。
+
+## 2.Installing The Plugin - 安装插件
 
 ``` dockerfile
   npm install aurelia-dialog
@@ -21,15 +46,16 @@ or
   jspm install aurelia-dialog
 ```
 
->提醒：If you use TypeScript and install only the jspm package, you can install the plugin's typings with the following command:
+>提醒：如果您使用TypeScript并只安装jspm包，您可以使用以下命令安装插件的类型：
 
 ``` nginx
   typings install github:aurelia/dialog
 ```
 
-## 3.Configuring The Plugin
+## 3.Configuring The Plugin - 配置插件
 
-1.  Make sure you use [manual bootstrapping](http://aurelia.io/docs/fundamentals/app-configuration-and-startup#manual-bootstrapping) . In order to do so open your `index.html` and locate the element with the attribute aurelia-app. Change it to look like this:
+
+1.  确保使用手动引导[manual bootstrapping](http://aurelia.io/docs/fundamentals/app-configuration-and-startup#manual-bootstrapping) 。为此，请打开`index.html`并找到具有aurelia-app属性的元素。将其更改为如下所示：
 
 **index.html**
 
@@ -37,7 +63,7 @@ or
 <body aurelia-app="main">...</body>
 ```
 
-2.  Create (if you haven't already) a file `main.js` in your `src` folder with following content:
+2.  在`src`文件夹中创建（如果尚未创建）`main.js`文件，其内容如下：
 
 **main.js**
 
@@ -55,16 +81,16 @@ import {PLATFORM} from 'aurelia-pal';
 ```
 
 >警告1：
->When the `<body>` is marked with the `aurelia-app` attribute any dialog open prior to the app being attached to the DOM(before `Aurelia.prototype.setRoot` completes), will be _removed_ from the DOM. Opening a dialog in the `canActivate` or `activate` hooks is _OK_ in any scenario _if_ you _await_ it to close _before continuing_. If you just want to open a dialog, without awaiting it to close, do it the `attached` hook instead.
+>当`<body>` 标记有 `aurelia-app`属性时，在将应用附加到DOM之前打开的任何对话框（在`Aurelia.prototype.setRoot`完成之前）都将从DOM中删除。在任何情况下，如果您在继续之前先关闭对话框，则可以在 `canActivate` 或 `activate`钩子中打开对话框。如果您只想打开一个对话框而不等待它关闭，请改为执行`attached`的钩子。在任何情况下，如果您在继续之前先关闭对话框，则可以在canActivate或activate挂钩中打开对话框。
 
  >警告2：
- >`PLATFORM.moduleName` should _not_ be omitted if you are using _Webpack_.
+ >如果您使用的是*Webpack*，则不应忽略`PLATFORM.moduleName`。
 
-## 4.Using The Plugin
+## 4.Using The Plugin - 使用插件
 
-There are a few ways you can take advantage of the Aurelia dialog.
+您可以通过几种方式利用Aurelia对话框。
 
-1.  You can use the dialog service to open a prompt -
+1.  您可以使用对话框服务打开提示 -
 
 **welcome.js**
 
@@ -90,11 +116,12 @@ There are a few ways you can take advantage of the Aurelia dialog.
   }
 ```
 
-This will open a prompt and return a promise that `resolve`s when closed. If the user clicks out, clicks cancel, or clicks the 'x' in the top right it will still `resolve` the promise but will have a property on the response `wasCancelled` to allow the developer to handle cancelled dialogs.
 
-There is also an `output` property that gets returned with the outcome of the user action if one was taken.
+这将打开一个提示，并返回一个在关闭时会解决的承诺。如果用户单击退出，单击取消或单击右上角的“x”，它仍将解决`resolve`诺言，但响应 `wasCancelled`上将具有属性，以允许开发人员处理的对话框。
 
-2.  You can create your own view / view-model and use the dialog service to call it from your app's view-model -
+还有一个`output`属性，如果采取了用户操作，它将返回用户操作的结果。
+
+2.  您可以创建自己的 view / view-model，并使用对话框服务从应用程序的 view-model 中调用它 -
 
   
 **welcome.js**
@@ -122,8 +149,10 @@ There is also an `output` property that gets returned with the outcome of the us
     }
   }
 ```
-This will open a dialog and control it the same way as the prompt. The important thing to keep in mind is you need to follow the same method of utilizing a `DialogController` in your `EditPerson` view-model as well as accepting the model in your activate method -
-  
+
+这将打开一个对话框，并以与提示相同的方式对其进行控制。要记住的重要一点是，您需要遵循与在`EditPerson`视图模型中利用`DialogController` 以及在 activate 方法中接受模型相同的方法 -
+
+
   **edit-person.js**
 
 ``` javascript
@@ -140,7 +169,8 @@ import {DialogController} from 'aurelia-dialog';
     }
   }
 ```
-and the corresponding view -
+
+对应的视图 - 
   
 **edit-person.html**
 
@@ -160,9 +190,11 @@ and the corresponding view -
   </template>
 ```
 
-  ## 5.Default Resources(custom elements/attributes)
+  ## 5.Default Resources(custom elements/attributes) - 默认资源（自定义元素/属性）
 
-The available resources are: `<ux-dialog>`, `<ux-dialog-header>`, `<ux-dialog-body>`, `<ux-dialog-footer>` and `attach-focus`. They are registered by default. If you are not using them provide a configuration callback so they do not get registered by default:
+
+
+可用的资源有:`<ux-dialog>`, `<ux-dialog-header>`, `<ux-dialog-body>`, `<ux-dialog-footer>` 和 `attach-focus`。它们是默认注册的。如果您不使用它们，则提供一个配置回调，这样它们就不会被默认注册：
 
   **main.js**
 
@@ -178,7 +210,7 @@ The available resources are: `<ux-dialog>`, `<ux-dialog-header>`, `<ux-dialog-bo
     // ...
   }
 ```
-Or if you want to use just some of them:
+或者你只想用其中的一部分：
 
   **main.js**
 
@@ -196,9 +228,9 @@ import {PLATFORM} from 'aurelia-pal';
   }
 ```
 
-### `attach-focus` Custom Attribute
+### `attach-focus` Custom Attribute - `attach-focus` 自定义特性
 
-The library exposes an `attach-focus` custom attribute that allows focusing in on an element in the modal when it is loaded. You can use this to focus a button, input, etc... Example usage:
+该库公开一个`attach-focus`自定义属性，该属性允许在加载模态时集中于模式中的元素。你可以用它来聚焦按钮，输入，等等…示例使用：
 
   **edit-person.html**
 
@@ -212,7 +244,8 @@ The library exposes an `attach-focus` custom attribute that allows focusing in o
     </ux-dialog>
   </template>
 ```
-You can also bind the value of the attach-focus attribute if you want to alter which element will be focused based on a view model property.
+
+如果您希望根据视图模型属性更改将焦点放在哪个元素上，还可以绑定`attach-focus`属性的值。
 
 **edit-person.html**
 
@@ -221,13 +254,13 @@ You can also bind the value of the attach-focus attribute if you want to alter w
   <input attach-focus.bind="!isNewPerson" value.bind="person.firstName">
 ```
 
- >提示： Logic is executed during `attach` - hence the attribute name. Any changes to the value after this point will not be reflected, for such scenarios use the `focus` custom attribute.
+ >提示：逻辑是在附加期间执行的——因此属性名是附加期间执行的。在此之后对值的任何更改都不会反映出来，因为这样的场景使用了 `focus`定制属性。
 
- ## 6.Settings
+ ## 6.Settings - 设定
 
-### Global Settings
+### Global Settings - 全局设定
 
-You can specify global settings as well for all dialogs to use when installing the plugin via the configure method. If providing a custom configuration, you _must_ call the `useDefaults()` method to apply the base configuration. 
+您还可以通过`configure`方法为安装插件时使用的所有对话框指定全局设置。如果提供自定义配置，则必须调用`useDefaults()`方法来应用基本配置。
 
   **main.js**
 
@@ -250,13 +283,13 @@ You can specify global settings as well for all dialogs to use when installing t
   }
 ```
 
-### Dialog Settings
+### Dialog Settings - 对话框设定
 
-The settings available for the dialog are set on the dialog controller on a per-dialog basis.
+对话框可用的设置是在每个对话框的基础上在对话框控制器上设置的。
 
-*   `viewModel` can be url, class reference or instance.
+*   `viewModel` 可以是url，类引用或实例。
 
-    1. url - path relative to the application root.
+    1. url - 相对于应用程序根目录的路径。
 
   **System**
 ``` dsconfig?linenums
@@ -269,38 +302,40 @@ The settings available for the dialog are set on the dialog controller on a per-
       +-- prompt.html
 ```
 
-If you want to open a `prompt` from `consent-form` the path will be `prompts/prompt`.
+如果要从`consent-form`打开`prompt`，则路径为`prompts/prompt`。
 
-	 >警告：_Webpack_ users should _always_ mark dynamically loaded dependencies with `PLATFORM.moduleName`. For more details do check the `aurelia-webpack-plugin` [wiki](https://github.com/aurelia/webpack-plugin/wiki) .
+	 >警告：
+	 >_Webpack_ 用户应该始终使用`PLATFORM.moduleName`标记动态加载的依赖项。要了解更多细节，请查看`aurelia-webpack-plugin` [wiki](https://github.com/aurelia/webpack-plugin/wiki) 。
 
 
-   2. object - it will be used as the view model. In this case `view` must also be specified.
+   2. object - 它将被用作视图模型。在这种情况下，还必须指定视图 `view` 。
 
-   3. class - the view model _class_ or _constructor function_.
+   3. class - 视图模型类或构造函数。
 
-`view` can be url or view strategy to override the default view location convention.
+*   `view` 可以是url或视图策略来覆盖默认的视图位置约定。
 
-`model` the data to be passed to the `canActivate` and `activate` methods of the view model if implemented.
+*   `model` 如果实现，要传递给视图模型的 `canActivate` 和 `activate`方法的数据。
 
-*   `host` allows providing the element which will parent the dialog - if not provided the body will be used.
+*   `host` 允许提供作为对话框父级的元素-如果未提供，将使用正文。
 
-*   `childContainer` allows specifying the DI Container instance to be used for the dialog. If not provided a new child container will be created from the root one.
+*   `childContainer` 允许为对话框指定DI容器实例。如果没有提供，将从根容器创建新的子容器。
 
-*   `lock` makes the dialog modal, and removes the close button from the top-right hand corner. (defaults to true)
+*   `lock` 使对话框成为模态，并从右上角移除关闭按钮。(默认值为true)
 
-*   `keyboard` allows configuring keyboard keys that close the dialog. To disable set to `false`. To cancel close a dialog when the _ESC_ key is pressed set to `true`, `'Escape'` or and array containing `'Escape'` - `['Escape']`. To close with confirmation when the _ENTER_ key is pressed set to `'Enter'` or an array containing `'Enter'` - `['Enter']`. To combine the _ESC_ and _ENTER_ keys set to `['Enter', 'Escape']` - the order is irrelevant. (takes precedence over `lock`)
+*   `keyboard` 允许配置键盘键关闭对话框。禁用设置为`false`。要取消关闭对话框时，ESC键被按下设置为 `true`，`'Escape'`或数组包含`'Escape'` - `['Escape']`。当按下回车键设置为`'Enter'`或包含`'Enter'` - `['Enter']`的数组时，以确认结束。结合ESC和输入键设置为`['Enter', 'Escape']` -顺序是不相关的。(优先于锁`lock`)
 
-*   `overlayDismiss` if set to `true` cancel closes the dialog when clicked outside of it. (takes precedence over `lock`)
+*   `overlayDismiss` 如果设置为`true`则在对话框外部单击时，关闭对话框。(优先于锁`lock`)
 
-*   `centerHorizontalOnly` means that the dialog will be centered horizontally, and the vertical alignment is left up to you. (defaults to false)
+*   `centerHorizontalOnly` 意味着对话框将水平居中，垂直对齐由您决定。(默认值为false)
 
-*   `position` a callback that is called right before showing the modal with the signature: `(modalContainer: Element, modalOverlay: Element) => void`. This allows you to setup special classes, play with the position, etc... If specified, `centerHorizontalOnly` is ignored. (optional)
+*   `position` 在显示带有签名的模态之前立即调用的回调：`(modalContainer: Element, modalOverlay: Element) => void`。这使您可以设置特殊的类，使用位置进行播放，等等。如果指定，则会忽略`centerHorizontalOnly` 。
+（可选的）
 
-*   `ignoreTransitions` is a Boolean you must set to `true` if you disable css animation of your dialog. (optional, default to false)
+*   `ignoreTransitions` 是一个布尔值，如果禁用对话框的CSS动画，则必须将其设置为`true`。（可选，默认为 false）
 
-*   `rejectOnCancel` is a Boolean you must set to `true` if you want to handle cancellations as rejection. The reason will be a `DialogCancelError` - the property `wasCancelled` will be set to `true` and if cancellation data was provided it will be set to the `output` property.
+*   `rejectOnCancel` 是一个布尔值，如果要将取消作为拒绝处理，则必须将其设置为 `true`。原因将是`DialogCancelError`——属性`wasCancelled`将设置为`true`，如果提供了取消数据，则将其设置为`output`属性。
 
->警告：Plugin authors are advised to be explicit with settings that change behavior (`rejectOnCancel`).
+>警告：建议插件作者明确改变行为的设置(`rejectOnCancel`)。
 
 **prompt.js**
 
@@ -318,9 +353,9 @@ If you want to open a `prompt` from `consent-form` the path will be `prompts/pro
   }
 ```
 
-## 7.Accessing The DialogController API
+## 7.Accessing The DialogController API - DialogController API访问
 
-It is possible to resolve and close (using cancel/ok/error methods) dialog in the same context where you open it.
+在打开对话框的同一上下文中可以解决和关闭（使用cancel / ok / error方法）对话框。
   
 **welcome.js**
  
@@ -355,11 +390,11 @@ It is possible to resolve and close (using cancel/ok/error methods) dialog in th
   }
 ```
 
-## 8.Styling The Dialog
+## 8.Styling The Dialog - 样式对话框
 
-### Overriding The Defaults
+### Overriding The Defaults - 重写默认值
 
-The CSS classes for the dialog are hard-coded in `dialog-configuration.ts`. When you configure the dialog plugin via `config.useDefaults()` the following code code is executed.
+对话框的CSS类被硬编码在`dialog-configuration.ts`中。通过`config.useDefaults()`配置对话框插件时，将执行以下代码。
   
 
 ``` javascript
@@ -370,8 +405,7 @@ public useDefaults(): this {
   }
 ```
 
-If you want to override the default styles, configure the plugin instead by calling `useCSS('')` in `main.ts`.
-  
+如果你想覆盖默认的样式，可以通过调用`main.ts`中的`useCSS('')`来配置插件。
 
   **main.js**
 
@@ -391,11 +425,11 @@ If you want to override the default styles, configure the plugin instead by call
   }
 ```
 
-Copying the CSS from `dialog-configuration.ts` to your application's CSS file is a good starting point.
+将CSS从`dialog-configuration.ts`复制到应用程序的CSS文件是一个很好的起点。
 
-### Overlay With 50% Opacity
+### Overlay With 50% Opacity - 具有50％不透明度的覆盖
 
-Bootstrap adds 50% opacity and a background color of black to the modal. To achieve this in dialog you can simply add the following CSS.
+Bootstrap增加了50%的不透明度和一个黑色的背景颜色的模式。要在对话框中实现这一点，您可以简单地添加以下CSS。
 
 ``` css
 ux-dialog-overlay.active {
@@ -404,33 +438,35 @@ ux-dialog-overlay.active {
   }
 ```
 
-  ## 9.Lifecycle Hooks
+  ## 9.Lifecycle Hooks 生命周期钩子
 
-In adition to the lifecycle hooks defined by `aurelia-templating`, the `aurelia-dialog` defines additional ones. All dialog specific hooks can return a `Promise`, that resolves to the appropriate value for the hook, and will be awaited.
+除了 `aurelia-templating`定义的生命周期钩子之外， `aurelia-dialog`还定义了其他钩子。所有对话框特定的钩子都可以返回一个`Promise`，该承诺将解析为钩子的适当值，并将被等待。
 
 ### `.canActivate()`
 
-With this hook you can cancel the opening of a dialog. It is invoked with one parameter - the value of the `model` setting passed to `.open()`. To cancel the opening of the dialog return `false` - `null` and `undefined` will be coerced to `true`.
+
+使用此钩子可以取消对话框的打开。它由一个参数调用——传递给`.open()`的 `model`设置的值。取消对话框的打开，返回`false` - `null` 和 `undefined`将被强制为`true`。
 
 ### `.activate()`
 
-This hook can be used to do any necessary init work. The hook is invoked with one parameter - the value of the `model` setting passed to `.open()`.
+
+这个钩子可以用来做任何必要的初始化工作。通过一个参数 — 传递给的`model`设置的值`.open()` 来调用钩子。
 
 ### `.canDeactivate(result: DialogCloseResult)`
 
-With this hook you can cancel the closing of a dialog. To do so return `false` - `null` and `undefined` will be coerced to `true`. The passed in result parameter has a property `wasCancelled`, indicating if the dialog was closed or cancelled, and an `output` property with the dialog result which can be manipulated before dialog deactivation.
+使用此钩子可以取消对话框的关闭。这样做将返回`false` - `null` 和 `undefined`将被强制为`true`。传递的结果参数有一个属性`wasCancelled`，表示对话框是否关闭或取消，以及一个输出`output` 属性，其中包含对话框结果，可以在对话框停用之前进行操作。
 
->警告：When `DialogController.prototype.error()` is called this hook will be skipped.
+>警告：调用`DialogController.prototype.error()`时，将跳过这个钩子。
 
 ### `.deactivate(result: DialogCloseResult | DialogCloseError)`
 
-This hook can be used to do any clean up work. The hook is invoked with one result parameter that has a property `wasCancelled`, indicating if the dialog was closed or cancelled, and an `output` property with the dialog result.
+这个挂钩可以用来做任何清理工作。钩子是通过一个结果参数调用的，该结果参数具有一个属性`wasCancelled`，它指示对话框是关闭还是取消，以及一个输出`output`属性和对话框结果。
 
-### Order of Invocation
+### Order of Invocation - 调用的顺序
 
-Each dialog instance goes through the full lifecycle once.
+每个对话框实例经历一次完整的生命周期。
 
-1.  constructor call
+1.  constructor call 构造函数调用
 2.  `.canActivate()` - `aurelia-dialog` _specific_
 3.  `.activate()` - `aurelia-dialog` _specific_
 4.  `.created()` - as defined by `aurelia-templating`

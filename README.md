@@ -66,7 +66,7 @@
 - [? Managing App State](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Managing%20App%20State.md) 管理应用程序状态
 - [? Validation](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Validation.md) 验证
 - I18N 国际化与本地化
-- [Dialogs 对话框](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Dialogs.md)
+- [√ Dialogs 对话框](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Dialogs.md)
 - Animation 动画制作
 - Virtualization 虚拟技术
 - [? Write New Plugin](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Write%20New%20Plugin.md)
@@ -75,7 +75,7 @@
 
 了解如何将Aurelia与各种其他库和框架集成。
 
-- [? Integrating with Polymer](https://github.com/sansantang/aurelia_translate/blob/master/Integration/Integrating%20with%20Polymer.md) 
+- [√ Integrating with Polymer](https://github.com/sansantang/aurelia_translate/blob/master/Integration/Integrating%20with%20Polymer.md) Polymer来集成
 
 # 测试
 测试学习关于测试Aurelia应用程序的所有知识，包括组件测试和e2e测试。
@@ -86,7 +86,7 @@
 # 服务器端渲染
 了解使用Aurelia的服务器端呈现以及如何配置您的项目。
 
-- [Server Side Rendering](https://github.com/sansantang/aurelia_translate/blob/master/Server%20Side%20Rendering/Server%20Side%20Rendering.md)
+- [√ Server Side Rendering](https://github.com/sansantang/aurelia_translate/blob/master/Server%20Side%20Rendering/Server%20Side%20Rendering.md)
 
 # CLI
 解如何使用Aurelia CLI提供的所有您喜欢的工具来创建，构建，捆绑和测试您的应用程序。

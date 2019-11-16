@@ -1,10 +1,18 @@
 原文：https://aurelia.io/docs/integration/polymer
 
->Polymer is a library for creating reusable web components declaratively with extra features like data binding and property observation. In many ways, it is similar to Aurelia's component support. However, Polymer also includes an extensive catalog of custom elements for everything from material design to credit card forms to embedding Google services like Google Maps and YouTube. With a bit of work, these components can be incorporated into Aurelia applications as well.
+>Polymer是一个库，用于声明性地创建可重复使用的Web组件，并具有诸如数据绑定和属性观察之类的额外功能。在许多方面，它类似于Aurelia的组件支持。但是，Polymer还提供了广泛的自定义元素目录，涵盖从材料设计到信用卡表单再到嵌入Google服务（例如Google Maps和YouTube）的所有内容。
+
+* [1\.Setup](#1setup)
+* [2\.Importing Elements 导入的元素](#2importing-elements-%E5%AF%BC%E5%85%A5%E7%9A%84%E5%85%83%E7%B4%A0)
+* [3\.Data Binding](#3data-binding)
+* [4\.Forms and Two\-Way Binding 表单和双向绑定](#4forms-and-two-way-binding-%E8%A1%A8%E5%8D%95%E5%92%8C%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A)
+* [5\.How the Plugin Works](#5how-the-plugin-works)
+
 
 ## 1.Setup
 
-The first step is obtaining Polymer, which is generally done with the [Bower](http://bower.io/) package manager. The following `bower.json` will install Polymer's base and material design elements.
+
+第一步是获取Polymer，通常使用[Bower](http://bower.io/) 软件包管理器完成。以下`bower.json`将安装Polymer的基础和材料设计元素。
 
 **Bower Config**
 
@@ -22,7 +30,7 @@ The first step is obtaining Polymer, which is generally done with the [Bower](ht
 ```
 
   
-Make sure Bower is installed and then use Bower to install the packages for each of the Polymer elements.
+确保已安装Bower，然后使用Bower为每个Polymer元素安装软件包。
 
 **Bower Package Installation**
 
@@ -31,8 +39,8 @@ Make sure Bower is installed and then use Bower to install the packages for each
   $ bower install
 ```
 
-  
-Aurelia must also be configured to use the HTML Imports template loader and the `aurelia-polymer` plugin, both of which can be installed with JSPM.
+ 
+Aurelia还必须配置为使用HTML导入模板加载器（`aurelia-html-import-template-loader`）和`aurelia-polymer`插件，两者都可以与JSPM一起安装。
   
   
   **Plugin Installation**
@@ -42,8 +50,8 @@ Aurelia must also be configured to use the HTML Imports template loader and the 
   $ jspm install aurelia-polymer@^1.0.0-beta
 ```
 
-  
-In `index.html`, Polymer and the webcomponents.js polyfills need to be loaded before Aurelia is, so that the `aurelia-polymer` plugin can hook into Polymer's element registration system.
+
+在`index.html`中，需要在Aurelia之前加载Polymer和`webcomponents.js` polyfills，以便`aurelia-polymer`插件可以挂接到Polymer的元素注册系统中。
 
 **Loading Web Components and Polymer**
 
@@ -59,8 +67,9 @@ In `index.html`, Polymer and the webcomponents.js polyfills need to be loaded be
   </html>
 ```
 
-  
-It's also a good idea to wait until the web components polyfill has loaded Polymer to bootstrap Aurelia. Instead of directly importing `aurelia-bootstrapper`, wait until the `WebComponentsReady` event fires in `index.html`.
+等待Web组件polyfill将Polymer加载到Bootstrap Aurelia上也是一个好主意。
+
+与其直接导入`aurelia-bootstrapper`，不如等到在`index.html`中触发`WebComponentsReady`事件。
 
 **Bootstrapping Aurelia**
 
@@ -73,8 +82,7 @@ It's also a good idea to wait until the web components polyfill has loaded Polym
   </script>
 ```
 
-  
-In `main.js`, the two Aurelia plugins installed before need to be loaded as well.
+在`main.js`中，还需要加载之前安装的两个Aurelia插件。  
 
 **Configuring Aurelia**
 
@@ -91,12 +99,12 @@ export function configure(aurelia) {
   }
 ```
 
-  
-At this point, Aurelia and Polymer are ready to go. The examples below incorporate various Polymer elements into the Aurelia skeleton navigation starter.
+此时，Aurelia和Polymer已准备就绪。下面的示例将各种Polymer元素合并到Aurelia骨架导航启动器中。  
 
-## 2.Importing Elements
+## 2.Importing Elements 导入的元素
 
-With the normal Aurelia template loader, nothing is allowed outside the root `<template>` element. When using HTML imports, however, the import statements must be before the `<template>`.
+
+使用普通的Aurelia模板加载器，在根`<template>`元素之外不允许任何操作。但是，在使用HTML导入时，导入语句必须位于`<template>`之前。
 
 **Using HTML Imports**
 
@@ -117,7 +125,7 @@ With the normal Aurelia template loader, nothing is allowed outside the root `<t
   
 ## 3.Data Binding
 
-Given the imports above, this shows how to implement a basic layout in `app.html` with Polymer components.
+根据上面的导入，这展示了如何在 `app.html`中使Polymer件实现基本布局。
 
 **Using Polymer Elements**
 
@@ -149,13 +157,15 @@ Given the imports above, this shows how to implement a basic layout in `app.html
 ```
 
   
-Notice that Poylmer elements such as `<paper-drawer-panel>` or `<paper-menu>`, once imported, can be used just like normal HTML elements.
+注意，Poylmer元素，如`<paper-drawer-panel>` 或 `<paper-menu>`，一旦导入，就可以像普通的HTML元素一样使用。
 
-All of the standard Aurelia binding syntax continues to work as well. For example, `repeat.for` is used to populate menu items from the Aurelia router. The `active.bind` binding on the `<paper-item>` elements in the navigation menu shows that attributes defined by Polymer are also supported by Aurelia.
 
-## 4.Forms and Two-Way Binding
+所有标准的Aurelia绑定语法都将继续起作用。例如，`repeat.for`用于从Aurelia路由器填充菜单项。
+导航菜单中`<paper-item>`元素上的`active.bind`绑定显示Aurelia也支持Polymer定义的属性。
 
-The updated `welcome.html` uses Polymer input elements to enhance its form.
+## 4.Forms and Two-Way Binding 表单和双向绑定
+
+更新后的welcome.html使用Polymer输入元素来增强其形式。
 
 **Using Polymer in a Form**
 
@@ -185,14 +195,13 @@ The updated `welcome.html` uses Polymer input elements to enhance its form.
   </template>
 ```
 
-  
-While not strictly necessary in this case, making the form an `<iron-form>` ensures that Polymer input elements are submitted along with native HTML elements.
+虽然在这种情况下并不是必须的，但是将表单设置为 `<iron-form>`可以确保Polymer输入元素与原生HTML元素一起提交。
 
-Note that the `<paper-input>` elements have `.two-way` bindings, not just `.bind`. With the exception of native HTML form elements, Aurelia defaults to one-way bindings, so two-way data binding must be specified explicitly.
+注意， `<paper-input>` 元素有`.two-way`绑定，而不仅仅是 `.bind`。除了本地HTML表单元素外，Aurelia默认为单向绑定，因此必须显式地指定双向数据绑定。
 
-A normal `<button>` element is used with Aurelia's `submit.delegate` binding, since Polymer elements cannot submit forms.
+普通的`<button>`元素与Aurelia的`submit.delegate`绑定一起使用，因为Polymer元素无法提交表单。
 
-If form submission semantics were not needed, another option would be to use a `click.delegate` on a Polymer button instead.
+如果不需要表单提交语义，则另一个选择是改为在Polymer按钮上使用`click.delegate` 。
 
 **Polymer Element with Event Delegation**
 
@@ -204,7 +213,7 @@ If form submission semantics were not needed, another option would be to use a `
 
   ## 5.How the Plugin Works
 
-The `aurelia-polymer` plugin is fairly simple. For each Polymer element, it registers the element's properties and what events they support with the `EventManager` in Aurelia's binding component. The core of the plugin, the [registerElement](https://github.com/roguePanda/aurelia-polymer/blob/1.0.0-beta.1.0.1/src/index.js#L7) function, loops over all properties of the element and any behavior it implements so that the Aurelia binding engine will register event listeners properly.
+`aurelia-polymer`插件非常简单。对于每个Polymer元素，它使用Aurelia的绑定组件中的 `EventManager`注册该元素的属性以及它们支持的事件。这个插件的核心是 [registerElement](https://github.com/roguePanda/aurelia-polymer/blob/1.0.0-beta.1.0.1/src/index.js#L7)函数，它循环遍历元素的所有属性及其实现的任何行为，以便Aurelia绑定引擎能够正确地注册事件监听器。
 
 **Element Registration**
 
@@ -231,7 +240,6 @@ The `aurelia-polymer` plugin is fairly simple. For each Polymer element, it regi
   });
 ```
 
-  
-Element properties marked with `notify` are eligible for Polymer's two-way data binding system and also trigger a `{property-name}-changed` event. This corresponds to the `input` and `change` events in Aurelia.
+标记为`notify`的元素属性可用于Polymer的双向数据绑定系统，并触发`{property-name}-changed`事件。这对应于Aurelia中的输入`input`和更改`change`事件。
 
-Whenever a Polymer element is imported, it triggers a call to `Polymer.telemetry._registrate`, which adds the element prototype to a list of registered Polymer elements. The `aurelia-polymer` plugin replaces this registration function with one that also calls `registerElement` on the prototype so that it is configured with Aurelia as well. The need to override this function is why Polymer must be loaded before the plugin is.
+每当导入Polymer元素时，都会触发对`Polymer.telemetry._registrate`的调用，该调用会将元素原型添加到已注册的Polymer元素列表中。`aurelia-polymer`插件用一个也在原型上调用`registerElement`的注册函数替换了这个注册函数，因此它也配置了Aurelia。需要覆盖这个功能是为什么Polymer必须在插件之前加载。
