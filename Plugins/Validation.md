@@ -1,26 +1,25 @@
 原文：https://aurelia.io/docs/plugins/validation
 
 
-## 1.Introduction
+## 1 Introduction - 简介
 
-This article covers the basics of validation with Aurelia's validation plugin. You'll learn how to add validation to your applications using a fluent rule API and minimal changes to your templates.
+本文介绍了使用Aurelia的验证插件进行验证的基础知识。您将了解如何使用连贯规则API向应用程序添加验证，并对模板进行最小程度的更改。
 
-To get started you'll need to install `aurelia-validation` using `npm install aurelia-validation` or `jspm install aurelia-validation`. Afterwards, add `.plugin(PLATFORM.moduleName('aurelia-validation'))` to the configuration in your `main.js` to ensure the plugin is loaded at application startup.
+首先，你需要使用`npm install aurelia-validation`或者`jspm install aurelia-validation`来安装`aurelia-validation`。然后，将`.plugin(PLATFORM.moduleName('aurelia-validation'))`添加到`main.js`的配置中，以确保在应用程序启动时加载插件。
 
-## 2.Defining Rules
+## 2 Defining Rules - 定义规则
 
-Aurelia Validation's standard rule engine uses a fluent syntax to define a set of rules. There are five parts to the syntax:
+Aurelia验证的标准规则引擎使用流畅的语法来定义一组规则。语法有五个部分：
 
-1.  Selecting a property using `.ensure`
-2.  Associating rules with the property using `.required`, `.matches`, etc
-3.  Customizing property rules using `.withMessage`, `.when`, etc
-4.  Sequencing rules using `.then`
-5.  Applying the ruleset to a class or instance using `.on`
+1.  选择一个属性使用 `.ensure`
+2.  使用`.required`, `.matches`等将规则与属性关联起来
+3.  使用`.withMessage`, `.when`等自定义属性规则
+4.  排序规则使用 `.then`
+5.  将规则集应用于使用的类或实例 `.on`
 
-### ensure
+### 2.1 ensure - 确保
 
-To begin defining a ruleset, use the `ValidationRules` class. Start by targeting a property using `ValidationRules.ensure(...)`. The `ensure` method accepts one argument representing the property name. The argument can be a string or a simple property access expression. If you're using TypeScript you'll probably want to use a property access expression because you'll get the benefit of intellisense, refactoring and avoid using "magic strings" that can be a maintenance issue.
-
+要开始定义规则集，请使用`ValidationRules`类。首先使用`ValidationRules.ensure(...)`锁定一个属性。`ensure`方法接受一个表示属性名的参数。参数可以是字符串或简单的属性访问表达式。如果你正在使用TypeScript，你可能会想要使用一个属性访问表达式，因为你可以得到智能感知、重构的好处，并且避免使用可能会带来维护问题的“魔法字符串”。
 
 **Ensure**
 
@@ -32,9 +31,11 @@ To begin defining a ruleset, use the `ValidationRules` class. Start by targeting
     .ensure(p => p.firstName)...
 ```
 
-### displayName
+### 2.2 displayName - 显示名称
 
 Once you've targetted a property using `ensure` you can define the property's display name using `.displayName(name: string|ValidationDisplayNameAccessor)`. Display names are used in validation messages. Specifying a display name is optional. If you do not explicitly set the display name the validation engine will attempt to compute the display name for you by splitting the property name on upper-case letters. A `firstName` property's display name would be `First Name`.
+  
+  一旦你使用确保来指定一个属性，你就可以使用`.displayName(name: string|ValidationDisplayNameAccessor)`来定义属性的显示名。显示名称用于验证消息。指定显示名称是可选的。如果您没有显式地设置显示名称，验证引擎将尝试通过将属性名称拆分为大写字母来为您计算显示名称。 `firstName`属性的显示名应该是 `First Name`。
   
 **displayName**
 
@@ -43,31 +44,31 @@ Once you've targetted a property using `ensure` you can define the property's di
     .ensure('ssn').displayName('SSN')...
 ```
 
-  ### Applying Rules
+  ### 2.3 Applying Rules - 应用规则
 
-After targeting a property with `ensure` and optionally setting its display name you can begin associating rules with the property using the built-in rule methods:
+在使用 `ensure` 锁定属性并可选地设置其显示名称之后，可以开始使用内置规则方法将规则与属性关联起来:
 
 *   `required()` validates the property is not null, undefined or whitespace.
-*   `matches(regex)` validates the property matches the specified regular expression.
+*   `matches(regex)`验证属性是否与指定的正则表达式匹配。
 *   `email()` validates an email address.
 *   `minLength(length)` and `maxLength(length)` validate the length of string properties.
-*   `minItems(count)` and `maxItems(count)` validate the number of items in an array.
-*   `min(constaint)`, `max(constraint)`, `range(min, max)`, and `between(min, max)` validate the value of number properties.
+*   `minItems(count)` and `maxItems(count)` 验证数组中的项数。
+*   `min(constaint)`, `max(constraint)`, `range(min, max)`, and `between(min, max)` 验证number属性的值.
 *   `equals(expectedValue)` validates the property equals the expected value.
-*   `satisfies((value: any, object?: any) => boolean|Promise<boolean>)` validates the supplied function returns `true` or a `Promise` that resolves to `true`. The function will be invoked with two arguments:
-    *   the property's current value.
-    *   the object the property belongs to.
+*   `satisfies((value: any, object?: any) => boolean|Promise<boolean>)` validates the supplied function returns `true` or a `Promise` that resolves to `true`. 验证提供的函数返回`true`或解析为 `true`的承诺`Promise`。该函数将使用两个参数调用：
+    *  属性的当前值。
+    *  属性所属的对象。
 
-### withMessage
+### 2.4 withMessage - 重写消息
 
-All rules have a standard message that can be overriden on a case-by-case basis using `.withMessage(message)`. The `message` argument is a string that will be interpreted as an interpolation binding expression and evaluated against the validated object when a validation error occurs. The interpolation binding expression can access any of the object's properties as well as the contextual properties listed below:
+所有规则都有一个标准消息，可以使用`.withMessage(message)`对其逐个进行覆盖。`message`参数是一个字符串，它将被解释为插值绑定表达式，并在发生验证错误时根据经过验证的对象进行计算。插值绑定表达式可以访问对象的任何属性以及下面列出的上下文属性：
 
-*   `$displayName`: the display name of the property.
-*   `$propertyName`: the name of the property.
-*   `$value`: the property value (at the moment the validation rule was executed).
-*   `$object`: the object that owns the property.
-*   `$config`: an object containing the rule's configuration. For example, the config for a `minLength` rule will have a `length` property.
-*   `$getDisplayName`: returns a displayable name of a property given the property name (irrespective of the property's displayName), split on capital letters, first letter ensured to be capitalized.
+*   `$displayName`: 属性的显示名称。
+*   `$propertyName`: 属性的名称。
+*   `$value`: 属性值(在执行验证规则时)。
+*   `$object`: 拥有该属性的对象。
+*   `$config`: 包含规则配置的对象。例如，`minLength`规则的配置将有一个`length`属性。
+*   `$getDisplayName`: 返回给定属性名的可显示名称(与属性的显示名称无关)，以大写字母分隔，确保首字母大写。
 
 Here's an example:
 
@@ -81,9 +82,9 @@ Here's an example:
   
 ```
 
-  ### withMessageKey
+  ### 2.5 withMessageKey 
 
-Another way to override messages on a case-by-case basis is to use the `.withMessageKey(key)` fluent API. Key is a string representing a key in the `validationMessages` dictionary. You can add new keys to the dictionary using the following code:
+另一种逐个重写消息的方法是使用`.withMessageKey(key)` fluent API。Key是一个字符串，表示`validationMessages`字典中的一个键。可以使用以下代码向字典添加新键：
 
 **withMessageKey**
 
@@ -97,9 +98,9 @@ Another way to override messages on a case-by-case basis is to use the `.withMes
       .matches(/^[A-Z]{3}$/).withMessageKey('invalidAirportCode')...
 ```
 
-### Conditional Validation
+### 2.6 Conditional Validation - 条件式验证
 
-You may run into situations where you only want a rule to be evaluated when certain conditions are met. Use the `.when(condition: (object) => boolean)` fluent API to define a condition that must be met before the rule is evaluated. `when` accepts one argument, a function that takes the object and returns a boolean that indicates whether the rule should (`true`) or should not (`false`) be evaluated.
+您可能会遇到这样的情况，即只希望在满足某些条件时对规则进行评估。使用`.when(condition: (object) => boolean)` fluent API定义一个条件，该条件必须在计算规则之前满足。当接受一个参数时，函数接受该对象并返回一个布尔值，该布尔值指示是否应该(`true`)或不应该(`false`)计算规则。
   
 **Conditional Validation**
 
@@ -112,9 +113,9 @@ You may run into situations where you only want a rule to be evaluated when cert
         .withMessage('Email is required when shipment notifications have been requested.');
 ```
 
-### Sequencing Rule Evaluation
+### 2.7 Sequencing Rule Evaluation - 排序规则评估
 
-Rules are evaluated in parallel. Use the `.then()` method to postpone evaluation of a rule until after the preceding rules in the `ensure` have been evaluated.  
+规则并行计算。使用`.then()`方法将规则的评估推迟到`ensure`（确保）中的前一个规则被评估之后。
 
 **Conditional Validation**
 
@@ -133,15 +134,16 @@ ValidationRules
       .satisfiesRule('usernameNotInUse');
 ```
 
-In the example above, the `emailNotAlreadyRegistered` custom rule will only be evaluated when the `email` property passes the `required()` and `email()` validations. Likewise, `usernameNotInUse` will be evaluated only when the `required()`, `minLength(3)` and `maxLength(50)` checks pass validation.
 
-### Tagging Rules
+在上面的例子中，只有当email属性通过了`required()` and `email()`验证时，才会计算 `emailNotAlreadyRegistered`定制规则。同样，`usernameNotInUse`只有在 `required()`, `minLength(3)` and `maxLength(50)` 检查通过验证时才会被计算。
 
-Use the `.tag(tag: string)` method to tag a specific property rule with a name. You can retrieve rules with a specific tag using `let someRules = ValidationRules.taggedRules(rules, tag)`. To get only rules that have no tag applied to them you can use `let someRules = ValidationRules.untaggedRules(rules)`. This can come in handy when you want to execute a specific rule or subset of rules. The documentation for the ValidationController (below) shows how to validate specific objects/properties/rules. You can also use the subset of rules with the Validator API (also documented below).
+### 2.8 Tagging Rules - 标注规则
 
-### on
+使用 `.tag(tag: string)`方法标记具有名称的特定属性规则。您可以使用 `let someRules = ValidationRules.taggedRules(rules, tag)`。要获得没有应用标记的规则，可以使用`let someRules = ValidationRules.untaggedRules(rules)`。当您要执行特定规则或规则子集时，这可能会派上用场。 ValidationController 的文档（如下）显示了如何验证特定的对象/属性/规则。您还可以将规则的子集与Validator API一起使用（也记录在下面）。
 
-Once your ruleset has been defined you can apply them to a class using the `.on` method. This will ensure the validation engine can locate the rules when evaluating a particular object.
+### 2.9 on
+
+ 一旦定义了规则集，就可以使用`.on`方法将它们应用到类中。这将确保验证引擎在评估特定对象时能够定位规则。
   
   **Applying Rules to a Class**
 
@@ -157,7 +159,7 @@ export class Person {
     .on(Person);
 ```
 
-  `.on` can apply the rules to a plain JavaScript object as well:
+  `.on` 也可以将规则应用到普通的JavaScript对象:
 
 **Applying Rules to an Object**
 
@@ -172,7 +174,7 @@ export class Person {
     .ensure('lastName').required()
     .on(patient);
 ```
-There is no requirement to apply the rules directly to an object or class, you can capture the ruleset in a variable or property using `.rules` instead:
+不需要将规则直接应用于对象或类，可以使用 `.rules` 在变量或属性中捕获规则集：
 
   **Storing Rules in a Property**
 
@@ -183,9 +185,9 @@ There is no requirement to apply the rules directly to an object or class, you c
     .rules;
 ```
 
-## 3.Customizing Messages
+## 3 Customizing Messages - 自定义消息
 
-The previous section showed how to customize the message of an individual property rule. You can override messages system-wide by replacing a rule's default message in the `validationMessages` dictionary:
+前一节展示了如何定制单个属性规则的消息。您可以在`validationMessages`字典中替换规则的默认消息，从而在系统范围内覆盖消息：
   
 **Overriding Messages**
 
@@ -195,7 +197,7 @@ import {validationMessages} from 'aurelia-validation';
   validationMessages['required'] = `\${$displayName} is missing!`;
 ```
 
-You can override the `ValidationMessageProvider`'s `getMessage(key: string): Expression` method to enable more dynamic message logic:
+You can override the `ValidationMessageProvider`'s `getMessage(key: string): Expression` 方法以启用更多动态消息逻辑：
 
   **Overriding getMessage**
 
@@ -224,13 +226,13 @@ You can also override the `ValidationMessageProvider`'s `getDisplayName(property
   };
 ```
 
-  ## Validation Controller
+  ## 4 Validation Controller - 验证控制器
 
-The `ValidationController` orchestrates the UI process of validating properties in response to various triggers and surfacing validation errors via renderers. Typically you'll have one validation controller instance per "form" view model. Depending on the use-case you may have multiple.
+`ValidationController`编排验证属性的UI过程，以响应各种触发器，并通过呈现器显示验证错误。通常，每个“form”视图模型都有一个验证控制器实例。根据用例，您可能有多个。
 
-### Creating a Controller
+### 4.1 Creating a Controller 
 
-Validation controllers can be created using the `NewInstance` resolver:
+验证控制器可以使用 `NewInstance` 解析器创建：
 
 **Creating a Controller**
 
@@ -249,7 +251,7 @@ import {inject, NewInstance} from 'aurelia-dependency-injection';
 ```
 
   
-Or with the `ValidationControllerFactory`:
+或者使用 `ValidationControllerFactory`:
 
 
   **Creating a Controller**
@@ -266,19 +268,18 @@ Or with the `ValidationControllerFactory`:
     }
   }
 ```
-
   
-Both techniques create a new instance of a `ValidationController` and register the instance in the component's container enabling other components in the validation library to access the approriate controller instance without needing a lot of boilerplate code or markup.
+这两种技术都创建一个`ValidationController`的新实例，并在组件的容器中注册该实例，从而使验证库中的其他组件能够访问相应控制器实例，而不需要大量的样板代码或标记。
 
-If you'd like to be completely explicit when wiring up controllers with view models and bindings, or if you need to use multiple controllers in your component, you can use the `Factory` resolver or the `ValidationControllerFactory`'s `create` method to create controller instances. Using these approaches will not automatically register the controller instance in the container which will prevent the automatic wire-up of controllers with bindings and renderers and will force you to specify the controller instance in your bindings and add renderers to the controller manually.
+如果您希望在用视图模型和绑定连接控制器时完全显式，或者如果您需要在组件中使用多个控制器，您可以使用`Factory` 解析器或`ValidationControllerFactory`的 `create`方法来创建控制器实例。使用这些方法将不会在容器中自动注册控制器实例，这将防止控制器与绑定和呈现器的自动连接，并将迫使您在绑定中指定控制器实例，并手动向控制器添加呈现器。
 
-### Setting the Validate Trigger
+### 4.2 Setting the Validate Trigger - 设置验证触发器
 
-Once you've created a controller you can set its `validationTrigger` to either `blur`, `change`, `changeOrBlur` or `manual`. The default is `blur` which means the validation controller will validate the property accessed in a binding when the binding's associated element "blurs" (loses focus).
+一旦你创建了一个控制器，你可以设置它的 `validationTrigger`要么`blur`, `change`, `changeOrBlur` or `manual`。默认值是`blur`，这意味着当绑定的关联元素“blur”(失去焦点)时，验证控制器将验证在绑定中访问的属性。
 
-When the trigger is `change`, each change the binding makes to the model property will trigger validation of the property. Use the `throttle`, `debounce` and `updateTrigger` binding behaviors in conjunction with the `change` validate trigger to customize the behavior.
+当触发器发生 `change`（更改）时，绑定对模型属性所做的每个更改都将触发对该属性的验证。使用 `throttle`, `debounce` and `updateTrigger`绑定行为，并结合更改验证触发器来定制行为。
 
-Use the `manual` trigger to indicate the controller should not automatically validate properties used in bindings. Errors will only be displayed when you invoke the controller's `validate` method and will be cleared when you invoke the controller's `reset` method.
+使用`manual`触发器指示控制器不应自动验证绑定中使用的属性。只有在调用控制器的验证`validate`方法时才会显示错误，在调用控制器的重置 `reset`方法时才会清除错误。
   
   **Setting the validate trigger**
 
@@ -298,11 +299,11 @@ Use the `manual` trigger to indicate the controller should not automatically val
 ```
 
   
-### validate & reset
+### 4.3 validate & reset - 验证和重置
 
-You can force the validation controller to run validation by invoking the `validate()` method. Validate will run the validation, render the results and return a `Promise` that resolves with a `ControllerValidateResult` instance. _The promise will only reject when there is an unexpected application error. Be sure to catch these rejections like you would any other unexpected application error._
+您可以通过调用`validate()`方法强制验证控制器运行验证。Validate将运行验证，呈现结果并返回一个使用`ControllerValidateResult`实例解析的承诺 `Promise`。只有在出现意外的应用程序错误时，承诺才会拒绝。一定要像处理其他意外的应用程序错误一样处理这些拒绝。
 
-Invoking the validate method with no arguments will validate all bindings and objects registered with the controller. You can supply a validate instruction to limit the validation to a specific object, property and ruleset:
+调用不带参数的validate方法将验证向控制器注册的所有绑定和对象。您可以提供一条验证指令来将验证限制到特定对象、属性和规则集：
 
 **validate**
 
@@ -324,9 +325,9 @@ controller.validate();
 ```
 
   
-Most of the time you will use the `ControllerValidateResult` instance's `valid` property to determine whether validation passed or failed. Use the `results` property to access the `ValidateResult` for every rule that was evaluated by the `controller.validate(...)` call. Each `ValidateResult` has it's own `rule` and `valid` properties that will tell you whether a particular rule passed or failed, along with `message`, `object` and `propertyName` properties.
+大多数情况下，您将使用 `ControllerValidateResult` 实例有自己的`rule`（规则） 和`valid`（有效）属性来确定验证是否通过或失败。对于由`controller.validate(...)`调用计算的每个规则，使用`results`属性访问`ValidateResult`。以及 `message`, `object` and `propertyName`属性。
 
-The opposite of the `validate` method is `reset`. Calling reset with no arguments will unrender any previously rendered validation results. You can supply a reset instruction to limit the reset to a specific object or property:
+与 `validate`方法相反的是`reset`。调用不带参数的重置将取消任何先前呈现的验证结果。您可以提供复位指令，将复位限制到特定的对象或属性。
 
 **reset**
 
@@ -337,23 +338,23 @@ controller.reset();
 ```
 
   
-### addError & removeError
+### 4.4 addError & removeError - 添加和移除错误
 
-You may need to surface validation errors from other sources. Perhaps while attempting to save a change the server returned a business rule error. You can display the server error using the controller's `addError(message: string, object: any, propertyName?: string): ValidateResult` method. The method returns a `ValidateResult` instance which can be used to unrender the error using `removeError(result: ValidateResult)`.
+您可能需要显示来自其他来源的验证错误。可能在试图保存更改时，服务器返回了一个业务规则错误。可以使用控制器的`addError(message: string, object: any, propertyName?: string): ValidateResult` 方法。该方法返回一个`ValidateResult`实例，可以使用`removeError(result: ValidateResult)`来反呈现错误。
 
-### addRenderer & removeRenderer
+### 4.5 addRenderer & removeRenderer - 添加和删除渲染器
 
-The validation controller renders errors by sending them to implementations of the `ValidationRenderer` interface. The library ships with a built-in renderer that "renders" the errors to an array property for data-binding/templating purposes. This is covered in the [displaying errors](aurelia-doc://section/11/version/1.0.0) section below. You can create your own [custom renderer](aurelia-doc://section/12/version/1.0.0) and add it to the controller's set of renderers using the `addRenderer(renderer)` method.
+验证控制器通过将错误发送到`ValidationRenderer`接口的实现来呈现错误。库附带了一个内置的呈现器，可以将错误“呈现”到一个数组属性中，以用于数据绑定/模板化。这将在下面的[显示错误](aurelia-doc://section/11/version/1.0.0)一节中讨论。您可以创建自己的自定义渲染器[custom renderer](aurelia-doc://section/12/version/1.0.0)，并使用`addRenderer(renderer)`方法将其添加到控制器的渲染器集合中。
 
-### Events
+### 4.6 Event - 事件
 
-The validation controller has a `subscribe(callback: (event: ValidateEvent) => void)` method you can use to subscribe to validate and reset events. Callbacks will be invoked whenever the controller's validate and reset methods are called. Callbacks will be passed an instance `ValidateEvent` which contains properties you can use to determine the overall validity state as well as the result of the validate or reset invocation. Refer to the API docs for more info.
+验证控制器有一个 `subscribe(callback: (event: ValidateEvent) => void)` 方法，您可以使用它来订阅验证和重置事件。无论何时调用控制器的验证和重置方法，都会调用回调。回调将传递一个实例`ValidateEvent`，其中包含可以用来确定总体有效性状态以及验证或重置调用结果的属性。更多信息请参考API文档。
 
-## 5.Validator
+## 5 Validator
 
 `Validator` is an interface used by the `ValidationController` to do the behind-the-scenes work of validating objects and properties. The `aurelia-validation` plugin ships with an implementation of this interface called the `StandardValidator`, which knows how to evaluate rules created by `aurelia-validation`'s fluent API. When you use a `Validator` directly to validate a particular object or property, there are no UI side-effects- the validation results are not sent to the the validation renderers.
 
-### Creating a Validator
+### 5.1 Creating a Validator
 
 Validators can be injected:
 
@@ -376,7 +377,7 @@ Validators can be injected:
   
 Use the Validator instance's `validateObject` and `validateProperty` methods to run validation without any render side-effects. These methods return a `Promise` that resolves with an array of `ValidateResults`.
 
-## 6.Validate Binding Behavior
+## 6 Validate Binding Behavior
 
 The `validate` binding behavior enables quick and easy validation for two-way data-bindings. The behavior registers the binding instance with a controller, enabling the system to validate the binding's associated property when the validate trigger occurs (blur / change). The binding behavior is able to identify the object and property name to validate in all sorts of binding expressions:
 
@@ -413,7 +414,7 @@ The `validate` binding behavior obeys the associated controller's `validateTrigg
 *   `& validateOnChangeOrBlur`: DOM blur or data entry triggers validation.
 *   `& validateManually`: the binding is not validated automatically when the associated element is blurred or changed by the user.
 
-## 7.Displaying Errors
+## 7 Displaying Errors
 
 The controller exposes properties that are useful for creating error UIs using standard Aurelia templating techniques:
 
@@ -472,7 +473,7 @@ This first form-group div uses the `validation-errors` custom attribute to creat
 
 The `validation-errors` custom attribute implements the `ValidationRenderer` interface. Instead of doing direct DOM manipulation to display the errors it "renders" the errors to an array property to enable the data-binding and templating scenarios illustrated above. It also automatically adds itself to the controller using `addRenderer` when its "bind" lifecycle event occurs and removes itself from the controller using the `removeRenderer` method when its "unbind" composition lifecycle event occurs.
 
-## 8.Custom Renderers
+## 8 Custom Renderers
 
 The templating approaches described in the previous section may require more markup than you wish to include in your templates. If you would prefer use direct DOM manipulation to render validation errors you can implement a custom renderer.
 
@@ -624,7 +625,7 @@ export class BootstrapFormRenderer {
 ```
 
   
-## 9.Entity Validation
+## 9 Entity Validation
 
 The examples so far show the controller validating specific properties used in `& validate` bindings. The controller can validate whole entities even if some of the properties aren't used in data bindings. Opt in to this "entity" style validation using the controller's `addObject(object, rules?)` method. Calling `addObject` will add the specified object to the set of objects the controller should validate when its `validate` method is called. The `rules` parameter is optional. Use it when the rules for the object haven't been specified using the fluent syntax's `.on` method. You can remove objects from the controller's list of objects to validate using `removeObject(object)`. Calling `removeObject` will unrender any errors associated with the object.
 
@@ -649,7 +650,7 @@ You may have rules that are not associated with a single property. The fluent ru
 
   
 
-  ## 10.Custom Rules
+  ## 10 Custom Rules
 
 The fluent API's `satisfies` method enables quick custom rules. If you have a custom rule that you need to use multiple times you can define it using the `customRule` method. Once defined, you can apply the rule using `satisfiesRule`. Here's how you could define and use a simple date validation rule:
 
@@ -742,7 +743,7 @@ A common application of a custom rule is to confirm that two password entries ma
 
   
 
-  ## 11.Multiple Validation Controllers
+  ## 11 Multiple Validation Controllers
 
 If you have two forms that need to be independently validated, it is of course recommended you implement them in separate components. However, it is technically possible to do two or more independant validations in the same component by creating multiple validation controllers.
 
@@ -831,7 +832,7 @@ In your view you need to take care to associate each input with the correct vali
 
   In the forms above you can see that each `validation-errors` attribute and each `validateManually` binding behavior is bound to the appropriate validation controller. This needs to be specified each time, since by default the attribute and the binding behavior will ask the container for a `ValidationController` instance not knowing which one it will get.
   
-  ## 12.Integration With Other Libraries
+  ## 12 Integration With Other Libraries
 
 In `aurelia-validation` the object and property validation work is handled by the `StandardValidator` class which is an implementation of the `Validator` interface. The `StandardValidator` is responsible for applying the rules created with aurelia-validation's fluent syntax. You may not need any of this machinery if you have your own custom validation engine or if you're using a client-side data management library like [Breeze](http://www.getbreezenow.com/breezejs) which has its own validation logic. You can replace the `StandardValidator` with your own implementation when the plugin is installed. Here's an example using breeze:
 
@@ -881,7 +882,7 @@ In `aurelia-validation` the object and property validation work is handled by th
 
   
 
-  ## 13.Integrating with Aurelia-I18N
+  ## 13 Integrating with Aurelia-I18N
 
 `aurelia-i18n` is Aurelia's official I18N plugin. Check out the project's [readme](https://github.com/aurelia/i18n/blob/master/README.md) for information on how to use `aurelia-i18n` in your application.
 
@@ -919,7 +920,7 @@ Here's how to override the methods, in your main.js, during application startup:
 ```
 
   
-### Creating the view and view-model
+### 13.1 Creating the view and view-model
 
 Once you've overriden the necessary methods in `ValidationMessageProvider` you're ready to create a view and view-model. Here's a view for a simple multi-language form with first and last name fields. All static text is translated using the [T binding behavior](https://github.com/aurelia/i18n#translating-with-the-tbindingbehavior) . Validation occurs on form submission and a switch language button demonstrates the i18n capabilities.
 
@@ -1005,7 +1006,7 @@ Here's the view model:
 ```
 
   
-### Translation Files
+### 13.2 Translation Files
 
 Last but not least, create translation files that include translations for each propertyName and each validation message key. Below are the German and English files for the example above. Notice the `errorMessages` section has the translation for the `required` rule. In practice, you would need translations for each rule that you use. Take a look at the [validationMessages](https://github.com/aurelia/validation/blob/master/src/implementation/validation-messages.ts) for the full list.
 
@@ -1042,6 +1043,6 @@ Last but not least, create translation files that include translations for each 
 ```
 
   
-## 14.Server-Side Validation
+## 14 Server-Side Validation
 
 The fluent rule API and Validator API can be used server-side in a NodeJS application.

@@ -424,13 +424,16 @@ or using [Yarn](https://yarnpkg.com)
 
 接下来，让我们找出如何产生状态变化。
 
-  ## 7 What are actions?
+  ## 7 What are actions? - 什么操作？
 
 Actions are the primary way to create a new state. They are essentially functions which take the current state and optionally one or more arguments. Their job is to create the next state and return it. By doing so they should not mutate the passed-in current state but instead use immutable functions to create a proper clone. The reason for that is that each state represents a unique snapshot of your app in time. By modifying it, you'd alter the state and wouldn't be able to properly compare the old and new state. It would also mean that advanced features such as time-traveling through states wouldn't work properly anymore. So keep in mind ... don't mutate your state.
 
->提醒：In case you're not a fan of functional approaches take a look at libraries like [Immer.js](https://github.com/mweststrate/immer) , and the [Aurelia store example](https://github.com/zewa666/aurelia-store-examples#immer) using it: this lets you act like you're mutating the state object but secretly you're getting a proper clone.
+操作是创建新状态的主要方法。它们本质上是接受当前状态和一个或多个可选参数的函数。他们的工作是创建下一个状态并返回它。通过这样做，它们不应该改变传入的当前状态，而是使用不可变的函数来创建正确的克隆。原因是每个状态及时地表示应用程序的唯一快照。通过修改它，您将改变状态，并不能正确地比较新旧状态。这也意味着像穿越状态的时间旅行这样的高级功能再也不能正常工作了。所以记住……不要改变你的状态。
 
-Continuing with above framework example, let's say we want to make an action to add an additional framework to the list. You can create a "shallow" clone of the state by using `Object.assign`. By saying shallow we mean that the actual `frameworks` array in the new state object will just be a reference to the original one. So in order to fix that we can use the array spread syntax with the name of the new framework to create a fresh array.
+>提醒：如果你不喜欢函数式方法，可以看看像[Immer.js](https://github.com/mweststrate/immer) 这样的库，使用它的[Aurelia商店示例](https://github.com/zewa666/aurelia-store-examples#immer):这使您可以像修改状态对象一样操作，但实际上您得到的是一个正确的克隆。
+
+
+继续上面的框架示例，假设我们希望执行一个操作来向列表添加一个额外的框架。您可以使用`Object.assign`创建状态的“浅”拷贝。这里说浅层表示在新的状态对象中的实际的框架（`frameworks`）数组将只是一个对原始对象的引用。为了修正这个问题，我们可以使用数组扩展语法来创建一个新的数组。
 
 **A simple action**
 
@@ -442,8 +445,8 @@ Continuing with above framework example, let's say we want to make an action to 
     return newState;
   }
 ```
-Next, we need to register the created action with the store. That is done by calling the store's `registerAction` method. By doing so we can provide a name which will be used for all kinds of error-handlers, logs, and even Redux DevTools. As a second argument, we pass the action itself.
-  
+
+  接下来，我们需要将创建的操作注册到存储中。这是通过调用商店的`registerAction`方法实现的。通过这样做，我们可以提供一个用于各种错误处理程序、日志甚至Redux DevTools的名称。作为第二个参数，我们传递动作本身。
 **Registering an action**
 
 ``` javascript
@@ -461,7 +464,7 @@ Next, we need to register the created action with the store. That is done by cal
     ...
   }
 ```
-You can unregister actions whenever needed by using the store's `unregisterAction` method
+  您可以随时使用存储的注销操作（(`unregisterAction`）方法注销操作
   
   **Unregistering an action**
 
@@ -481,11 +484,11 @@ You can unregister actions whenever needed by using the store's `unregisterActio
   }
 ```
 
-  ## 8 Async actions
+  ## 8 Async actions - 异步操作
 
-Previously we mentioned that an action should return a state. What we didn't mention is that actions can also return a promise which will eventually resolve with the new state.
+前面我们提到过，一个动作应该返回一个状态。我们没有提到的是，行为也可以返回一个承诺，这将最终解决与新状态。
 
-From the above example, imagine we'd have to validate the given name, which happens in an async manner.
+从上面的例子中，假设我们必须验证给定的名称，这是以异步的方式发生的。
 
 **An async action**
 
@@ -514,9 +517,9 @@ From the above example, imagine we'd have to validate the given name, which happ
 
 >You don't have to use async/await but it's highly recommended to use it for better readability whenever you can.
   
-## 9 Dispatching actions
-
-So far we've just created an action and registered it by several means. Now let's look at how we can actually execute one of them to trigger the next state change. We can use the store method `dispatch` to do exactly that. In the example below, the function `dispatchDemo` can be called with an argument `nextFramework`. Inside we call `store.dispatch`, passing it the action itself and all subsequent parameters required. Alternatively we can also provide the previously registered name instead.
+## 9 Dispatching actions 分发操作
+  
+  到目前为止，我们只是创建了一个操作并通过几种方式注册了它。现在让我们看看如何实际执行其中一个来触发下一个状态更改。我们可以使用store方法`dispatch`来完成这一任务。在下面的示例中，可以使用参数`nextFramework`调用函数`dispatchDemo`。在里面我们叫`store.dispatch`，将操作本身和所需的所有后续参数传递给它。或者，我们也可以提供以前注册的名称。
   
 **Dispatching an action**
 
@@ -542,17 +545,19 @@ So far we've just created an action and registered it by several means. Now let'
   }
 ```
 
-  Now keep in mind that an action might be async (really any middleware might be - you'll learn more about middleware later), and as such if you depend on the state being updated right after dispatching an action, make sure to `await` the call to `dispatch`.
+  现在请记住，一个操作可能是异步的(实际上任何中间件都可能是异步的——稍后您将了解更多关于中间件的信息)，因此，如果您依赖于在发送操作之后立即更新状态，那么请确保等待（`await`）调用来分发（`dispatch`）。
 
-The choice whether you dispatch using the actual action function or its previously registered name is up to you. It might be less work just forwarding a string. That way you don't need to import the action from wherever you want to dispatch it. On the other hand using the actual function is a helpful mechanism to make sure your app survives a refactoring session. Imagine you'd rename the action's name but forgot to update all the places that dispatch it. A long night of debugging might be just around the corner ;)
+您可以选择使用实际的操作函数进行分派，还是使用它之前注册的名称进行分派。只转发一个字符串的工作量可能会更少。这样您就不需要从任何您想要调度的地方导入动作。另一方面，使用实际的函数是一种很有帮助的机制，可以确保您的应用程序能够经受住重构过程。假设您要重命名操作的名称，但是忘记更新所有调度它的位置。漫长的调试之夜可能即将来临;)
 
 >提醒：Dispatching non-registered actions will result in an error.
+> 
+> 分派未注册的操作将导致错误。
 
-## 10 Piping multiple actions as one
+## 10 Piping multiple actions as one 将多个操作管道化为一个操作
 
-Being able to dispatch an action is great but what if you want to dispatch multiple actions at once? Of course you could call `dispatch` multiple times but that would result in perhaps unnecessary roundtrips and moreover either distort your history or fill up your DevTools entries. In such cases the piped dispatch might come in handly.
+能够调度一个操作是很好的，但是如果你想一次调度多个操作呢?当然，您可以多次调用`dispatch`，但这可能会导致不必要的往返，而且可能会歪曲您的历史记录或填充您的DevTools条目。在这种情况下，通过管道发送的调度可以很方便地派上用场。
 
-You call that using `store.pipe(reducer, params)` which returns a `PipedDispatch` object. That one allows to chain more steps into itself and to finally dispatch the aggregated action.
+你用store调用它。`store.pipe(reducer, params)` ，返回一个`PipedDispatch`对象。它允许将更多的步骤链接到自身，并最终调度聚合的操作。
 
 **Dispatching multiple piped actions as one**
     
@@ -579,17 +584,15 @@ You call that using `store.pipe(reducer, params)` which returns a `PipedDispatch
   }
 ```
 
-  >`pipe()` accepts only registered reducers, same as `dispatch`, and will otherwise throw an error.
+  >`pipe()`仅接受注册的减速器，与分派`dispatch`相同，否则将抛出错误。
 
+管道分派将只触发单个状态转换。当仅通过管道立即发送单个减速器时，其行为与使用分派方法相同。
 
-A piped dispatch will only trigger a single state transition. When only a single reducer is piped and dispatched right away, the behavior is identical to using the `dispatch` method.
+查看DevTools，您会注意到管道操作以`actionA->actionB`格式出现。
 
-Looking at the DevTools, you'll notice that piped actions show up in the format `actionA->actionB`.
+## 11 Using the dispatchify higher order function - 使用dispatchify高阶函数
 
-
-## 11 Using the dispatchify higher order function
-
-Perhaps you don't want to or can't obtain a reference to the store, but you'd still like to dispatch your actions. This is especially useful if you don't want your child-elements to have any knowledge of the actual logic and just receive actions via attributes. Children can then call this method directly in the template. In order to do so, you can leverage the higher order function `dispatchify`. What it does is return a wrapped new function which will obtain the store by itself and forward the provided arguments directly to `store.dispatch`.
+也许您不想或无法获得对store的引用，但您仍然希望调度您的操作。如果您不希望子元素了解实际的逻辑，而只是通过属性接收操作，那么这一点尤其有用。然后，孩子们可以在模板中直接调用这个方法。为了做到这一点，您可以利用高阶函数`dispatchify`。它所做的是返回一个包装好的新函数，该函数将自己获取存储并将提供的参数直接转发给 `store.dispatch`。
 
 **Forwarding a dispatchable function as argument to child-elements**
 
@@ -665,19 +668,22 @@ Perhaps you don't want to or can't obtain a reference to the store, but you'd st
 ```
 
 With this approach, you can design your custom elements to act either as presentational or container components. For further information take a look at [this article](http://pragmatic-coder.net/using-a-state-container-with-aurelia/) .
+
+使用此方法，可以将自定义元素设计为表示组件或容器组件。更多信息请看[this article](http://pragmatic-coder.net/using-a-state-container-with-aurelia/)。
   
-## 12 Resetting the store to a specific state
-  Occasionally it might be necessary to _reset_ the store to a specific state, without running through the built-in queue and thus without notifying middlewares. A use case for this can be restoring the initial state or time-travelling with the Redux-DevTools extension. To do so use the method `resetToState` and pass in the desired state. The result will be that a new state is emitted and your subscriptions will receive it.
+## 12 Resetting the store to a specific state - 将store重置为特定的状态
+
+有时可能需要将存储重置为特定的状态，而不需要运行内置队列，因此不需要通知中间件。使用redu - devtools扩展可以恢复初始状态或时间旅行。为此，请使用`resetToState`方法并传递所需的状态。结果将发出一个新状态，您的订阅将接收它。
   
- > Keep in mind that this feature should be used with caution as it might introduce unintended side effects, especially in collaboration with the Redux DevTools, as the reset states are not tracked by it.
+ > 请记住，应该谨慎使用此功能，因为它可能会带来意想不到的副作用，特别是在与Redux DevTools协作时，因为它不会跟踪重置状态。
 
-## 13 Two-way binding and state management
+## 13 Two-way binding and state management - 双向绑定和状态管理
 
-Two-way binding definitely has its merits when it comes to easily developing applications. By having Aurelia take care of synchronizing of the View and ViewModel a lot of work gets done for free. This behavior though becomes troublesome when working with a central state management. Remember, the primary vision is to do state modifications only via dispatching actions. This way we guarantee a single source of truth and no side-effects. Yet exactly the later is what a two-way binding introduces if you bind your ViewModel directly to state objects. So instead of two-way binding to state objects you should:
+当涉及到轻松开发应用程序时，双向绑定肯定有其优点。通过让Aurelia负责视图和视图模型的同步，可以免费完成许多工作。但是，在使用中央状态管理时，这种行为会变得很麻烦。请记住，主要的设想是仅通过分发操作进行状态修改。这样我们就保证了一个单一的真相来源和没有副作用。然而，如果您将ViewModel直接绑定到状态对象，则双向绑定所引入的正是后者。因此，应该使用双向绑定而不是状态对象：
 
-*   Create a new property, reflecting the state part you'd like to modify and bind to that.
-*   When changes are made, persist the changes by dispatching an action which uses the binding model's values
-*   After dispatching make sure to update the binding model to match any updates to the object happening during dispatch
+*   创建一个新属性，反映您希望修改和绑定的状态部分。
+*   在进行更改时，通过调度使用绑定模型值的操作来持久化更改
+*  在分派之后，确保更新绑定模型以匹配在分派期间发生的对对象的任何更新
 
 **Using binding models instead of the state**
 
@@ -729,11 +735,11 @@ Two-way binding definitely has its merits when it comes to easily developing app
   }
 ```
 
-  Alternatively you can resort to only using `one-time`, `to-view`, `one-way` and handle the updates yourself.
+  或者，您可以只使用 `one-time`, `to-view`, `one-way`并且自己处理更新。
 
-## 14 Recording a navigable history of the stream of states
+## 14 Recording a navigable history of the stream of states - 记录状态流的导航历史
 
-Since the whole concept of this plugin is to stream states over time, it makes sense to also keep track of the historical changes. Aurelia Store supports this feature by turning on the history support during the plugin registration.
+因为这个插件的整个概念是随时间流状态，所以跟踪历史变化也是有意义的。Aurelia Store通过在插件注册期间打开历史记录支持来支持这个特性。
 
 **Registering the plugin with history support**
 
@@ -761,6 +767,7 @@ Since the whole concept of this plugin is to stream states over time, it makes s
 ```
 
   Now when you subscribe to new state changes, instead of a simple State you'll get a `StateHistory<State>` object returned, which looks like the following:
+现在，当您订阅新的状态更改时，您将获得一个`StateHistory<State>`对象，而不是简单的状态，如下所示：
 
 ``` typescript
 //TypeScript
@@ -794,9 +801,9 @@ Since the whole concept of this plugin is to stream states over time, it makes s
     }
   }
 ```
-## 15 Making our app history-aware
+## 15 Making our app history-aware - 对我们的应用程序历史了解
 
-Now keep in mind that every action will receive a `StateHistory<T>` as input and should return a new `StateHistory<T>`. You can use the `nextStateHistory` helper function to easily push your new state and create a proper StateHistory representation, which will simply move the currently present state to the past, place your provided one as the present and remove the future states.
+现在请记住，每个操作都将接收一个州`StateHistory<T>`作为输入，并且应该返回一个新的`StateHistory<T>`。你可以使用 `nextStateHistory` 帮助函数来轻松地推动您的新状态，并创建一个合适的状态历史表示，它将简单地将当前状态移动到过去，将您提供的状态作为当前状态并删除未来状态。
   
 **A StateHistory-aware action**
 
@@ -825,9 +832,9 @@ Now keep in mind that every action will receive a `StateHistory<T>` as input and
   }
 ```
 
-  ### 15.1 Navigating through history
+  ### 15.1 Navigating through history - 浏览历史
 
-Having a history of states is great to do state time-travelling. That means defining either a past or future state as the new present. You can do it manually as described in the full-fledged example above and switching states between the properties `past`, `present` and `future`, or you can import the pre-registered action `jump` and pass it either a positive number for traveling into the future or a negative for travelling to past states.
+拥有国家历史很适合进行国家时间旅行。这意味着将过去或未来的状态定义为新的现在。你可以手动如上所描述的成熟的例子和开关状态属性之间的`past`, `present` and `future`,您可以导入预注册的动作跳转（`jump`），然后将其传递给正数以供将来使用，或传递负数供用于过去的状态。
 
 **Time-travelling states**
 
@@ -860,11 +867,12 @@ Having a history of states is great to do state time-travelling. That means defi
     }
   }
 ```
-The `jump` action will take care of any potential overflows and return the current history object.
 
-## 16 Limiting the number of history items
+跳转（`jump`）操作将处理任何潜在的溢出并返回当前历史记录对象。
 
-Having too many items could result in a memory hit. Thus you can specify the `limit` for when the histories past and future start to overflow. That means your past and future arrays can hold only a maximum of the provided `limit` and new entries start to drop out, respectively the first or last item of the history stack.
+## 16 Limiting the number of history items - 限制历史记录项的数量
+
+项目太多可能会导致内存不足。因此，您可以指定历史记录过去和未来何时开始溢出的限制（`limit`）。这意味着您的过去和未来数组只能容纳所提供的最大限制，并且新的条目将开始删除，分别是历史堆栈的第一项或最后一项。
 
 **Registering the plugin with history overflow limits**
 
@@ -892,17 +900,17 @@ Having too many items could result in a memory hit. Thus you can specify the `li
   }
 ```
 
-## 17 Handling side-effects with middleware
+## 17 Handling side-effects with middleware - 处理副作用与中间件
 
-Aurelia Store uses a concept of middleware to handle side-effects. Conceptually they are similar to [Express.js](https://expressjs.com/) middlewares in that they allow to perform side-effects or manipulate request data. As such they are registered functions, which execute before or after each dispatched action.
+Aurelia Store使用中间件的概念来处理副作用。从概念上讲，它们与[Express.js](https://expressjs.com/) 中间件类似，因为它们允许执行副作用或操作请求数据。因此，它们是注册函数，在每次分派操作之前或之后执行。
 
-A middleware is similar to an action, with the difference that it may return void as well. Middlewares can be executed before the dispatched action, thus potentially manipulating the current state which will be passed to the action, or afterward, modifying the returned value from the action. If they don't return anything the previous value will be passed as output. Either way, the middleware can be sync as well as async.
+中间件类似于操作，但不同之处在于它也可能返回void。中间件可以在调度操作之前执行，因此可能会操纵将传递给操作的当前状态，或者在之后修改操作返回的值。如果它们不返回任何内容，则将以前的值作为输出传递。无论哪种方式，中间件都可以是同步的，也可以是异步的。
   
- >提醒：As soon as you have one async middleware registered, essentially all action dispatches will be async as well.
+ >警告：只要注册了一个异步中间件，基本上所有动作分派都将是异步的。
 
 ![Chart workflow](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/IMG/middlewares.png)
 
-Middlewares are registered using `store.registerMiddleware` with the middleware's function and the placement `before` or `after`. Unregistration can be done using `store.unregisterMiddleware`
+中间层注册使用 `store.registerMiddleware`与中间件的功能和放置前后（`before` or `after`）。可以使用`store.unregisterMiddleware`中间件取消注册
 
   **Registering a middleware**
 
@@ -915,11 +923,11 @@ Middlewares are registered using `store.registerMiddleware` with the middleware'
   store.registerMiddleware(customLogMiddleware, 'after');
 ```
 
->提醒：You can call the `store.registerMiddleware` function whenever you want. This means middlewares don't have to be defined upfront at the apps configuration time but whenever needed. The same applies to `store.unregisterMiddleware`.
+>提醒：你可以给随时使用 `store.unregisterMiddleware`功能。这意味着中间件不必在应用程序配置时预先定义，而是在需要的时候定义。这同样适用于`store.unregisterMiddleware`中间件。
   
-## 18 Accessing the original (unmodified) state in a middleware
+## 18 Accessing the original (unmodified) state in a middleware - 在中间件中访问原始(未修改的)状态
 
-When executed, a middleware might accept a second argument which reflects the current unmodified state, the one before any other middlewares or, in case of an after positioning, the result of the dispatched action. This can be useful to determine the state diff that happened in the middleware chain or to reset the next state at certain conditions.
+在执行时，中间件可能会接受第二个参数，该参数反映当前未修改的状态，即任何其他中间件之前的状态，或者在after定位的情况下，是分派操作的结果。这对于确定中间件链中发生的状态差异或在某些条件下重置下一个状态非常有用。
 
 **Accessing the original state**
 
@@ -933,9 +941,9 @@ When executed, a middleware might accept a second argument which reflects the cu
   }
 ```
 
-## 19 Defining settings for middlewares
+## 19 Defining settings for middlewares - 为middlewares定义设置
 
-Some middlewares require additional configurations in order to work as expected. Above we've looked at a `customLogMiddleware` middleware, which logs the newly created state to the console. Now if we wanted to control the log type to, let's say, output to `console.debug` we can make use of middleware settings. These are passed in as the third argument to the middleware function and are registered with `registerMiddlware`.
+一些中间件需要额外的配置才能正常工作。上面我们介绍了 `customLogMiddleware` 中间件，它将新创建的状态记录到控制台。现在，如果我们希望将日志类型控制为输出到 `console.debug` ，我们可以使用中间件设置。这些参数作为中间件函数的第三个参数传递，并在 `registerMiddlware`中注册。
   
 **Passing settings to middlewares**
 
@@ -947,9 +955,9 @@ Some middlewares require additional configurations in order to work as expected.
   store.registerMiddleware(customLogMiddleware, 'after', { logType: 'debug' });
 ```
 
-  ## 20 Reference to the calling action for middlewares
+  ## 20 Reference to the calling action for middlewares - 参考中间件的调用操作
 
-Last but not least the optional fourth argument passed into a middleware is the calling action, meaning the action that is being dispatched. In here you get an object containing the action's `name` and the provided `params`. This is useful when you, for instance, want only certain actions to pass or be canceled under certain circumstances.
+最后但并非最不重要的是传递给中间件的可选的第四个参数是调用操作，这意味着正在分派的操作。在这里，您将获得一个包含操作 `name` 和提供的`params`的对象。例如，当您仅希望某些操作在某些情况下通过或取消时，这是非常有用的。
 
 **Reference to the calling action in middlewares**
 
@@ -965,11 +973,13 @@ Last but not least the optional fourth argument passed into a middleware is the 
   
   store.registerMiddleware(gateKeeperMiddleware, 'after');
 ```
-In case of piped actions, the `action.name` will show these in the format `actionA->actionB`, just like they are displayed in the Redux Devtools. The `action.params` on the other hand, will contain all the piped parameters in a single array. Additionally, you will be able to access details of all individual actions from within the pipeline via `action.pipedActions`.
 
-## 21 Error propagation with middlewares
+对于管道操作，`action.name`将以`actionA->actionB`格式显示这些内容，就像它们在Redux Devtools中显示一样。`action.params`的行动。另一方面，params将在单个数组中包含所有管道参数。另外，您将能够通过`action.pipedActions`从管道中访问所有单独操作的详细信息。
 
-By default errors thrown by middlewares will be swallowed in order to guarantee continued states. If you would like to stop state propagation you need to set the `propagateError` option of the plugin to `true`:
+
+## 21 Error propagation with middlewares - 使用中间件进行错误传播
+
+  默认情况下，由中间件抛出的错误将被吞噬，以保证状态的连续性。如果您想要停止状态传播，您需要将插件的`propagateError`选项设置为`true`：
   
 **Registering the plugin with active error propagation**
 
@@ -994,13 +1004,13 @@ By default errors thrown by middlewares will be swallowed in order to guarantee 
   }
 ```
 
-## 22 Default middlewares
+## 22 Default middlewares - 默认中间件
 
-Aurelia Store comes with a few home-baked middlewares. Others should be added as custom dependencies instead of polluting the overall package size.
+Aurelia Store附带一些自制的中间件。其他应作为自定义依赖项添加，而不要污染整个程序包的大小。
 
-### 22.1 The Logging Middleware
+### 22.1 The Logging Middleware - 日志中间件
 
-From the previous explanations of the inner workings of middlewares, you've come to learn about the `loggingMiddleware`. Instead of rebuilding it you can simply import it from Aurelia Store and register it. Remember that you can pass in a settings object to define the `logType`, which is also defined as a string enum in TypeScript.
+从前面对中间件内部工作原理的解释中，您已经了解了日志中间件`loggingMiddleware`。您可以简单地从Aurelia存储导入它并注册它，而不必重新构建它。请记住，您可以传递设置对象来定义`logType`，它也在TypeScript中定义为字符串 enum。
 
   **Registering the Logging middleware**
 
@@ -1014,11 +1024,11 @@ From the previous explanations of the inner workings of middlewares, you've come
   store.registerMiddleware(logMiddleware, 'after', { logType: 'log' });
 ```
 
-### 22.2 The Local Storage middleware
+### 22.2 The Local Storage middleware - 本地存储中间件
 
-The `localStorageMiddleware` stores your most recent emitted state in the [window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) . This is useful when creating apps which should survive a full page refresh. Generally, it makes the most sense to place the middleware at the end of the queue to get the latest available value stored in `localStorage`.
+`localStorageMiddleware`将您最近发出的状态存储在 [window.localStorage](https://developer.mozilla.org/zh-cn/docs/Web/API/Window/localStorage)中。这在创建应用程序时是很有用的，它应该在整个页面刷新后仍然有效。通常，最合理的做法是将中间件放在队列的末尾，以获得存储在`localStorage`中的最新可用值。
 
-In order to make use of it all, all you need to do is to register the middleware as usual. By default, the storage key will be `aurelia-store-state`. You can additionally provide a storage-key via the settings to be used instead.
+为了充分利用它，您所需要做的就是像往常一样注册中间件。默认情况下，存储密钥是`aurelia-store-state`。您还可以通过要使用的设置提供存储键。
 
   **Registering the LocalStorage middleware**
 
@@ -1033,7 +1043,7 @@ In order to make use of it all, all you need to do is to register the middleware
   
 ```
 
-Now in order to rehydrate the stored state, all you need to do is to dispatch the provided `rehydrateFromLocalStorage` action which you can import and register as usual. If you used a different key then the default one, just pass it as the second argument to the dispatch call.
+现在，为了重新补充存储状态，您所需要做的就是调度提供的`rehydrateFromLocalStorage`操作，您可以像往常一样导入和注册该操作。如果您使用的键与默认键不同，那么只需将其作为第二个参数传递给分派调用。
 
 **Dispatching the localStorage rehydration action**
 
@@ -1049,19 +1059,18 @@ Now in order to rehydrate the stored state, all you need to do is to dispatch th
   
 ```
 
->提示：  Keep in mind that the store starts with an `initialState`. If the `localStorage` middleware is registered at the app's start, most likely the next refresh will immediately overwrite your `localStorage` and negate the effect of restoring data from previous runs. In order to avoid that, make sure to register the middleware just after the initial state has loaded.
+>提示：  请记住，存储store从`initialState`开始。如果`localStorage`中间件在应用程序的启动时注册，那么下一次刷新很可能会立即覆盖`localStorage`并抵消恢复前一次运行的数据的效果。为了避免这种情况，请确保在初始状态加载后立即注册中间件。
 
 
-## 23 Execution order
+## 23 Execution order - 执行顺序
 
-If multiple actions are dispatched, they will get queued and executed one after another in order to make sure that each dispatch starts with an up-to-date state.
+如果分派了多个操作，它们将排队并依次执行，以确保每个分派都以最新的状态开始。
 
-If either your actions or middlewares return a sync or async value of `false` it will cause the Aurelia Store plugin to interrupt the execution and not emit the next state. Use this behavior in order to avoid unnecessary state updates.
+如果您的操作或中间件返回一个同步或异步值`false`，它将导致Aurelia Store插件中断执行，而不发出下一个状态。使用此行为可避免不必要的状态更新。
 
+## 24 Tracking overall performance - 跟踪整体性能
 
-## 24 Tracking overall performance
-
-In order to get insights into total run durations to effectively calculate how long it takes to dispatch the next state, you can pass in the `measurePerformance` option in the plugin configuration section.
+为了深入了解总的运行时间，从而有效地计算调度下一个状态所需的时间，您可以在插件配置部分传递 `measurePerformance`选项。
 
 **Tracking performance data**
 
@@ -1070,23 +1079,23 @@ In order to get insights into total run durations to effectively calculate how l
   
   aurelia.use.plugin('aurelia-store', { initialState, measurePerformance: 'all' });
 ```
-You can choose between `startEnd` - which gets you a single measure with the duration of the whole dispatch queue - or `all`, which will log, besides the total duration, all single marks after every middleware and the actual dispatching.
 
-Measures will only be logged for successful state updates, so if an action or middleware aborts due to returning `false` or throwing an error, nothing gets logged.
+您可以在`startEnd`和`all`之间进行选择，前者为您提供整个调度队列的持续时间，后者将在每个中间件和实际调度之后记录除总持续时间之外的所有单个标记。
+
+衡量将只记录成功的状态更新，因此如果一个操作或中间件由于返回`false`或抛出错误而中止，则不会记录任何内容。
   
 
-## 25 Debugging with the Redux DevTools extension
+## 25 Debugging with the Redux DevTools extension - 使用Redux DevTools扩展进行调试
 
-If you've ever worked with Redux then you know for sure about the [Redux Devtools browser extension](https://github.com/zalmoxisus/redux-devtools-extension) . It's a fantastic way to record and replay the states of your application's walkthrough. For each step, you get detailed information about your state at that time. This can help tremendously to debug states and replicate issues more easily.
+如果您曾经使用过Redux，那么您肯定知道[Redux Devtools 浏览器扩展](https://github.com/zalmoxisus/redux-devtools-extension)。这是一种记录和回放应用程序演练状态的极好方法。对于每个步骤，您将获得当时状态的详细信息。这可以极大地帮助调试状态和更容易地复制问题。
 
-There are tons of [great articles](https://codeburst.io/redux-devtools-for-dummies-74566c597d7) to get you started. Head over to [DevTools browser extension page](https://github.com/zalmoxisus/redux-devtools-extension) for instructions on how to install the extension, start your Aurelia Store plugin project and see how it works.
+有很多 [很好的文章](https://codeburst.io/redux-devtools-for-dummies-74566c597d7) 可以帮助你开始。前往[DevTools浏览器扩展页面](https://github.com/zalmoxisus/redux-devtools-extension)了解如何安装扩展，启动你的Aurelia Store插件项目，看看它是如何工作的。
 
+## 26 Defining custom devToolsOptions - 定义自定义devToolsOptions
 
-## 26 Defining custom devToolsOptions
+如果您使用Redux DevTools扩展，您可以将选项传递给Aurelia-Store，以使用[首选配置](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md)设置扩展。
 
-if you use the Redux DevTools extension you can pass options to Aurelia-Store to setup the extension with your [preferred configuration](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md) .
-
-In the following example, we set the serialize option to false. This way our state will not get serialized when sending it to the extension.
+在下面的示例中，我们将 `serialize` 选项设置为 false。这样，我们的状态在发送到扩展时就不会被序列化。
 
 **Initializing the DevTools extension with custom options**
 
@@ -1102,9 +1111,9 @@ In the following example, we set the serialize option to false. This way our sta
   });
 ```
 
-## 27 Defining custom LogLevels
-
-For various features, Aurelia Store can log information if logging is turned on. E.g. the dispatch info of the currently dispatched action will log on info level by default. Combining the logging of many of these features might be very distracting in your console window. As such you can define the log level to be used per feature in the plugin's setup options. In the following example, we'd like to have the `logLevel` for the `dispatchAction` info set to `debug` instead of the default `info` level.
+## 27 Defining custom LogLevels - 定义自定义日志级别
+  
+  对于各种特性，如果打开日志记录，Aurelia存储可以记录信息。例如，当前被调度操作的调度信息将默认登录到info级别。在您的控制台窗口中，组合这些特性的日志可能会让您分心。因此，可以在插件的设置选项中定义每个特性使用的日志级别。在下面的示例中，我们希望将 `dispatchAction` 信息的 `logLevel` 设置为`debug`，而不是默认的`info`级别。
   
 **Dispatch logs to console.debug**
 
@@ -1119,17 +1128,18 @@ For various features, Aurelia Store can log information if logging is turned on.
     }
   });
 ```
-Besides the control for `dispatchedActions` you can also set the logType for the `performanceLog` and `devToolsStatus` notifications.
   
-## 28 Comparison to other state management libraries
+  除了`dispatchedActions`控件之外，您还可以为 `performanceLog` 和 `devToolsStatus`通知设置日志类型。
+  
+## 28 Comparison to other state management libraries - 与其他状态管理库的比较
 
-There are a lot of other state management libraries out there, so you might ask yourself why you should favor Aurelia Store instead. As always Aurelia doesn't want to force you into a certain direction. There are good reasons to stick with something you're already familiar or using in another project. Let's look at the differences with a few of the well-known alternatives.
+还有许多其他的状态管理库，所以您可能会问自己为什么应该选择Aurelia Store。和往常一样，Aurelia不想强迫你朝某个方向走。有很好的理由坚持你已经熟悉的东西或在其他项目中使用的东西。让我们看看与一些众所周知的替代方案的区别。
 
 ### 28.1 Differences to Redux
 
-Doubtlessly [Redux](https://redux.js.org/) is one of the most favored state management libraries out there in the ecosystem. With its solid principles of being a predictable state container and thus working towards consistently behaving apps, it's a common choice amongst React developers. A lot of that is motivated by the focus on immutable states and the predictability that this brings in itself. Yet Redux is not solely bound to React and can be used with everything else, [including Aurelia](https://www.sitepoint.com/managing-state-aurelia-with-redux/) . There are even plugins to help you [get started](https://github.com/steelsojka/aurelia-redux-plugin) .
+毫无疑问，[Redux](https://redux.js.org/)是生态系统中最受欢迎的状态管理库之一。作为一个可预测的状态容器，它有着坚实的原则，因此致力于开发行为一致的应用程序，这是React开发者的普遍选择。这很大程度上是由对不可变状态的关注和由此带来的可预测性所驱动的。然而，Redux并不是唯一会发生反应的，它可以和其他任何东西一起使用，[包括Aurelia](https://www.sitepoint.com/managing-state-aurelia-with-redux/)。甚至还有一些插件可以帮助你[入门](https://github.com/steelsojka/aurelia-redux-plugin)。
 
-Aurelia Store shares a lot of fundamental design choices from Redux, yet drastically differentiates itself in two points. For one it's the reduction of boilerplate code. There is no necessity to split Actions and Reducers, along with separate action constants. Plain functions are all that is needed. Secondly, handling async state calculations is simplified by treating the apps state as a stream of states. RxJS as such is a major differentiator, which is also slowly finding its place in the [Redux eco-system](https://github.com/redux-observable/redux-observable) .
+Aurelia Store与Redux共享了许多基本的设计选择，但在两点上又有很大的不同。首先是样板代码的减少。没有必要将操作和简化器以及单独的操作常量分开。只需要简单的函数。其次，通过将应用程序状态作为状态流处理，可以简化异步状态计算。RxJS本身就是一个主要的区别，它也慢慢地在Redux生态系统（ [Redux eco-system](https://github.com/redux-observable/redux-observable)）中找到了自己的位置。
 
 ### 28.2 Differences to MobX
 
