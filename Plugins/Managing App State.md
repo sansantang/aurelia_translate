@@ -2,6 +2,43 @@
 
 >使用Aurelia Store插件进行可预测的状态管理。
 
+* [1 Introduction \- 简介](#1-introduction---%E7%AE%80%E4%BB%8B)
+  * [1\.1 Reasons for state management \- 状态管理的原因](#11-reasons-for-state-management---%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E7%9A%84%E5%8E%9F%E5%9B%A0)
+  * [1\.2 Why is RxJS used for this plugin? \- 为什么RxJS用于此插件？](#12-why-is-rxjs-used-for-this-plugin---%E4%B8%BA%E4%BB%80%E4%B9%88rxjs%E7%94%A8%E4%BA%8E%E6%AD%A4%E6%8F%92%E4%BB%B6)
+* [2 Getting Started \- 开始](#2-getting-started---%E5%BC%80%E5%A7%8B)
+* [3 What is the State? \- 什么是状态？](#3-what-is-the-state---%E4%BB%80%E4%B9%88%E6%98%AF%E7%8A%B6%E6%80%81)
+* [4 Configuring your app \- 配置您的APP](#4-configuring-your-app---%E9%85%8D%E7%BD%AE%E6%82%A8%E7%9A%84app)
+* [5 Subscribing to the stream of states \- 订阅状态流](#5-subscribing-to-the-stream-of-states---%E8%AE%A2%E9%98%85%E7%8A%B6%E6%80%81%E6%B5%81)
+* [6 Subscribing with the connectTo decorator \- 订阅 connectTo 装饰模式](#6-subscribing-with-the-connectto-decorator---%E8%AE%A2%E9%98%85-connectto-%E8%A3%85%E9%A5%B0%E6%A8%A1%E5%BC%8F)
+* [7 What are actions? \- 什么操作？](#7-what-are-actions---%E4%BB%80%E4%B9%88%E6%93%8D%E4%BD%9C)
+* [8 Async actions \- 异步操作](#8-async-actions---%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C)
+* [9 Dispatching actions 分发操作](#9-dispatching-actions-%E5%88%86%E5%8F%91%E6%93%8D%E4%BD%9C)
+* [10 Piping multiple actions as one 将多个操作管道化为一个操作](#10-piping-multiple-actions-as-one-%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%93%8D%E4%BD%9C%E7%AE%A1%E9%81%93%E5%8C%96%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%93%8D%E4%BD%9C)
+* [11 Using the dispatchify higher order function \- 使用dispatchify高阶函数](#11-using-the-dispatchify-higher-order-function---%E4%BD%BF%E7%94%A8dispatchify%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0)
+* [12 Resetting the store to a specific state \- 将store重置为特定的状态](#12-resetting-the-store-to-a-specific-state---%E5%B0%86store%E9%87%8D%E7%BD%AE%E4%B8%BA%E7%89%B9%E5%AE%9A%E7%9A%84%E7%8A%B6%E6%80%81)
+* [13 Two\-way binding and state management \- 双向绑定和状态管理](#13-two-way-binding-and-state-management---%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A%E5%92%8C%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86)
+* [14 Recording a navigable history of the stream of states \- 记录状态流的导航历史](#14-recording-a-navigable-history-of-the-stream-of-states---%E8%AE%B0%E5%BD%95%E7%8A%B6%E6%80%81%E6%B5%81%E7%9A%84%E5%AF%BC%E8%88%AA%E5%8E%86%E5%8F%B2)
+* [15 Making our app history\-aware \- 对我们的应用程序历史了解](#15-making-our-app-history-aware---%E5%AF%B9%E6%88%91%E4%BB%AC%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E5%8E%86%E5%8F%B2%E4%BA%86%E8%A7%A3)
+  * [15\.1 Navigating through history \- 浏览历史](#151-navigating-through-history---%E6%B5%8F%E8%A7%88%E5%8E%86%E5%8F%B2)
+* [16 Limiting the number of history items \- 限制历史记录项的数量](#16-limiting-the-number-of-history-items---%E9%99%90%E5%88%B6%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E9%A1%B9%E7%9A%84%E6%95%B0%E9%87%8F)
+* [17 Handling side\-effects with middleware \- 处理副作用与中间件](#17-handling-side-effects-with-middleware---%E5%A4%84%E7%90%86%E5%89%AF%E4%BD%9C%E7%94%A8%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BB%B6)
+* [18 Accessing the original (unmodified) state in a middleware \- 在中间件中访问原始(未修改的)状态](#18-accessing-the-original-unmodified-state-in-a-middleware---%E5%9C%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%8E%9F%E5%A7%8B%E6%9C%AA%E4%BF%AE%E6%94%B9%E7%9A%84%E7%8A%B6%E6%80%81)
+* [19 Defining settings for middlewares \- 为middlewares定义设置](#19-defining-settings-for-middlewares---%E4%B8%BAmiddlewares%E5%AE%9A%E4%B9%89%E8%AE%BE%E7%BD%AE)
+* [20 Reference to the calling action for middlewares \- 参考中间件的调用操作](#20-reference-to-the-calling-action-for-middlewares---%E5%8F%82%E8%80%83%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E8%B0%83%E7%94%A8%E6%93%8D%E4%BD%9C)
+* [21 Error propagation with middlewares \- 使用中间件进行错误传播](#21-error-propagation-with-middlewares---%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E8%BF%9B%E8%A1%8C%E9%94%99%E8%AF%AF%E4%BC%A0%E6%92%AD)
+* [22 Default middlewares \- 默认中间件](#22-default-middlewares---%E9%BB%98%E8%AE%A4%E4%B8%AD%E9%97%B4%E4%BB%B6)
+  * [22\.1 The Logging Middleware \- 日志中间件](#221-the-logging-middleware---%E6%97%A5%E5%BF%97%E4%B8%AD%E9%97%B4%E4%BB%B6)
+  * [22\.2 The Local Storage middleware \- 本地存储中间件](#222-the-local-storage-middleware---%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E4%B8%AD%E9%97%B4%E4%BB%B6)
+* [23 Execution order \- 执行顺序](#23-execution-order---%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F)
+* [24 Tracking overall performance \- 跟踪整体性能](#24-tracking-overall-performance---%E8%B7%9F%E8%B8%AA%E6%95%B4%E4%BD%93%E6%80%A7%E8%83%BD)
+* [25 Debugging with the Redux DevTools extension \- 使用Redux DevTools扩展进行调试](#25-debugging-with-the-redux-devtools-extension---%E4%BD%BF%E7%94%A8redux-devtools%E6%89%A9%E5%B1%95%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95)
+* [26 Defining custom devToolsOptions \- 定义自定义devToolsOptions](#26-defining-custom-devtoolsoptions---%E5%AE%9A%E4%B9%89%E8%87%AA%E5%AE%9A%E4%B9%89devtoolsoptions)
+* [27 Defining custom LogLevels \- 定义自定义日志级别](#27-defining-custom-loglevels---%E5%AE%9A%E4%B9%89%E8%87%AA%E5%AE%9A%E4%B9%89%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB)
+* [28 Comparison to other state management libraries \- 与其他状态管理库的比较](#28-comparison-to-other-state-management-libraries---%E4%B8%8E%E5%85%B6%E4%BB%96%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86%E5%BA%93%E7%9A%84%E6%AF%94%E8%BE%83)
+  * [28\.1 Differences to Redux](#281-differences-to-redux)
+  * [28\.2 Differences to MobX](#282-differences-to-mobx)
+  * [28\.3 Differences to VueX](#283-differences-to-vuex)
+
 ## 1 Introduction - 简介
 
 本文介绍了Aurelia的Store插件。它建立在[RxJS](http://reactivex.io/rxjs/)的两个核心特性之上，即`Observables`和`BehaviorSubject`。你不必钻研反应性领域 —— 事实上，你几乎不会在一开始就注意到它。但是，为了明智地使用它，您当然可以从了解 RxJS 中受益。
