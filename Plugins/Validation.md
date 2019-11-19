@@ -1,6 +1,5 @@
 原文：https://aurelia.io/docs/plugins/virtualization
 
-
 * [1 Introduction \- 简介](#1-introduction---%E7%AE%80%E4%BB%8B)
 * [2 Installing The Plugin \- 安装插件](#2-installing-the-plugin---%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)
 * [3 Configuring The Plugin \- 配置插件](#3-configuring-the-plugin---%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6)
