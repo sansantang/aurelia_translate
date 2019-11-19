@@ -91,8 +91,8 @@
 # CLI
 解如何使用Aurelia CLI提供的所有您喜欢的工具来创建，构建，捆绑和测试您的应用程序。
 
-- Basics
-- Gulp Tasks
+- [Basics](https://github.com/sansantang/aurelia_translate/blob/master/CLI/Basics.md)
+- [Gulp Tasks](https://github.com/sansantang/aurelia_translate/blob/master/CLI/Gulp.md)
 - Webpack
 - CLI's built-in Bundler
 - CLI's built-in Bundler Dependency Management
@@ -106,4 +106,5 @@
 用于构建和捆绑Aurelia应用程序的各种系统。
 - A Basic Example
 - Setup with JSPM
+
 - Bundling with JSPM
