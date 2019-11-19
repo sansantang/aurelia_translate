@@ -1,5 +1,14 @@
 原文：https://aurelia.io/docs/plugins/animation
 
+* [1 Introduction \- 简介](#1-introduction---%E7%AE%80%E4%BB%8B)
+* [2 Installing The Plugin \- 安装插件](#2-installing-the-plugin---%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)
+* [3 Configuring The Plugin \- 配置插件](#3-configuring-the-plugin---%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6)
+* [4 Demo](#4-demo)
+* [5 Using The Plugin \- 使用插件](#5-using-the-plugin---%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6)
+* [5 Working with Default Animation Triggers \- 使用默认动画触发器](#5-working-with-default-animation-triggers---%E4%BD%BF%E7%94%A8%E9%BB%98%E8%AE%A4%E5%8A%A8%E7%94%BB%E8%A7%A6%E5%8F%91%E5%99%A8)
+* [6 Summary 总结](#6-summary-%E6%80%BB%E7%BB%93)
+
+
 ## 1 Introduction - 简介
 
 动画是我们将应用程序带入生活的方式。动画让一个元素从一种风格逐渐转变为另一种风格，使它能够随着时间的推移平滑地改变其大小、颜色等。

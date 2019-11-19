@@ -1,5 +1,10 @@
 原文：https://aurelia.io/docs/cli/tasks
 
+* [1 Introduction \- 简介](#1-introduction---%E7%AE%80%E4%BB%8B)
+* [2 Task execution \- 任务执行](#2-task-execution---%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C)
+* [3 Creating a new task \- 创建一个新的任务](#3-creating-a-new-task---%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E4%BB%BB%E5%8A%A1)
+* [4 Task metadata \- 任务的元数据](#4-task-metadata---%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE)
+
 ## 1 Introduction - 简介
 
 Aurelia CLI允许您执行Gulp任务，并且提供了一些开箱即用的Gulp任务，可以帮助您启动。对于任何新项目，您都需要一个任务来构建、运行和测试应用程序，因此CLI为您提供了这些任务。这些任务可以在`aurelia_project/tasks`目录中找到。

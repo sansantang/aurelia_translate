@@ -1,7 +1,17 @@
 原文：https://aurelia.io/docs/plugins/virtualization
 
-## 1 Introduction - 简介
 
+* [1 Introduction \- 简介](#1-introduction---%E7%AE%80%E4%BB%8B)
+* [2 Installing The Plugin \- 安装插件](#2-installing-the-plugin---%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)
+* [3 Configuring The Plugin \- 配置插件](#3-configuring-the-plugin---%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6)
+* [4 Using The Plugin \- 使用插件](#4-using-the-plugin---%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6)
+  * [Basic repeat](#basic-repeat)
+  * [Unordered list repeat \- 无序列表重复](#unordered-list-repeat---%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8%E9%87%8D%E5%A4%8D)
+  * [Table row repeat](#table-row-repeat)
+* [5 Infinite Scroll \- 无限滚动](#5-infinite-scroll---%E6%97%A0%E9%99%90%E6%BB%9A%E5%8A%A8)
+* [6 Caveats \- 注意事项](#6-caveats---%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)
+
+## 1 Introduction - 简介
 
 在处理大量的项目集合(数千个，甚至数万个)时，无论是数组还是映射，由于DOM的限制，在以高性能的方式显示这些项目时会遇到一些挑战。这就是UI虚拟化插件非常方便的地方。
 

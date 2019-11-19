@@ -1,5 +1,22 @@
 原文：https://aurelia.io/docs/cli/basics
 
+* [1 Introduction \- 简介](#1-introduction---%E7%AE%80%E4%BB%8B)
+* [2 Machine Setup \- 安装](#2-machine-setup---%E5%AE%89%E8%A3%85)
+* [3 Creating A New Aurelia Project \- 创建一个新Aurelia项目](#3-creating-a-new-aurelia-project---%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0aurelia%E9%A1%B9%E7%9B%AE)
+    * [Windows上的Git BASH](#windows%E4%B8%8A%E7%9A%84git-bash)
+* [4 Creating A New Aurelia Plugin Project \- 创建一个新的Aurelia插件项目](#4-creating-a-new-aurelia-plugin-project---%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84aurelia%E6%8F%92%E4%BB%B6%E9%A1%B9%E7%9B%AE)
+* [5 Running Your Aurelia App \- 运行你的Aurelia应用程序](#5-running-your-aurelia-app---%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84aurelia%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)
+* [6 Environments \- 环境设置](#6-environments---%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE)
+* [7 Building Your App \- 构建您的应用程序](#7-building-your-app---%E6%9E%84%E5%BB%BA%E6%82%A8%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)
+* [8 Generators \- 生成器](#8-generators---%E7%94%9F%E6%88%90%E5%99%A8)
+    * [name\-in\-kebab\-case](#name-in-kebab-case)
+* [9 Aurelia\.json](#9-aureliajson)
+* [10 Webpack vs Built\-in Bundler \- Webpack vs 内置打包](#10-webpack-vs-built-in-bundler---webpack-vs-%E5%86%85%E7%BD%AE%E6%89%93%E5%8C%85)
+  * [10\.1 Webpack](#101-webpack)
+  * [10\.2 CLI's Built\-in Bundler](#102-clis-built-in-bundler)
+* [11 What if I need help? \- 如果我需要帮助？](#11-what-if-i-need-help---%E5%A6%82%E6%9E%9C%E6%88%91%E9%9C%80%E8%A6%81%E5%B8%AE%E5%8A%A9)
+
+
 ## 1 Introduction - 简介
 
 Aurelia CLI是Aurelia的官方命令行工具。它可以用于创建新项目、脚手架组件和将应用程序打包发布。这是开始一个新的Aurelia项目的最好方法。

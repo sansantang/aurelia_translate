@@ -67,8 +67,8 @@
 - [√ Validation](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Validation.md) 验证
 - I18N 国际化与本地化
 - [√ Dialogs 对话框](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Dialogs.md)
-- [? Animation](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Animation.md) 动画制作
-- [? Virtualization](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Virtualization.md) 虚拟技术
+- [√ Animation](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Animation.md) 动画制作
+- [√ Virtualization](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Virtualization.md) 虚拟技术
 - [√ Write New Plugin](https://github.com/sansantang/aurelia_translate/blob/master/Plugins/Write%20New%20Plugin.md)
 
 # 集成
