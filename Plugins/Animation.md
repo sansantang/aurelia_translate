@@ -11,9 +11,9 @@
 任何类型的动画都可以应用到元素中，但在本文中，我们将通过使用简单的CSS动画演示常见的情况;主要是使用路由器在视图之间导航时的动画，以及对中继器（repeater）的传入和传出元素进行动画。
 
 
-## Installing The Plugin
+## 2 Installing The Plugin - 安装插件
 
-If you are using the CLI or Webpack, you can install the plugin from NPM:
+如果您正在使用CLI或Webpack，您可以从NPM安装插件：
 
 ``` Shell
   npm install aurelia-animator-css
@@ -23,22 +23,19 @@ or
 ``` Shell
   yarn add aurelia-animator-css
 ```
-
-  
-If you are using JSPM for client dependencies, then you can use this command:
-
+如果您将JSPM用于客户端依赖项，则可以使用此命令:
 
 ``` Shell
   jspm install aurelia-animator-css
 ```
 
->提示：If you created your app with the **Aurelia CLI**, chances are you already have the plugin installed as a dependency.
+>提示：如果你用**Aurelia CLI**创建了你的应用程序，那么很有可能你已经将插件作为依赖项安装了。
   
->警告：If you are using an older version of **Aurelia CLI**, prior to 1.0, with RequireJS/SystemJS loaders, you should add `aurelia-animator-css` in the dependencies part of the bundle in your `aurelia.json` file.
+>警告：.如果你使用旧版本的**Aurelia CLI**，在1.0之前，带有RequireJS/SystemJS加载器，您应该在`aurelia.json`文件中捆绑包的依赖项部分中添加`aurelia-animator-css`。
 
-## Configuring The Plugin
+## 3 Configuring The Plugin - 配置插件
 
-In your `main.js` within your `src` folder, simply call the plugin API with the animation plugin's name:
+在`src`文件夹中的 `main.js`中，只需使用动画插件的名称调用插件API：
 
 **main.js** 
 
@@ -55,19 +52,19 @@ In your `main.js` within your `src` folder, simply call the plugin API with the 
   }
 ```
 
->警告：`PLATFORM.moduleName` should _not_ be omitted if you are using _Webpack_.  
+>警告：仅当您使用 Webpack 时才需要`PLATFORM.moduleName`。
 
-## Demo
+## 4 Demo
 
-Before we get started setting up the animations themselves, take a look at a demo of what we'll build out.
+在我们开始设置动画之前，先来看看我们要构建的演示。
 
 [示例](https://codesandbox.io/s/x93zy0m8mp?from-embed)
 
-  ## Using The Plugin
+  ## 5 Using The Plugin - 使用插件
 
-First we need to declare some `keyframes` animations that we can later hook on our elements.
+首先，我们需要声明一些`keyframes`（关键帧）动画，稍后可以将它们挂接到元素上。
 
->警告：Don't forget to add the appropriate vendor prefixes if you target old browsers.
+>警告：如果您的目标是旧的浏览器，不要忘记添加适当的供应商前缀。
 
 **animations.css**
  
@@ -133,9 +130,9 @@ First we need to declare some `keyframes` animations that we can later hook on o
   }
 ```
 
-  These are pretty typical, standard CSS animations. There's nothing really special to note about them. You may not need them all, or you may add new ones according to your needs, but they should give you a solid start.
+  这些都是非常典型的标准CSS动画。没有什么特别值得注意的。你可能不需要所有的，或者你可以根据你的需要添加新的，但它们应该给你一个坚实的开始。
 
-Now we also need CSS classes that use those animations, so we can later add those classes on our elements to activate the animations.
+现在我们还需要使用这些动画的CSS类，这样我们就可以在元素上添加这些类来激活动画。
 
   **animations.css**
 
@@ -178,9 +175,11 @@ Now we also need CSS classes that use those animations, so we can later add thos
 ```
 
   
-Essentially, all that is needed to make an animation work is to define CSS classes with special predefined suffixes. You get the chance to use preparation classes, added before the actual animation starts, as well as activation classes, used to trigger the actual animation. Take a look at the following table for all available options.
 
-<table>
+基本上，所有需要使动画工作是用特殊的预定义后缀定义CSS类。您有机会使用在实际动画开始之前添加的准备类，以及用于触发实际动画的激活类。查看下表中的所有可用选项。
+
+
+<table border="1">
 
 <tbody>
 
@@ -248,11 +247,11 @@ Essentially, all that is needed to make an animation work is to define CSS class
 
 </table>
 
-## Working with Default Animation Triggers
+## 5 Working with Default Animation Triggers - 使用默认动画触发器
 
-We need to give our elements the class `au-animate` to tell Aurelia that those elements can be animated. Additionally, we should apply a specific animation from the ones we have created above (i.e `animate-fade-in`). Once that's done, every time the element enters or leaves the DOM, the animation will kick-in.
+我们需要给我们的元素一个类 `au-animate`来告诉Aurelia这些元素可以被动画化。此外，我们应该应用一个特定的动画，从我们已经创建以上(i.e `animate-fade-in`)。完成之后，每当元素进入或离开DOM时，动画就会开始。
 
-As an example, we may have multiple `li` elements rendering in a repeater and we would like them to animate in and out using the fading effect we declared above. We can declare that like this:
+例如，我们可能在一个转发器中有多个`li`元素渲染，我们希望它们使用我们在上面声明的渐退效果来进行动画输入和输出。我们可以这样声明：
 
 **todos.html**
 
@@ -271,7 +270,7 @@ As an example, we may have multiple `li` elements rendering in a repeater and we
   </ul>
 ```
 
-  Notice the `au-stagger` class on the `ul` container. It is used to delay the animation between each one of the `li`s so they don't animate in simultaneously.
+注意 `ul`容器上的 `au-stagger`类。它用于延迟每个 `li`之间的动画，这样它们就不会同时进行动画。
 
 **animations.css**
 
@@ -280,8 +279,7 @@ As an example, we may have multiple `li` elements rendering in a repeater and we
     animation-delay: 500ms;
   }
 ```
-
-  If we would like to animate the views that are rendered in a `router-view`, we can use the same method. We need to add the `au-animate` class on the first child of the view and add the desired entering/exiting animations.
+如果我们想让在 `router-view`中呈现的视图动起来，我们可以使用相同的方法。我们需要在视图的第一个子节点上添加`au-animate`类，并添加所需的entering/exiting（输入/退出）动画。
 
 **todos.html**
 
@@ -292,10 +290,9 @@ As an example, we may have multiple `li` elements rendering in a repeater and we
     </div>
   </template>
 ```
-We'll also want to set the `swap-order` attribute of the `router-view` element. This controls how the animations between the old view and the new view are ordered in time. More information on the available options can be read about [here](docs/routing/configuration#view-swapping-and-animation) and you can play with their effects in the demo above.
+ 
+ 我们还需要设置 `router-view`元素的 `swap-order` 属性。这控制了旧视图和新视图之间的动画如何及时排序。关于可用选项的更多信息可以在[这里](https://github.com/sansantang/aurelia_translate/blob/master/Route/%E8%B7%AF%E7%94%B1%E5%99%A8%E9%85%8D%E7%BD%AE.md#view-swapping-and-animation-%E6%9F%A5%E7%9C%8B%E4%BA%A4%E6%8D%A2%E5%92%8C%E5%8A%A8%E7%94%BB)阅读，你可以在上面的演示中使用它们的效果。
   
-  ## Summary
+  ## 6 Summary 总结
 
-By adopting the `aurelia-animator-css` plugin, adding animations to your app is as simple as including a few standard CSS animations and applying a few classes to selected HTML elements. However, this just scratches the surface of animation in Aurelia. If you need more power, you can implement your own animation system by creating a class that implements the standard Aurelia interface and plugging it in, opening up endless possibilities.
-
-  
+  通过采用`aurelia-animator-css`插件，将动画添加到应用程序中非常简单，只需包含一些标准的CSS动画并将一些类应用于选定的HTML元素即可。然而，这只是触及了Aurelia动画的表面。如果您需要更多的功能，您可以通过创建一个实现标准Aurelia接口的类并将其插入来实现自己的动画系统，这将带来无限的可能性。
