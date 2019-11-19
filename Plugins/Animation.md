@@ -1,371 +1,300 @@
-原文：https://aurelia.io/docs/plugins/http-services
+原文：https://aurelia.io/docs/plugins/animation
 
-通常JavaScript应用程序需要从各种web服务获取数据或与之通信。在本文中，我们将看看Aurelia为您提供的选项。
+## Introduction
 
-* [1.Options 选项](#options-%E9%80%89%E9%A1%B9)
-* [2.aurelia\-fetch\-client](#aurelia-fetch-client)
-  * [Learn About The Fetch Spec](#learn-about-the-fetch-spec)
-  * [Bring Your Own Polyfill 带上你自己的填充工具](#bring-your-own-polyfill-%E5%B8%A6%E4%B8%8A%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%A1%AB%E5%85%85%E5%B7%A5%E5%85%B7)
-   	* [封装HttpClient使用](#%E5%B0%81%E8%A3%85httpclient%E4%BD%BF%E7%94%A8)
-  * [Basic Use 基本使用](#basic-use-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
-  * [Configuration 配置](#configuration-%E9%85%8D%E7%BD%AE)
-  * [Helpers](#helpers)
-  * [警告说明](#%E8%AD%A6%E5%91%8A%E8%AF%B4%E6%98%8E)
-  * [A Complete Example](#a-complete-example)
-  * [Limitations 限制](#limitations-%E9%99%90%E5%88%B6)
-* [3.aurelia\-http\-client](#aurelia-http-client)
-  * [Basic Use 基本使用](#basic-use-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8-1)
-    * [JSON By Default](#json-by-default)
-  * [Configuration 配置](#configuration-%E9%85%8D%E7%BD%AE-1)
+Animations are the way we bring our applications to life. An animation lets an element gradually change from one style to another, giving it the ability to smoothly alter its size, color, etc. over time.
+
+A key goal in building animation support for Aurelia was to enable a flexible solution that allows you to choose whatever animation library you like. As a result, you're neither limited to a proprietary API nor to a certain style for how to implement your animations. To enable this flexibility, Aurelia's animation system is built around [a simple animation interface](https://github.com/aurelia/templating/blob/master/src/animator.js) , which is part of its templating library.
+
+In this article we'll cover the official CSS animation plugin for Aurelia, `aurelia-animator-css`. This plugin is one concrete implementation of the interface mentioned above. However, you can also use our official `aurelia-animator-velocity` plugin if you prefer the Velocity library, or you can write your own plugin based on the interface above, for example if you prefer to use something like Greensock.
+
+Many kinds of animation can be applied to your elements, but in this article we'll demonstrate the common cases by using simple CSS animations; mainly, animation when navigating between views with the router, and animating incoming and outgoing elements of a repeater.
+
+## Installing The Plugin
+
+If you are using the CLI or Webpack, you can install the plugin from NPM:
+
+``` Shell
+  npm install aurelia-animator-css
+```
+or
+
+``` Shell
+  yarn add aurelia-animator-css
+```
+
+  
+If you are using JSPM for client dependencies, then you can use this command:
 
 
-## Options 选项
+``` Shell
+  jspm install aurelia-animator-css
+```
 
-在构建前端应用程序时，常常需要利用HTTP服务来获取数据或持久化状态。有很多方法可以做到这一点。您可以使用实现对象关系映射的高级数据库、自以为是的restful客户机或简单的HTTP库。所有这些选项都是由全球web社区提供的，并且都可以在Aurelia应用程序中使用。
+>提示：If you created your app with the **Aurelia CLI**, chances are you already have the plugin installed as a dependency.
+  
+>警告：If you are using an older version of **Aurelia CLI**, prior to 1.0, with RequireJS/SystemJS loaders, you should add `aurelia-animator-css` in the dependencies part of the bundle in your `aurelia.json` file.
 
-也就是说，Aurelia团队觉得有必要提供一个开箱即用的简单解决方案。我们希望我们的社区有一个直接支持的选项，同时仍然保持Aurelia的开放，这样我们自己的社区就可以创新或利用其他地方开发的任何其他库。
+## Configuring The Plugin
 
-沿着这些思路，Aurelia项目提供了两个选项：
+In your `main.js` within your `src` folder, simply call the plugin API with the animation plugin's name:
 
-*   `aurelia-http-client` - 一个基于`XMLHttpRequest`的基本`HttpClient`。它支持所有HTTP谓词、JSONP和请求取消。
-*   `aurelia-fetch-client` - 基于Fetch规范的更具前瞻性的HttpClient。 它支持所有HTTP谓词并与Service Workers集成，包括 Request/Response 缓存。
-
-你应该如何在这两个选项中做出选择?如果可能，我们建议使用`aurelia-fetch-client`。它基于Fetch规范，这将是处理未来所有AJAX的首选方法。但是，如果您需要请求取消或下载过程，Fetch规范目前不支持这些特性。虽然将来会考虑对规范进行这些改进，但目前还不能使用。因此，如果需要这些功能，可能需要使用`aurelia-http-client`。
-
-## aurelia-fetch-client
-
-如前所述，`aurelia-fetch-client`库旨在包含和公开新的[Fetch API](https://developer.mozilla.org/zh-cn/docs/Web/API/Fetch_API)，同时提供web应用程序中重要的特性:请求参数的默认配置、拦截器和集中的请求跟踪。主方法`HttpClient#fetch()`具有与`window.fetch()`相同的签名。不同之处在于，我们的HttpClient将应用缺省配置值，执行任何已注册的拦截器，并跟踪活动请求的数量。
-
->#### Learn About The Fetch Spec
-> 如果您正在寻找有关Fetch API规范的一些信息，我们建议您从[MDN文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API)开始。 您可能还会发现 [Jake Archibald](http://jakearchibald.com/2015/thats-so-fetch/) 很有用。
-
-### Bring Your Own Polyfill 带上你自己的填充工具
-
-这个库依赖于Fetch API，但并不是所有流行的浏览器都支持这个API。这个库不包含用于获取的polyfill。如果需要支持[尚未实现Fetch的浏览器](http://caniuse.com/#feat=fetch)，则需要安装像[GitHub](https://github.com/github/fetch)这样的polyfill。
-
-首先，使用包管理器安装polyfill。其次，确保将polyfill导入应用程序代码，以便在使用fetch客户机之前正确初始化它。加载polyfill的最佳位置通常在应用程序的`main`模块中。大概是这样的：
-
-**Initializing the Fetch Polyfill**
+**main.js** 
 
 ``` javascript
-  import 'whatwg-fetch';
+  import {PLATFORM} from 'aurelia-pal';
   
   export function configure(aurelia) {
     aurelia.use
       .standardConfiguration()
-      .developmentLogging();
+      .developmentLogging()
+      .plugin(PLATFORM.moduleName("aurelia-animator-css")); //<-- add this
   
-    aurelia.start().then(() => aurelia.setRoot());
+    aurelia.start().then(a => a.setRoot());
   }
 ```
->#### 封装HttpClient使用
->一般来说，我们建议您不要在使用HttpClient时乱放应用程序代码。相反，我们建议您创建一个或多个服务类，将所有HTTP访问封装在友好的、特定于应用程序的API后面。如果您这样做，我们还建议您在这些服务模块中导入`fetch` polyfill，而不是在应用程序的主模块中导入。这有助于保持封装。
-  
-### Basic Use 基本使用
 
-数据请求是通过调用`HttpClient`实例上的 `fetch`方法来完成的。默认情况下， `fetch`发出`GET`请求。所有获取的调用都返回一个承诺`Promise`，该承诺将解析为响应`Response`对象。使用此响应`Response`对象，您可以轻松地解析内容、读取标题和检查状态代码。有关更多信息，请参见Fetch API规范。
+>警告：`PLATFORM.moduleName` should _not_ be omitted if you are using _Webpack_.  
 
-下面是一个简单的示例，演示了对JSON文件的基本`GET`请求，包括解析响应内容和向控制台写入数据值。
+## Demo
 
-**GET JSON with Fetch**
+Before we get started setting up the animations themselves, take a look at a demo of what we'll build out.
 
-``` javascript
-  import {HttpClient} from 'aurelia-fetch-client';
-  
-  let httpClient = new HttpClient();
-  
-  httpClient.fetch('package.json')
-    .then(response => response.json())
-    .then(data => {
-      console.log(data.description);
-    });
-```
+[示例](https://codesandbox.io/s/x93zy0m8mp?from-embed)
 
-  
-### Configuration 配置
+  ## Using The Plugin
 
-`HttpClient`实例可以配置多个选项，比如在请求或响应上运行默认头文件和拦截器。
+First we need to declare some `keyframes` animations that we can later hook on our elements.
 
-**Configuring Fetch Client**
-    
+>警告：Don't forget to add the appropriate vendor prefixes if you target old browsers.
 
-``` javascript
-  httpClient.configure(config => {
-    config
-      .withBaseUrl('api/')
-      .withDefaults({
-        credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'X-Requested-With': 'Fetch'
-        }
-      })
-      .withInterceptor({
-        request(request) {
-          console.log(`Requesting ${request.method} ${request.url}`);
-          return request;
-        },
-        response(response) {
-          console.log(`Received ${response.status} ${response.url}`);
-          return response;
-        }
-      });
-  });
+**animations.css**
  
+``` css
+@keyframes SlideInRight {
+    0% {
+      transform: translateX(100%);
+    }
+  
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes SlideOutRight {
+    0% {
+      transform: translateX(0);
+    }
+  
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  @keyframes SlideInLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+  
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes SlideOutLeft {
+    0% {
+      transform: translateX(0);
+    }
+  
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  @keyframes FadeIn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes FadeOut {
+    0% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0;
+    }
+  }
 ```
 
+  These are pretty typical, standard CSS animations. There's nothing really special to note about them. You may not need them all, or you may add new ones according to your needs, but they should give you a solid start.
+
+Now we also need CSS classes that use those animations, so we can later add those classes on our elements to activate the animations.
+
+  **animations.css**
+
+``` css
+ .animate-slide-in-right.au-enter {
+    transform: translateX(100%);
+  }
   
-在上面的例子中，使用`withBaseUrl()`指定一个基本url，所有的获取都是相对的。
-
-`withDefaults()`允许将一个对象传递给 [Request constructor](https://developer.mozilla.org/zh-cn/docs/Web/API/Request/Request)构造函数，该对象可以包含可选`init`参数中描述的任何属性，并在将其传递给第一个Request拦截器之前将其合并到新请求中。
-
-`withInterceptor()`允许传递一个对象，该对象可以提供这四种可选方法中的任何一种:`request`, `requestError`, `response`和`responseError`。下面解释一下这些方法的工作原理：
-
-*   `request`获取拦截器运行后将传递给`window.fetch()`的[Request](https://developer.mozilla.org/zh-cn/docs/Web/API/Request) 。它应该返回相同的请求，或者创建一个新的请求。它还可以返回对短路调用`fetch()`的[Response](https://developer.mozilla.org/zh-cn/docs/Web/API/Response) ，并立即完成请求。在请求拦截器中抛出的错误将由`requestError`拦截器处理。
-*    `requestError`在请求创建和请求拦截器执行期间充当承诺拒绝处理程序。它将接收拒绝原因，并可以通过返回一个有效的请求重新抛出或恢复。
-*   `response`将在`fetch()`完成后运行，并接收结果响应。与`request`一样，它可以传递响应、返回修改后的响应或抛出。
-*   `responseError`类似于requestError，充当响应拒绝的承诺拒绝处理程序。
-
-拦截器对象上的这些方法还可以返回各自返回值的`Promise`s。
-
-### Helpers
-
-> ### 警告说明
-> 
-> * `fetch()`返回的承诺在**HTTP错误状态下不会拒绝**，即使响应是HTTP 404或500。相反，它将正常地解析，并且只会在网络故障或任何阻止请求完成的情况下拒绝。
-> * 在发送和接收cookie时，为了获得最大的浏览器兼容性，请始终提供`credentials: 'same-origin'`(凭据:“同源”)选项，而不是依赖于默认值。看到发送cookie。
-> 
-
-Fetch API有两个陷阱，由[GitHub Fetch polyfill](https://github.com/github/fetch#caveats) 文档记录(上面2条)。`aurelia-fetch-client`提供配置帮助程序来应用polyfill文档中建议的更改。
-
-*   `config.rejectErrorResponses()` 将添加一个响应拦截器，该拦截器将导致状态代码不成功的响应导致被拒绝的承诺。
-*   `config.useStandardConfiguration()` 将应用`rejectErrorResponses()`，并将配置`credentials: 'same-origin'` 作为所有请求的默认值。
-*   Fetch API没有在请求体中发送JSON的方便方法。对象必须手动序列化为JSON，并适当设置 `Content-Type` header。`aurelia-fetch-client`为此包含一个名为`json`的助手。
-
-**POST JSON with Fetch**
-
-
-``` JavaScript
-  import {HttpClient, json} from 'aurelia-fetch-client';
+  .animate-slide-in-right.au-enter-active {
+    animation: SlideInRight 1s;
+  }
   
-  let comment = {
-    title: 'Awesome!',
-    content: 'This Fetch client is pretty rad.'
-  };
+  .animate-slide-out-right.au-leave-active {
+    animation: SlideOutRight 1s;
+  }
   
-  httpClient.fetch('comments', {
-    method: 'post',
-    body: json(comment)
-  });
-```
-
+  .animate-slide-in-left.au-enter {
+    transform: translateX(-100%);
+  }
   
-### A Complete Example
-
-这个例子创建了一个新的HttpClient，并将其配置为一个假想的JSON API，用于在`api/`上管理注释。然后使用客户机向API发布一个新注释，并显示一个带有指定注释ID的警告对话框。
-
-**POST JSON with Fetch**
-   
-
-``` javascript
- import {HttpClient, json} from 'aurelia-fetch-client';
+  .animate-slide-in-left.au-enter-active {
+    animation: SlideInLeft 1s;
+  }
   
-  let httpClient = new HttpClient();
+  .animate-slide-out-left.au-leave-active {
+    animation: SlideOutLeft 1s;
+  }
   
-  httpClient.configure(config => {
-    config
-      .useStandardConfiguration()
-      .withBaseUrl('api/')
-      .withDefaults({
-        credentials: 'same-origin',
-        headers: {
-          'X-Requested-With': 'Fetch'
-        }
-      })
-      .withInterceptor({
-        request(request) {
-          let authHeader = fakeAuthService.getAuthHeaderValue(request.url);
-          request.headers.append('Authorization', authHeader);
-          return request;
-        }
-      });
-  });
+  .animate-fade-in.au-enter {
+    opacity: 0;
+  }
   
-  let comment = {
-    title: 'Awesome!',
-    content: 'This Fetch client is pretty rad.'
-  };
+  .animate-fade-in.au-enter-active {
+    animation: FadeIn 1s;
+  }
   
-  httpClient
-    .fetch('comments', {
-      method: 'post',
-      body: json(comment)
-    })
-    .then(response => response.json())
-    .then(savedComment => {
-      alert(`Saved comment! ID: ${savedComment.id}`);
-    })
-    .catch(error => {
-      alert('Error saving comment!');
-    });
-```
-
-  
-
-
-
-### Limitations 限制
-
-*   这个库不包含用于Fetch的polyfill。如果需要支持尚未实现Fetch的浏览器，则需要安装像 [GitHub](https://github.com/github/fetch) 这样的polyfill。
-*   这个库不处理Fetch API中的任何现有限制，包括:
-    *   Fetch目前不支持中止请求或指定请求超时。
-    *  Fetch目前不支持进度报告。.
-*   这个库目前不提供JSONP支持。
-*    [Request constructor](https://developer.mozilla.org/zh-cn/docs/Web/API/Request/Request) 提供自己的默认值，因此，如果在调用 `HttpClient#fetch` 之前创建了一个请求（使用 `HttpClient#fetch(request)`签名，而不是 `HttpClient#fetch(url, params)`签名），客户端无法知道将哪些默认值合并到请求中。可以合并基本URL和标头，但目前在本例中不应用其他缺省值。
-
-如果您的应用程序有不符合这些限制的需求，那么您可能希望转而使用 `aurelia-http-client` 。
-
-
-
-## aurelia-http-client
-
-除了 `aurelia-fetch-client`之外，Aurelia还包含一个基本的`HttpClient`，为浏览器的`XMLHttpRequest`对象提供一个舒适的接口。和 `aurelia-fetch-client`一样， `aurelia-fetch-client`也不包含在Aurelia的引导程序安装的模块中，因为它是完全可选的，而且许多应用程序可能会选择使用不同的策略来进行数据检索。因此，如果您想使用它，首先必须使用首选的包管理器安装它。
-
-### Basic Use 基本使用
-
-Once installed, you can use it like this:
-
-**GET JSON with Basic HTTP**
-
-    
-
-``` javascript
-  import {HttpClient} from 'aurelia-http-client';
-  
-  let client = new HttpClient();
-  
-  client.get('package.json')
-    .then(data => {
-      console.log(data.description)
-    });
-```
-
-  `HttpClient`有多种方法。下面是可用api的描述。
-  
-  **HTTPClient API**
-
-``` TypeScript
-  export class HttpClient {
-    isRequesting: boolean;
-  
-    constructor();
-  
-    configure(fn: ((builder: RequestBuilder) => void)): HttpClient;
-    createRequest(url: string): RequestBuilder;
-    send(requestMessage: RequestMessage, transformers: Array<RequestTransformer>): Promise<HttpResponseMessage>;
-  
-    delete(url: string): Promise<HttpResponseMessage>;
-    get(url: string): Promise<HttpResponseMessage>;
-    head(url: string): Promise<HttpResponseMessage>;
-    jsonp(url: string, callbackParameterName?: string): Promise<HttpResponseMessage>;
-    options(url: string): Promise<HttpResponseMessage>;
-    put(url: string, content: any): Promise<HttpResponseMessage>;
-    patch(url: string, content: any): Promise<HttpResponseMessage>;
-    post(url: string, content: any): Promise<HttpResponseMessage>;
+  .animate-fade-out.au-leave-active {
+    animation: FadeOut 1s;
   }
 ```
 
   
-如您所见，该API为所有标准谓词以及`jsonp`提供了方便的方法。除了`jsonp`发送`JSONPRequestMessage`之外，这些方法都发送`HttpRequestMessage`。发送消息的结果是`HttpResponseMessage`的`Promise`承诺。
+Essentially, all that is needed to make an animation work is to define CSS classes with special predefined suffixes. You get the chance to use preparation classes, added before the actual animation starts, as well as activation classes, used to trigger the actual animation. Take a look at the following table for all available options.
 
-The `HttpResponseMessage` has the following properties:
+<table>
 
-*   `response` - 返回从服务器发送的原始内容
-*   `responseType` - 预期响应类型.
-*   `content` - 根据`responseType`格式化原始响应`response` 内容并返回它。
-*   `headers` - Returns a `Headers` object with the parsed header data.
-*   `statusCode` - The server's response status code.
-*   `statusText` - The server's textual status message.
-*   `isSuccess` - 指示状态码是否位于成功范围内.
-*   `reviver` - 用于转换原始响应`response` 内容的函数.
-*   `requestMessage` - 对原始请求消息的引用。
-*   
->#### JSON By Default
-> 默认情况下，`HttpClient`假定您期望使用JSON responseType。
+<tbody>
 
-### Configuration 配置
+<tr>
 
-您可以使用`configure`访问一个连贯api来配置客户机发送的所有请求。您还可以使用`createRequest`自定义配置单个请求。下面是一个配置的例子
+<th>Method</th>
 
-**Configuring Basic HTTP**
+<th>Description</th>
 
-    
+<th>Preparation</th>
 
-``` JavaScript
-  import {HttpClient} from 'aurelia-http-client';
-  
-  let httpClient = new HttpClient()
-    .configure(x => {
-      x.withBaseUrl('http://aurelia.io');
-      x.withHeader('Authorization', 'bearer 123');
-    });
-  
-  httpClient.get('some/cool/path');
+<th>Activation</th>
+
+</tr>
+
+<tr>
+
+<td>Enter</td>
+
+<td>Element enters the DOM</td>
+
+<td>au-enter</td>
+
+<td>au-enter-active</td>
+
+</tr>
+
+<tr>
+
+<td>Leave</td>
+
+<td>Element leaves the DOM</td>
+
+<td>au-leave</td>
+
+<td>au-leave-active</td>
+
+</tr>
+
+<tr>
+
+<td>addClass</td>
+
+<td>Adds a CSS class</td>
+
+<td>n/a</td>
+
+<td>[className]-add</td>
+
+</tr>
+
+<tr>
+
+<td>removeClass</td>
+
+<td>Removes a CSS class</td>
+
+<td>n/a</td>
+
+<td>[className]-remove</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+## Working with Default Animation Triggers
+
+We need to give our elements the class `au-animate` to tell Aurelia that those elements can be animated. Additionally, we should apply a specific animation from the ones we have created above (i.e `animate-fade-in`). Once that's done, every time the element enters or leaves the DOM, the animation will kick-in.
+
+As an example, we may have multiple `li` elements rendering in a repeater and we would like them to animate in and out using the fading effect we declared above. We can declare that like this:
+
+**todos.html**
+
+``` HTML
+<ul class="au-stagger">
+    <li
+      repeat.for="todo of todos"
+      class="au-animate animate-fade-in animate-fade-out"
+    >
+      <input type="checkbox" checked.bind="todo.done">
+      <span css="text-decoration: ${todo.done ? 'line-through' : 'none'}">
+        ${todo.description}
+      </span>
+      <button click.trigger="removeTodo(todo)">Remove</button>
+    </li>
+  </ul>
 ```
- 在这种情况下，来自客户端的所有请求都将具有“http://aurelia.io” 的基本URL，并具有指定的`Authorization`标头。 `RequestBuilder`提供相同的API。 因此，您可以在单个请求上完成相同的操作，如下所示：
 
-**RequestBuilder API**
+  Notice the `au-stagger` class on the `ul` container. It is used to delay the animation between each one of the `li`s so they don't animate in simultaneously.
 
-    
+**animations.css**
 
-``` JavaScript
-  import {HttpClient} from 'aurelia-http-client';
-  
-  let httpClient = new HttpClient();
-  
-  httpClient.createRequest('some/cool/path')
-    .asGet()
-    .withBaseUrl('http://aurelia.io')
-    .withHeader('Authorization', 'bearer 123')
-    .withParams({ abc: '123' })
-    .send();
+``` css
+  .au-stagger {
+    animation-delay: 500ms;
+  }
 ```
 
-  The fluent API has the following chainable methods: `asDelete()`, `asGet()`, `asHead()`, `asOptions()`, `asPatch()`, `asPost()`, `asPut()`, `asJsonp()`, `withUrl()`, `withBaseUrl()`, `withContent()`, `withParams()`, `withResponseType()`, `withTimeout()`, `withHeader()`, `withCredentials()`, `withReviver()`, `withReplacer()`, `withProgressCallback()`, and `withCallbackParameterName()`.
-  
-  也可以使用拦截器连接到请求和响应。这里有一个例子:
+  If we would like to animate the views that are rendered in a `router-view`, we can use the same method. We need to add the `au-animate` class on the first child of the view and add the desired entering/exiting animations.
 
-**Basic HTTP Interceptors**
+**todos.html**
 
-    
-
-``` JavaScript
-  import {HttpClient} from 'aurelia-http-client';
-  
-  let httpClient = new HttpClient();
-  
-  httpClient.configure(x => {
-      x.withInterceptor({
-        request(message) {
-          return message;
-        },
-  
-        requestError(error) {
-          throw error;
-        },
-  
-        response(message) {
-          return message;
-        },
-  
-        responseError(error) {
-          throw error;
-        }
-      });
-    });
-  
-
-  
+``` HTML
+ <template>
+    <div class="au-animate animate-slide-in-right animate-slide-out-left">
+      ...
+    </div>
+  </template>
 ```
+We'll also want to set the `swap-order` attribute of the `router-view` element. This controls how the animations between the old view and the new view are ordered in time. More information on the available options can be read about [here](docs/routing/configuration#view-swapping-and-animation) and you can play with their effects in the demo above.
+  
+  ## Summary
 
-与客户端一起使用的所有拦截器都形成一个链。拦截方法的返回值作为参数传递给下一个方法。拦截器是按照它们被添加的顺序调用的。有关拦截器的更多信息，请参阅`aurelia-fetch-client`拦截器文档。
+By adopting the `aurelia-animator-css` plugin, adding animations to your app is as simple as including a few standard CSS animations and applying a few classes to selected HTML elements. However, this just scratches the surface of animation in Aurelia. If you need more power, you can implement your own animation system by creating a class that implements the standard Aurelia interface and plugging it in, opening up endless possibilities.
+
+  
