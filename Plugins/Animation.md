@@ -1,14 +1,15 @@
 原文：https://aurelia.io/docs/plugins/animation
 
-## Introduction
+## 1 Introduction - 简介
 
-Animations are the way we bring our applications to life. An animation lets an element gradually change from one style to another, giving it the ability to smoothly alter its size, color, etc. over time.
+动画是我们将应用程序带入生活的方式。动画让一个元素从一种风格逐渐转变为另一种风格，使它能够随着时间的推移平滑地改变其大小、颜色等。
 
-A key goal in building animation support for Aurelia was to enable a flexible solution that allows you to choose whatever animation library you like. As a result, you're neither limited to a proprietary API nor to a certain style for how to implement your animations. To enable this flexibility, Aurelia's animation system is built around [a simple animation interface](https://github.com/aurelia/templating/blob/master/src/animator.js) , which is part of its templating library.
+为Aurelia构建动画支持的一个关键目标是提供一个灵活的解决方案，允许您选择自己喜欢的动画库。因此，对于如何实现动画，您既不局限于专用API，也不局限于特定的样式。为了实现这种灵活性，Aurelia的动画系统围绕[一个简单的动画接口](https://github.com/aurelia/templating/blob/master/src/animator.js)构建，该接口是其模板库的一部分。
 
-In this article we'll cover the official CSS animation plugin for Aurelia, `aurelia-animator-css`. This plugin is one concrete implementation of the interface mentioned above. However, you can also use our official `aurelia-animator-velocity` plugin if you prefer the Velocity library, or you can write your own plugin based on the interface above, for example if you prefer to use something like Greensock.
+在这篇文章中，我们将介绍官方的CSS动画插件Aurelia, `aurelia-animator-css`。这个插件是上述接口的一个具体实现。然而，如果你喜欢Velocity库，你也可以使用我们官方的`aurelia-animator-velocity`插件，或者你可以基于上面的接口编写自己的插件，例如，如果你喜欢使用 Greensock 之类的东西。
 
-Many kinds of animation can be applied to your elements, but in this article we'll demonstrate the common cases by using simple CSS animations; mainly, animation when navigating between views with the router, and animating incoming and outgoing elements of a repeater.
+任何类型的动画都可以应用到元素中，但在本文中，我们将通过使用简单的CSS动画演示常见的情况;主要是使用路由器在视图之间导航时的动画，以及对中继器（repeater）的传入和传出元素进行动画。
+
 
 ## Installing The Plugin
 
